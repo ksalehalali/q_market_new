@@ -1,0 +1,5 @@
+
+
+import '../models/user.dart';
+
+User user = User(accessToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJOYW1lIjoiU3VwZXJBZG1pbiIsIlJvbGUiOiJzdXBlckFkbWluIiwiZXhwIjoxNjQ5NjgyNDkzLCJpc3MiOiJJbnZlbnRvcnlBdXRoZW50aWNhdGlvblNlcnZlciIsImF1ZCI6IkludmVudG9yeVNlcnZpY2VQb3RtYW5DbGllbnQifQ.b5AnJSmbntpgsDhukZzJsUv7lyifSufusKALR4QpxR0');
