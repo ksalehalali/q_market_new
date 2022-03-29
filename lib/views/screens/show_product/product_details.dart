@@ -102,17 +102,18 @@ class _ProductDetailsState extends State<ProductDetails>
                               SizedBox(
                                   height: 360.0,
                                   width: double.infinity,
-                                  child: Carousel(
-                                    dotSize: 4.0,
-                                    dotSpacing: 15.0,
-                                    autoplay: true,
-                                    autoplayDuration: 4.seconds,
-                                    animationDuration: 500.milliseconds,
-                                    dotBgColor: Colors.transparent.withOpacity(0.1),
-                                    dotColor: Colors.white,
-                                    dotIncreasedColor: Colors.red,
-                                    dotPosition: DotPosition.bottomLeft,
-                                    images: productController.imagesWidget,
+                                  child: Obx(()=> Carousel(
+                                      dotSize: 4.0,
+                                      dotSpacing: 15.0,
+                                      autoplay: true,
+                                      autoplayDuration: 4.seconds,
+                                      animationDuration: 500.milliseconds,
+                                      dotBgColor: Colors.transparent.withOpacity(0.1),
+                                      dotColor: Colors.white,
+                                      dotIncreasedColor: Colors.red,
+                                      dotPosition: DotPosition.bottomLeft,
+                                      images: productController.imagesWidget.value,
+                                    ),
                                   ),
                                 ),
                             ],
@@ -490,7 +491,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                             fontWeight: FontWeight.w600),
                                       )),
                                   Text(
-                                    'Specifications',
+                                    productController.productDetails.categoryNameEN!,
                                     maxLines: 3,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -788,7 +789,7 @@ class _ProductDetailsState extends State<ProductDetails>
 
                 return InkWell(
                   onTap: () {
-                    currentSize = sizes[index];
+                    currentSize = productController.sizes[index]['size'];
                     setState(() {
                       print('sizes');
                       for (var i = 0; i < _colorSize.length; i++) {
@@ -812,7 +813,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               width: 1.2, color: _colorSizeBorder[index])),
                       child: Center(
                         child: Text(
-                          sizes[index],
+                            productController.sizes[index]['size'],
                           style: TextStyle(
                               color: _colorSize[index],
                               fontWeight: FontWeight.bold,
@@ -823,7 +824,7 @@ class _ProductDetailsState extends State<ProductDetails>
                   ),
                 );
               },
-              childCount: sizes.length,
+              childCount: productController.sizes.length,
               semanticIndexOffset: 0,
             ),
           )

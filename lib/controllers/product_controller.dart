@@ -15,7 +15,7 @@ ProductModel productDetails = ProductModel();
 var colorsData=[].obs;
 var getDetailsDone= false.obs;
 var imagesWidget=[].obs;
-
+var sizes =[];
 
 
 Future getLatestProducts()async{
@@ -112,8 +112,8 @@ Future getOneProductDetails(String id)async{
       offer: data['offer'],
       imageUrl:data['primaryImage'],
       catId: data['catID'],
-      categoryNameEN: data['categoryName_EN'],
-      categoryNameAR: data['categoryName_AR'],
+      categoryNameEN: data['categoryName'],
+      //categoryNameAR: data['categoryName_AR'],
       modelName: data['modelName'],
       modelId:data['modelID'],
       userId: data['userID'],
@@ -125,20 +125,22 @@ Future getOneProductDetails(String id)async{
       colorsData: data['image'],
 
     );
+    sizes = data['size'];
     print('colors data ${productDetails.colorsData}');
-   await addColorsData();
+  // await addColorsData();
     createImages(2);
     print(product);
   }
 }
 createImages(int index){
   imagesWidget.value =[];
-    for(int i =0; i< colorsData[index].imagesUrls.length; i++){
+    for(int i =0; i< colorsData.length; i++){
       imagesWidget.add(
         Image.network(
-            '$baseURL/${colorsData[index].imagesUrls[i]}',
+            '$baseURL/${colorsData[i]['image1']}',
             fit: BoxFit.fill),
       );
+
 
   }
   getDetailsDone.value =true;

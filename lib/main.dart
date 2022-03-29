@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     locatePosition();
-   startUpController.fetchUserLoginPreference();
+   //startUpController.fetchUserLoginPreference();
   }
 
 
