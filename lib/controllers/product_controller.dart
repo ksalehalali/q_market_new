@@ -13,6 +13,7 @@ var latestProducts = <ProductModel>[].obs;
 var product = ProductModel().obs;
 ProductModel productDetails = ProductModel();
 var colorsData=[].obs;
+var imagesData=[].obs;
 var getDetailsDone= false.obs;
 var imagesWidget=[].obs;
 var sizes =[];
@@ -127,22 +128,21 @@ Future getOneProductDetails(String id)async{
     );
     sizes = data['size'];
     print('colors data ${productDetails.colorsData}');
-  // await addColorsData();
+   await addImagesData();
     createImages(2);
     print(product);
   }
 }
 createImages(int index){
   imagesWidget.value =[];
-    for(int i =0; i< colorsData.length; i++){
-      imagesWidget.add(
-        Image.network(
-            '$baseURL/${colorsData[i]['image1']}',
-            fit: BoxFit.fill),
-      );
+    for(int i =0; i< imagesData.length; i++){
+      for(int i =0; i< imagesData[0].imagesUrls.length; i++){
+        imagesWidget.add(
+            Image.network('$baseURL/${imagesData[0].imagesUrls[i]!}')
+        );
+      }
 
-
-  }
+    }
   getDetailsDone.value =true;
 update();
 }
@@ -152,6 +152,24 @@ addColorsData(){
         ProductColorsData(imagesUrls:
           productDetails.colorsData![i]['image'],
           color: productDetails.colorsData![i]['property']
+        )
+    );
+  }
+  update();
+}
+
+addImagesData(){
+  for(int i =0; i<productDetails.colorsData!.length;i++){
+    imagesData.add(
+        ProductImagesData(
+            imagesUrls: [
+        productDetails.colorsData![i]['image1'],
+              productDetails.colorsData![i]['image2'],
+              productDetails.colorsData![i]['image3'],
+              productDetails.colorsData![i]['image4'],
+
+        ],
+            color: productDetails.colorsData![i]['color']
         )
     );
   }

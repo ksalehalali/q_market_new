@@ -13,8 +13,8 @@ import 'controllers/start_up_controller.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
-  final addressController =Get.putAsync(() async => AddressController(),permanent: true);
-  final productController =Get.putAsync(() async => ProductsController(),permanent: true);
+  final addressController = Get.putAsync(() async => AddressController(),permanent: true);
+  final productController = Get.putAsync(() async => ProductsController(),permanent: true);
 
   runApp(
       const GetMaterialApp(
