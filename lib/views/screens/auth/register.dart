@@ -357,7 +357,7 @@ class _RegisterState extends State<Register> {
                                         Radius.circular(30),
                                       ),
                                     ),
-                                    child: SvgPicture.asset("${assetsDir}facebook.svg", width: 25,),
+                                    child: SvgPicture.asset("assets/images/svg/facebook2.svg", width: 25,height: 25,),
                                   ),
                                   const SizedBox(width: 32,),
                                   // GOOGLE
@@ -371,7 +371,7 @@ class _RegisterState extends State<Register> {
                                         Radius.circular(30),
                                       ),
                                     ),
-                                    child: SvgPicture.asset("${assetsDir}google.svg", width: 25,),
+                                    child: SvgPicture.asset("assets/images/svg/google.svg", width: 25,height: 25,),
                                   ),
                                 ],
                               ),

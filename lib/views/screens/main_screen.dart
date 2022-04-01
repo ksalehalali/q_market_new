@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-
-
 import '../../Assistants/assistantMethods.dart';
 import '../../Assistants/globals.dart';
 import '../../controllers/address_location_controller.dart';
@@ -14,7 +12,7 @@ import 'home/account.dart';
 import 'home/home.dart';
 
 class MainScreen extends StatefulWidget {
-  MainScreen({Key? key}) : super(key: key);
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   _MainScreenState createState() => _MainScreenState();
@@ -33,14 +31,11 @@ class _MainScreenState extends State<MainScreen> {
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const HomeScreen();
-  final ProductsController productsController = Get.find();
-
   int? currentTp = 0;
 @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    productsController.getLatestProducts();
   }
   @override
   Widget build(BuildContext context) {
@@ -63,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
                 currentTp = index;
               });
             },
-            animationDuration: Duration(milliseconds: 1),
+            animationDuration: const Duration(milliseconds: 1),
             destinations: [
               NavigationBarTheme(
                   data: NavigationBarThemeData(
@@ -92,7 +87,7 @@ class _MainScreenState extends State<MainScreen> {
                   data: NavigationBarThemeData(
                     indicatorColor: Colors.grey.shade200,
                     labelTextStyle: MaterialStateProperty.all(
-                      TextStyle(fontSize: 11,fontWeight: FontWeight.bold),
+                      const TextStyle(fontSize: 11,fontWeight: FontWeight.bold),
                     ),
                   ),
                   child: NavigationDestination(
@@ -163,7 +158,7 @@ class _MainScreenState extends State<MainScreen> {
                   data: NavigationBarThemeData(
                       indicatorColor: Colors.grey.shade200,
                       labelTextStyle:
-                          MaterialStateProperty.all(TextStyle(fontSize: 11, fontWeight: FontWeight.bold))),
+                          MaterialStateProperty.all(const TextStyle(fontSize: 11, fontWeight: FontWeight.bold))),
                   child: NavigationDestination(
                     icon: SvgPicture.asset(
                         'assets/icons/account-outline.svg',

@@ -31,10 +31,21 @@ class _ProductDetailsState extends State<ProductDetails>
   ];
   Color? _color = myHexColor3;
   Color? _color2 = Colors.grey[700];
+
+  List<Color> _colorColor = [
+    myHexColor3,
+  ];
+  List<Color> _colorColorBorder = [
+    myHexColor3,
+  ];
+  final Color? _colorColorC = myHexColor3;
+  final Color? _color2C = Colors.grey[700];
   bool showOver = false;
   bool showSpec = false;
   List sizes = ['S', 'M', 'L', 'XL', 'XXL'];
   var currentSize;
+  var currentColor;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -58,6 +69,7 @@ class _ProductDetailsState extends State<ProductDetails>
           top: true,
           bottom: false,
           child: Scaffold(
+            backgroundColor: Colors.white,
             body: SizedBox(
               height: screenSize.height,
               width: screenSize.width,
@@ -70,7 +82,7 @@ class _ProductDetailsState extends State<ProductDetails>
                   ),
                   Row(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: 12.0,
                       ),
                       InkWell(
@@ -85,13 +97,13 @@ class _ProductDetailsState extends State<ProductDetails>
                             width: buttonSize,
                             semanticsLabel: 'A red up arrow'),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 2.0,
                       ),
                       Expanded(child: SearchAreaDesign()),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 4,
                   ),
                   Stack(
@@ -100,14 +112,16 @@ class _ProductDetailsState extends State<ProductDetails>
                           ? Column(
                             children: [
                               SizedBox(
-                                  height: 360.0,
+                                  height: screenSize.height*0.4,
                                   width: double.infinity,
                                   child: Obx(()=> Carousel(
                                       dotSize: 4.0,
                                       dotSpacing: 15.0,
+                                      dotVerticalPadding: 00,
+                                      indicatorBgPadding: 14,
                                       autoplay: true,
-                                      autoplayDuration: 4.seconds,
-                                      animationDuration: 500.milliseconds,
+                                      autoplayDuration: 7.seconds,
+                                      animationDuration: 900.milliseconds,
                                       dotBgColor: Colors.transparent.withOpacity(0.1),
                                       dotColor: Colors.white,
                                       dotIncreasedColor: Colors.red,
@@ -118,8 +132,13 @@ class _ProductDetailsState extends State<ProductDetails>
                                 ),
                             ],
                           )
-                          : Center(child: CircularProgressIndicator.adaptive()),
-                      Positioned(
+                          : Center(child: Container(
+                        color: Colors.white,
+                          height: screenSize.height*0.4,
+                          width: double.infinity,
+                          child: Image.asset('assets/images/animation/99353-loading-circle.gif',))),
+                      productController.getDetailsDone.value == true
+                          ? Positioned(
                           top: 8.0,
                           left: 10.0,
                           child: Container(
@@ -136,10 +155,10 @@ class _ProductDetailsState extends State<ProductDetails>
                               mainAxisAlignment: MainAxisAlignment.center,
                               padding: EdgeInsets.only(
                                   left: screenSize.width * .1 - 37, top: 2),
-                              circleColor: CircleColor(
+                              circleColor: const CircleColor(
                                   start: Color(0xff00ddff),
                                   end: Color(0xff0099cc)),
-                              bubblesColor: BubblesColor(
+                              bubblesColor: const BubblesColor(
                                 dotPrimaryColor: Color(0xff33b5e5),
                                 dotSecondaryColor: Color(0xff0099cc),
                               ),
@@ -153,8 +172,9 @@ class _ProductDetailsState extends State<ProductDetails>
                                     semanticsLabel: 'A red up arrow');
                               },
                             ),
-                          )),
-                      Positioned(
+                          )):Container(),
+                      productController.getDetailsDone.value == true
+                          ?Positioned(
                         top: screenSize.height * .1 - 28,
                         left: 10.0,
                         child: Container(
@@ -177,7 +197,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                 left: screenSize.width * .1 - 37, top: 2),
                             circleColor: const CircleColor(
                                 start: Colors.grey, end: Colors.grey),
-                            bubblesColor: BubblesColor(
+                            bubblesColor: const BubblesColor(
                               dotPrimaryColor: Color(0xff33b5e5),
                               dotSecondaryColor: Color(0xff0099cc),
                             ),
@@ -191,18 +211,18 @@ class _ProductDetailsState extends State<ProductDetails>
                             },
                           ),
                         ),
-                      )
+                      ):Container()
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8.0,
                   ),
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           height: 12.0,
                         ),
                         Text(
@@ -217,7 +237,7 @@ class _ProductDetailsState extends State<ProductDetails>
                         ),
                         Text(
                           '${widget.product!.en_name}',
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
                               color: Colors.black),
@@ -225,7 +245,7 @@ class _ProductDetailsState extends State<ProductDetails>
                         SizedBox(
                           height: screenSize.height * 0.1 - 60,
                         ),
-                        Text(
+                        const Text(
                           'Size',
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
@@ -233,7 +253,18 @@ class _ProductDetailsState extends State<ProductDetails>
                               color: Colors.black),
                         ),
                         _buildSizesOptions(screenSize),
-                        SizedBox(
+                        const SizedBox(
+                          height: 22.0,
+                        ),
+                        const Text(
+                          'Colors',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 14,
+                              color: Colors.black),
+                        ),
+                        _buildColorsOptions(screenSize),
+                        const SizedBox(
                           height: 22.0,
                         ),
                         Container(
@@ -247,7 +278,7 @@ class _ProductDetailsState extends State<ProductDetails>
                           height: screenSize.height * 0.1 - 30,
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 10.0,
                               ),
                               SvgPicture.asset('assets/icons/shipping.svg',
@@ -258,7 +289,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               SizedBox(
                                 width: 10.0,
                               ),
-                              Text('Delivery time :'),
+                              const Text('Delivery time :'),
                               Spacer(),
                               Text(' Jan 28 - Jan 30'),
                               SizedBox(
@@ -294,7 +325,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                         height: 21.00,
                                         width: 21.0,
                                         semanticsLabel: 'A red up arrow'),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 5.0,
                                     ),
                                     const Text(
@@ -348,7 +379,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                     style: TextStyle(
                                         color: _color,
                                         fontWeight: FontWeight.w500))),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             AnimatedContainer(
@@ -383,7 +414,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       color: _color2,
                                       fontWeight: FontWeight.w500),
                                 )),
-                            SizedBox(
+                            const SizedBox(
                               height: 10.0,
                             ),
                             AnimatedContainer(
@@ -463,7 +494,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                     SizedBox(
                                         width: 210,
                                         child: Text(
-                                          'Red ',
+                                          productController.productDetails.colorsData![0]['color'],
                                           maxLines: 3,
                                           style: TextStyle(
                                               color: Colors.grey[800],
@@ -592,64 +623,64 @@ class _ProductDetailsState extends State<ProductDetails>
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 12.0, horizontal: 12),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                      width: screenSize.width * .5 - 30,
-                                      child: Text(
-                                        'Department',
-                                        style: TextStyle(
-                                            color: Colors.grey[900],
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w600),
-                                      )),
-                                  Text(
-                                    'Specifications',
-                                    maxLines: 3,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      color: Colors.grey[800],
-                                      fontSize: 11,
-                                    ),
-                                  ),
-                                  Spacer()
-                                ],
-                              ),
-                            ),
-                            Container(
-                              color: myHexColor3.withOpacity(0.4),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 12),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                        width: screenSize.width * .5 - 30,
-                                        child: Text(
-                                          'Color name',
-                                          style: TextStyle(
-                                              color: Colors.grey[900],
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w600),
-                                        )),
-                                    Text(
-                                      'Red ',
-                                      maxLines: 3,
-                                      style: TextStyle(
-                                          color: Colors.grey[800],
-                                          fontSize: 11,
-                                          fontWeight: FontWeight.w500),
-                                    ),
-                                    Spacer()
-                                  ],
-                                ),
-                              ),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.symmetric(
+                            //       vertical: 12.0, horizontal: 12),
+                            //   child: Row(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       SizedBox(
+                            //           width: screenSize.width * .5 - 30,
+                            //           child: Text(
+                            //             'Department',
+                            //             style: TextStyle(
+                            //                 color: Colors.grey[900],
+                            //                 fontSize: 11,
+                            //                 fontWeight: FontWeight.w600),
+                            //           )),
+                            //       Text(
+                            //         'Specifications',
+                            //         maxLines: 3,
+                            //         style: TextStyle(
+                            //           fontWeight: FontWeight.w500,
+                            //           color: Colors.grey[800],
+                            //           fontSize: 11,
+                            //         ),
+                            //       ),
+                            //       Spacer()
+                            //     ],
+                            //   ),
+                            // ),
+                            // Container(
+                            //   color: myHexColor3.withOpacity(0.4),
+                            //   child: Padding(
+                            //     padding: const EdgeInsets.symmetric(
+                            //         vertical: 12.0, horizontal: 12),
+                            //     child: Row(
+                            //       crossAxisAlignment: CrossAxisAlignment.start,
+                            //       children: [
+                            //         SizedBox(
+                            //             width: screenSize.width * .5 - 30,
+                            //             child: Text(
+                            //               'Color name',
+                            //               style: TextStyle(
+                            //                   color: Colors.grey[900],
+                            //                   fontSize: 11,
+                            //                   fontWeight: FontWeight.w600),
+                            //             )),
+                            //         Text(
+                            //           'Red ',
+                            //           maxLines: 3,
+                            //           style: TextStyle(
+                            //               color: Colors.grey[800],
+                            //               fontSize: 11,
+                            //               fontWeight: FontWeight.w500),
+                            //         ),
+                            //         Spacer()
+                            //       ],
+                            //     ),
+                            //   ),
+                            // ),
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   vertical: 12.0, horizontal: 12),
@@ -666,7 +697,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                             fontWeight: FontWeight.w600),
                                       )),
                                   Text(
-                                    'M33333',
+                                    productController.productDetails.modelName!,
                                     maxLines: 3,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -753,8 +784,8 @@ class _ProductDetailsState extends State<ProductDetails>
                     padding: const EdgeInsets.only(
                         right: 12.0, left: 12.0, top: 22.0, bottom: 10),
                     child: Text(
-                      'More from ${widget.product!.brand}',
-                      style: TextStyle(
+                      'More from ${productController.product.value.brand}',
+                      style: const TextStyle(
                           color: Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.w800),
@@ -833,6 +864,65 @@ class _ProductDetailsState extends State<ProductDetails>
     );
   }
 
+//build colors options
+  Widget _buildColorsOptions(size) {
+    return SizedBox(
+      width: size.width,
+      height: 38,
+      child: CustomScrollView(
+        scrollDirection: Axis.horizontal,
+        slivers: [
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                _colorColor.add(Colors.grey[800]!);
+                _colorColorBorder.add(Colors.grey[400]!);
+
+                return InkWell(
+                  onTap: () {
+                    currentColor = productController.colors[index]['color'];
+                    setState(() {
+                      for (var i = 0; i < _colorColor.length; i++) {
+                        if (i == index) {
+                          _colorColor[i] = myHexColor3;
+                          _colorColorBorder[i] = myHexColor3;
+                        } else {
+                          _colorColor[i] = Colors.grey[800]!;
+                          _colorColorBorder[i] = Colors.grey[400]!;
+                        }
+                      }
+                    });
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 8.0),
+                    child: Container(
+                      height: 24,
+                      width: 78,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              width: 1.2, color: _colorColorBorder[index])),
+                      child: Center(
+                        child: Text(
+                          productController.colors[index]['color'],
+                          style: TextStyle(
+                              color: _colorColor[index],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13),
+                        ),
+                      ),
+                    ),
+                  ),
+                );
+              },
+              childCount: productController.colors.length,
+              semanticIndexOffset: 0,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
   Widget buildAddCartPrice(double price) {
     return Card(
       margin: EdgeInsets.zero,
@@ -842,7 +932,7 @@ class _ProductDetailsState extends State<ProductDetails>
               child: Container(
             height: 54,
             color: myHexColor1,
-            child: Center(
+            child: const Center(
               child: Text(
                 'Add to Cart',
                 style: TextStyle(color: Colors.white),

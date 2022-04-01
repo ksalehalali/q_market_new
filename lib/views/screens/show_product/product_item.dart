@@ -165,7 +165,7 @@ class ProductItemCard extends StatelessWidget {
                             SizedBox(
                               width: size.width * 0.3,
                               child: Text(
-                                "${product.price!.toStringAsFixed(3)} QR ".toUpperCase(),
+                                "${(product.price)!-(product.offer!*1.0)} QR ".toUpperCase(),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 textAlign: TextAlign.left,
@@ -193,7 +193,7 @@ class ProductItemCard extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Text(
-                                    "${(product.price)!-(product.offer!*1.0)} QR".toUpperCase(),
+                                    "${product.price!.toStringAsFixed(3)} QR".toUpperCase(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.left,

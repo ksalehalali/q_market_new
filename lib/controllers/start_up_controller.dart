@@ -22,7 +22,7 @@ class StartUpController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    fetchUserLoginPreference();
+    //fetchUserLoginPreference();
   }
 
   Future<void> fetchUserLoginPreference() async {

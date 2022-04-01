@@ -19,33 +19,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   List colors =[];
   Color color =Colors.grey;
   List<double> opacityColor = [];
+  bool showBrands =true;
 
-
-
-  // List<Map<String,String>> brands =[
-  //   {'catName': 'Women\'s Fashion','imagePath':'assets/images/agelesspix-PlcByunJ78c-unsplash.jpg'},
-  //   {'catName': 'Men\'s Fashion','imagePath':'assets/images/austin-wade-d2s8NQ6WD24-unsplash.jpg'},
-  //   {'catName': 'Kids, Baby & Toys','imagePath':'assets/images/robo-wunderkind-3EuPcI31MQU-unsplash.jpg'},
-  //   {'catName': 'Accessories and gifts','imagePath':'assets/images/freestocks-PxM8aeJbzvk-unsplash.jpg'},
-  //   {'catName': 'beauty supplies','imagePath':'assets/images/laura-chouette-RkINI2JZwss-unsplash.jpg'},
-  //   {'catName': 'Men\'s stuff','imagePath':'assets/images/aniket-narula-XjNI-C5G6mI-unsplash.jpg'},
-  //   {'catName': 'Mobiles & Accessories','imagePath':'assets/images/mehrshad-rajabi-cLrcbfSwBxU-unsplash.jpg'},
-  //   {'catName': 'Home & Kitchen','imagePath':'assets/images/ryan-christodoulou-68CDDj03rks-unsplash.jpg'},
-  //   {'catName': 'Brands','imagePath':'assets/images/zara-outlet.png'},
-  //   {'catName': 'Watches & Bags','imagePath':'assets/images/aniket-narula-XjNI-C5G6mI-unsplash.jpg'},
-  // ];
-  List<Map<String,String>> handbags_wallets =[
-    {'catName': 'Women\'s Fashion','imagePath':'assets/images/agelesspix-PlcByunJ78c-unsplash.jpg'},
-    {'catName': 'Men\'s Fashion','imagePath':'assets/images/austin-ade-d2s8NQ6WD24-unsplash.jpg'},
-    {'catName': 'Kids, Baby & Toys','imagePath':'assets/images/robo-wunderkind-3EuPcI31MQU-unsplash.jpg'},
-    {'catName': 'Accessories and gifts','imagePath':'assets/images/freestocks-PxM8aeJbzvk-unsplash.jpg'},
-    {'catName': 'beauty supplies','imagePath':'assets/images/laura-chouette-RkINI2JZwss-unsplash.jpg'},
-    {'catName': 'Men\'s stuff','imagePath':'assets/images/aniket-narula-XjNI-C5G6mI-unsplash.jpg'},
-    {'catName': 'Mobiles & Accessories','imagePath':'assets/images/mehrshad-rajabi-cLrcbfSwBxU-unsplash.jpg'},
-    {'catName': 'Home & Kitchen','imagePath':'assets/images/ryan-christodoulou-68CDDj03rks-unsplash.jpg'},
-    {'catName': 'Brands','imagePath':'assets/images/zara-outlet.png'},
-    {'catName': 'Watches & Bags','imagePath':'assets/images/aniket-narula-XjNI-C5G6mI-unsplash.jpg'},
-  ];
   var departmentContent =[];
   var brandsContent =[];
 
@@ -72,43 +47,69 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           print('object');
           switch (index){
             case 0:
+              showBrands= true;
               departmentContent = womenFashionDepartments;
               brandsContent = womenFashionBrands;
               break;
             case 1:
+              showBrands= true;
+
               departmentContent = menFashionDepartments;
               break;
             case 2:
+              showBrands= true;
+
               departmentContent = kidsBabyToysDepartments;
               break;
-            case 4:
+            case 3:
+              showBrands= true;
+
               departmentContent = accessoriesAndGifts;
               break;
-            case 5:
+            case 4:
+              showBrands= true;
+
               departmentContent = beautySuppliesAndPersonalCare;
               break;
-            case 6:
+            case 5:
+              showBrands= true;
+
               departmentContent = mensStuff;
               break;
-            case 7:
+            case 6:
+              showBrands= true;
+
               departmentContent = mobilesAndAccessories;
               break;
-            case 8:
+            case 7:
+              showBrands= true;
+
               departmentContent = homeKitchen;
               break;
-            case 9:
+            case 8:
+              setState(() {
+                showBrands =false;
+              });
               departmentContent = brands;
               break;
-            case 8:
+            case 9:
+              showBrands= true;
+
               departmentContent = watchesAndBags;
               break;
-            case 9:
+            case 10:
+              showBrands= true;
+
               departmentContent = mensShoes;
               break;
-            case 8:
+            case 11:
+              showBrands= true;
+
               departmentContent = womenShoes;
               break;
-            case 9:
+            case 12:
+              showBrands= true;
+
               departmentContent = kidsShoes;
               break;
           }
@@ -186,77 +187,67 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return Container(
       color: myHexColor5,
       child: SafeArea(child: Scaffold(
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children:  [
-              const SizedBox(
-                height: 6.0,
-              ),
-              SearchAreaDesign(),
-              const SizedBox(
-                height: 12.0,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 100,
-                    height: screenSize.height-150,
-                    child: ListView(
+        body: Column(
+          children:  [
+            const SizedBox(
+              height: 6.0,
+            ),
+            const SearchAreaDesign(),
+            const SizedBox(
+              height: 12.0,
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 100,
+                  height: screenSize.height-210,
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverList(delegate: SliverChildBuilderDelegate(
+                          (context,index)=> buildCategoriesButtons(categories[index], index),childCount: categories.length
+                      ))
+                    ],
+                  )
 
-                      children: <Widget>[
-                       buildCategoriesButtons(categories[0], 0),
-                        buildCategoriesButtons(categories[1], 1),
-                        buildCategoriesButtons(categories[2], 2),
-                        buildCategoriesButtons(categories[3], 3),
-                        buildCategoriesButtons(categories[4], 4),
-                        buildCategoriesButtons(categories[5], 5),
-                        buildCategoriesButtons(categories[6], 6),
-                        buildCategoriesButtons(categories[7], 7),
-                        buildCategoriesButtons(categories[8], 8),
-                        buildCategoriesButtons(categories[9], 9),
+                ),
+                SizedBox(
+                  height: screenSize.height-210,
+                  width: screenSize.width -101,
+                  child:  Padding(
+                    padding: const EdgeInsets.only(bottom: 42.0),
+                    child: Stack(
+                      children: [
+                        Container(width:screenSize.width ,height: 0.5,color: Colors.grey[500],),
 
+                        CustomScrollView(
+                          anchor: 0.0,
+
+                          slivers:<Widget> [
+                            _buildTitle('Category'),
+                           _buildListOfDepartments(departmentContent),
+
+                            _buildTitle(showBrands?'Brands':''),
+                            _buildListOfDepartments(showBrands?brandsContent:[]),
+
+                            _buildTitle(departmentContent[0]['depName']),
+                            _buildListOfDepartments(departmentContent),
+
+                            _buildTitle(departmentContent[1]['depName']),
+                            _buildListOfDepartments(departmentContent),
+
+                          ],
+                        ),
 
 
                       ],
                     ),
                   ),
-                  SizedBox(
-                    height: screenSize.height-150,
-                    width: screenSize.width -101,
-                    child:  Padding(
-                      padding: const EdgeInsets.only(bottom: 42.0),
-                      child: Stack(
-                        children: [
-                          Container(width:screenSize.width ,height: 0.5,color: Colors.grey[500],),
+                ),
 
-                          CustomScrollView(
-                            anchor: 0.0,
-
-                            slivers:<Widget> [
-                              _buildTitle('Category'),
-                             _buildListOfDepartments(departmentContent),
-                              _buildTitle('Brands'),
-                              _buildListOfDepartments(brandsContent),
-
-                              _buildTitle('Handbags & Wallets'),
-                              _buildListOfDepartments(departmentContent),
-
-                            ],
-                          ),
-
-
-                        ],
-                      ),
-                    ),
-                  ),
-
-                ],
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
 
       ),),

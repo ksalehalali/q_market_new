@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
@@ -17,6 +18,7 @@ var imagesData=[].obs;
 var getDetailsDone= false.obs;
 var imagesWidget=[].obs;
 var sizes =[];
+var colors =[];
 
 
 Future getLatestProducts()async{
@@ -56,6 +58,7 @@ Future getLatestProducts()async{
         userName: data[i]['userName'],
         providerName: data[i]['userName'],
         providerId: data[i]['userID'],
+        brand: data[i]['brandName'],
 
       ));
     }
@@ -103,6 +106,7 @@ Future getOneProductDetails(String id)async{
       providerName: data['merchentName'],
       providerId: data['merchentID'],
       colorsData: data['image'],
+      brand: data['brandName'],
 
     );
     productDetails =ProductModel(
@@ -124,9 +128,11 @@ Future getOneProductDetails(String id)async{
       providerName: data['merchentName'],
       providerId: data['merchentID'],
       colorsData: data['image'],
+      brand: data['brandName'],
 
     );
     sizes = data['size'];
+    colors = data['size'][0]['color'];
     print('colors data ${productDetails.colorsData}');
    await addImagesData();
     createImages(2);
@@ -138,7 +144,7 @@ createImages(int index){
     for(int i =0; i< imagesData.length; i++){
       for(int i =0; i< imagesData[0].imagesUrls.length; i++){
         imagesWidget.add(
-            Image.network('$baseURL/${imagesData[0].imagesUrls[i]!}')
+            Image.network('$baseURL/${imagesData[0].imagesUrls[i]!}',fit: BoxFit.fill,)
         );
       }
 
@@ -175,4 +181,10 @@ addImagesData(){
   }
   update();
 }
+@override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getLatestProducts();
+  }
 }

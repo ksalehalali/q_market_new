@@ -9,6 +9,7 @@ import 'Assistants/assistantMethods.dart';
 import 'controllers/address_location_controller.dart';
 import 'controllers/product_controller.dart';
 import 'controllers/start_up_controller.dart';
+import 'views/screens/categories/categories_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ void main() async{
   final productController = Get.putAsync(() async => ProductsController(),permanent: true);
 
   runApp(
-      const GetMaterialApp(
+       const GetMaterialApp(
         home: MyApp(),
         debugShowCheckedModeBanner: false,
       )
