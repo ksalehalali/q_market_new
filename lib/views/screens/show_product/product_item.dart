@@ -33,6 +33,7 @@ class ProductItemCard extends StatelessWidget {
     final screenSize = Get.size;
     return InkWell(
       onTap: (){
+        print("product id === ${product.id}");
          productController.getOneProductDetails(product.id!);
         print( product.providerName);
        if(fromDetails){
@@ -90,8 +91,8 @@ class ProductItemCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     padding: EdgeInsets.only(left:screenSize.width*.1-37,top: 2),
                     circleColor:
-                    CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                    bubblesColor: BubblesColor(
+                    const CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                    bubblesColor: const BubblesColor(
                       dotPrimaryColor: Color(0xff33b5e5),
                       dotSecondaryColor: Color(0xff0099cc),
                     ),
@@ -169,7 +170,7 @@ class ProductItemCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontFamily: 'Montserrat-Arabic Regular',
                                     color: Colors.black,
                                     fontSize: 13,fontWeight: FontWeight.bold),
@@ -197,7 +198,7 @@ class ProductItemCard extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.left,
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       decoration: TextDecoration.lineThrough,
                                         fontFamily: 'Montserrat-Arabic Regular',
                                         color: Colors.grey,

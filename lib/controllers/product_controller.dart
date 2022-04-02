@@ -11,6 +11,8 @@ import '../models/product_colors_data.dart';
 
 class ProductsController extends GetxController {
 var latestProducts = <ProductModel>[].obs;
+var catProducts = <ProductModel>[].obs;
+
 var product = ProductModel().obs;
 ProductModel productDetails = ProductModel();
 var colorsData=[].obs;
@@ -69,6 +71,56 @@ Future getLatestProducts()async{
   update();
 }
 
+//get products by cat
+  Future getProductsByCat(String catId)async{
+    getDetailsDone.value = false;
+    var headers = {
+      'Authorization': 'bearer ${user.accessToken}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('$baseURL/api/ListProductByCategory'));
+    request.body = json.encode({
+      "id":catId,
+      "PageNumber": 0,
+      "PageSize": 50
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      catProducts.value = [];
+      var json = jsonDecode(await response.stream.bytesToString());
+      var data = json['description'];
+
+      for(int i=0; i<data.length; i++){
+        catProducts.add(ProductModel(
+          id:data[i]['id'],
+          en_name: data[i]['name_EN'],
+          ar_name: data[i]['name_AR'],
+          price: double.parse(data[i]['price'].toString()),
+          offer: data[i]['offer'],
+          imageUrl:data[i]['image'],
+          catId: data[i]['catID'],
+          categoryNameEN: data[i]['categoryName_EN'],
+          categoryNameAR: data[i]['categoryName_AR'],
+          modelName: data[i]['modelName'],
+          modelId:data[i]['modelID'],
+          userId: data[i]['userID'],
+          userName: data[i]['userName'],
+          providerName: data[i]['userName'],
+          providerId: data[i]['userID'],
+          brand: data[i]['brandName'],
+
+        ));
+      }
+      print(' products count :: ${catProducts.length}');
+    }else{
+      print(response.reasonPhrase);
+    }
+    update();
+  }
+
 Future getOneProductDetails(String id)async{
   print('get prod id :: $id');
   var headers = {
@@ -84,6 +136,8 @@ Future getOneProductDetails(String id)async{
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
+    imagesData.value=[];
+    imagesWidget.value= [];
     var json = jsonDecode(await response.stream.bytesToString());
     var data = json['description'];
     print('full product $data');
@@ -143,9 +197,11 @@ createImages(int index){
   imagesWidget.value =[];
     for(int i =0; i< imagesData.length; i++){
       for(int i =0; i< imagesData[0].imagesUrls.length; i++){
-        imagesWidget.add(
-            Image.network('$baseURL/${imagesData[0].imagesUrls[i]!}',fit: BoxFit.fill,)
-        );
+        if(imagesData[0].imagesUrls[i] !=null){
+          imagesWidget.add(
+              Image.network('$baseURL/${imagesData[0].imagesUrls[i]!}',fit: BoxFit.fill,)
+          );
+        }
       }
 
     }

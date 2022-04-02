@@ -60,7 +60,7 @@ class _ProductDetailsState extends State<ProductDetails>
 
   @override
   Widget build(BuildContext context) {
-    double buttonSize = 22;
+    double buttonSize = 21;
     final screenSize = Get.size;
     return Obx(
       () => Container(
@@ -82,24 +82,23 @@ class _ProductDetailsState extends State<ProductDetails>
                   ),
                   Row(
                     children: [
-                      const SizedBox(
-                        width: 12.0,
-                      ),
+
                       InkWell(
                         onTap: () {
                           Get.back();
                           print(productController.latestProducts.length);
                         },
-                        child: SvgPicture.asset('assets/icons/left arrow.svg',
-                            alignment: Alignment.center,
-                            //color:,
-                            height: buttonSize,
-                            width: buttonSize,
-                            semanticsLabel: 'A red up arrow'),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12.0,left: 10),
+                          child: SvgPicture.asset('assets/icons/left arrow.svg',
+                              alignment: Alignment.center,
+                              //color:,
+                              height: buttonSize,
+                              width: buttonSize,
+                              semanticsLabel: 'A red up arrow'),
+                        ),
                       ),
-                      const SizedBox(
-                        width: 2.0,
-                      ),
+
                       Expanded(child: SearchAreaDesign()),
                     ],
                   ),

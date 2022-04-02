@@ -50,7 +50,7 @@ class _SearchAddressScreenState extends State<SearchAddressScreen> {
                   borderSide: BorderSide(color: Colors.grey),
                   borderRadius: BorderRadius.circular(5.5),
                 ),
-                enabledBorder: OutlineInputBorder(
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Colors.grey,
                   ),

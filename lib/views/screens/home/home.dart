@@ -102,7 +102,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   padding: EdgeInsets.zero,
                   children: [
                     const SizedBox(
-                      height: 16.0,
+                      height: 10.0,
                     ),
                     SizedBox(
                       height: 160.0,
@@ -118,10 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         dotPosition: DotPosition.bottomLeft,
                         images: [
                           Image.asset('assets/images/productsample.jpg',
-                              fit: BoxFit.cover),
+                              fit: BoxFit.fill),
                           Image.asset(
                               'assets/images/Qatar-Online-Marketing-Profile.jpg',
-                              fit: BoxFit.cover),
+                              fit: BoxFit.fill),
                         ],
                       ),
                     ),
@@ -286,6 +286,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: DepartmentShapeTile(
                   assetPath: categories[index]['imagePath'],
                   title: categories[index]['catName'],
+                  depId: categories[index]['id']!,
                 ));
           },
         ),
