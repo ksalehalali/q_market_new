@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -34,7 +36,13 @@ class _ProductsOfDepartmentScreenState
   void initState() {
     // TODO: implement initState
     super.initState();
-    productController.getProductsByCat(widget.depId);
+   if(categoriesController.departments.length > 0){
+     productController.getProductsByCat(categoriesController.departments[0]['id']);
+   }else{
+     Timer(1500.milliseconds,(){
+       productController.getProductsByCat(categoriesController.departments[0]['id']);
+     });
+   }
   }
   @override
   Widget build(BuildContext context) {

@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 import '../../../Assistants/globals.dart';
 import '../../../Data/data_for_ui.dart';
+import '../../../controllers/catgories_controller.dart';
 import '../../widgets/departments_list_r.dart';
 import '../home/search_area_des.dart';
+import '../show_product/products_of_department_screen.dart';
 
 class CategoriesScreen extends StatefulWidget {
   const CategoriesScreen({Key? key}) : super(key: key);
@@ -20,6 +22,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   Color color =Colors.grey;
   List<double> opacityColor = [];
   bool showBrands =true;
+  final CategoriesController categoriesController = Get.find();
 
   var departmentContent =[];
   var brandsContent =[];
@@ -276,30 +279,36 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return  SliverGrid(
       delegate: SliverChildBuilderDelegate(
               (context,index){
-            return Padding(
-                padding: EdgeInsets.zero,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 82,
-                      width: 88,
-                      //padding:  EdgeInsets.all(0.1),
-                      decoration:  BoxDecoration(
-                        color: myHexColor,
-                        borderRadius: BorderRadius.all(Radius.circular(6)),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(6)),
-                        child: Image.asset(
-                          categories[index]['imagePath'].toString(),
-                          fit: BoxFit.fill,
+            return InkWell(
+              onTap: (){
+                categoriesController.getListCategoryByCategory(categories[index]['id']);
+                Get.to(()=> ProductsOfDepartmentScreen(depId: categories[index]['id'],));
+              },
+              child: Padding(
+                  padding: EdgeInsets.zero,
+                  child: Column(
+                    children: <Widget>[
+                      Container(
+                        height: 82,
+                        width: 88,
+                        //padding:  EdgeInsets.all(0.1),
+                        decoration:  BoxDecoration(
+                          color: myHexColor,
+                          borderRadius: const BorderRadius.all(Radius.circular(6)),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(6)),
+                          child: Image.asset(
+                            categories[index]['imagePath'].toString(),
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(categories[index]['depName'].toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),textAlign: TextAlign.center,)
-                  ],
-                ));
+                      SizedBox(height: 5),
+                      Text(categories[index]['depName'].toString(),style: TextStyle(fontSize: 12,fontWeight: FontWeight.bold),textAlign: TextAlign.center,)
+                    ],
+                  )),
+            );
 
           },childCount: categories.length),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

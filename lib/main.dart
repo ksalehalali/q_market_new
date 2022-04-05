@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as loc;
 import 'package:geolocator/geolocator.dart' as geo;
 import 'package:q_market_n/controllers/catgories_controller.dart';
 import 'package:q_market_n/views/screens/main_screen.dart';
@@ -37,7 +38,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AddressController addressController = Get.find();
   final startUpController = Get.put(StartUpController());
-
+  late loc.PermissionStatus _permissionGranted;
   @override
   void initState() {
     // TODO: implement initState
@@ -48,9 +49,19 @@ class _MyAppState extends State<MyApp> {
 
 
 var geoLocator = geo.Geolocator();
+  loc.Location location = loc.Location.instance;
+
 geo.Position? currentPos;
   void locatePosition()async{
-geo.Position position = await geo.Geolocator.getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high);
+     loc.PermissionStatus permissionStatus = await location.hasPermission();
+     _permissionGranted = permissionStatus;
+     if(_permissionGranted != loc.PermissionStatus.granted){
+       final loc.PermissionStatus permissionStatusReqResult = await location.requestPermission();
+
+       _permissionGranted = permissionStatusReqResult;
+     }
+
+geo.Position position = await geo.Geolocator.getCurrentPosition(desiredAccuracy: geo.LocationAccuracy.high,forceAndroidLocationManager: true);
 addressController.areaLoc.value = LatLng(position.latitude, position.longitude);
 
 print(position);
@@ -59,7 +70,7 @@ print(position);
 
   @override
   Widget build(BuildContext context) {
-    return MainScreen();
+    return const MainScreen();
       // Container(
       //   padding: EdgeInsets.all(140),
       //   margin: EdgeInsets.zero,

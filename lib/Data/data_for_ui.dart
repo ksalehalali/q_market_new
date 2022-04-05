@@ -22,7 +22,7 @@ List<Map<String,String>> womenFashionDepartments =[
   {'depName': 'Jeans','depId':'4','imagePath':'assets/images/pexels-heitor-verdi-2343661.jpg','catName':'Women\'s Fashion','catId':'1'},
   {'depName': 'Skirts','depId':'5','imagePath':'assets/images/david-hunter-IiNqiRj4SCg-unsplash.jpg','catName':'Women\'s Fashion','catId':'1'},
   {'depName': 'Lingerie','depId':'6','imagePath':'assets/images/pexels-lan-anh-ho…ng-10353828.jpg','catName':'Women\'s Fashion','catId':'1'},
-  {'depName': 'Jalabiyas','depId':'7','imagePath':'assets/images/pexels-danang-wicaksono-3272517.jpg','catName':'Women\'s Fashion','catId':'1'},
+  {'depName': 'Jalabiyas','89f6d856-183a-45c1-83a1-0a3119ef5f59':'7','imagePath':'assets/images/pexels-danang-wicaksono-3272517.jpg','catName':'Women\'s Fashion','catId':'1'},
   {'depName': 'Outlet','depId':'8','imagePath':'assets/images/pexels-thirdman-8485732.jpg','catName':'Women\'s Fashion','catId':'1'},
 
 ];

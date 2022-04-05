@@ -190,7 +190,7 @@ class ProductItemCard extends StatelessWidget {
                             ),
 
                             SizedBox(
-                              width: size.width * 0.4-10,
+                              width: size.width * 0.4,
                               child: Row(
                                 children: [
                                   Text(

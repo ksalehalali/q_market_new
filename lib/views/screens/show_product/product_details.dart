@@ -20,7 +20,6 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails>
     with SingleTickerProviderStateMixin {
-  ColorTween _colorTween = ColorTween(begin: Colors.blue, end: Colors.red);
   late AnimationController _animationController;
   final ProductsController productController = Get.find();
   List<Color> _colorSize = [
@@ -459,7 +458,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ),
                                       width: screenSize.width * .5 - 30),
                                   SizedBox(
-                                      width: 210,
+                                      width: screenSize.width *0.5,
                                       child: Text(
                                         'Specifications Specifications Specifications Specifications Specifications',
                                         maxLines: 3,
@@ -491,7 +490,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                         ),
                                         width: screenSize.width * .5 - 30),
                                     SizedBox(
-                                        width: 210,
+                                        width: screenSize.width *0.5,
                                         child: Text(
                                           productController.productDetails.colorsData![0]['color'],
                                           maxLines: 3,
@@ -544,7 +543,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                     SizedBox(
                                         width: screenSize.width * .5 - 30,
                                         child: Text(
-                                          'Fit',
+                                          'Offer',
                                           style: TextStyle(
                                               color: Colors.grey[900],
                                               fontSize: 11,

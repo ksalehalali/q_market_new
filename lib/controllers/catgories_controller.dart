@@ -24,6 +24,7 @@ var departments = [].obs;
 
     if (response.statusCode == 200) {
       departments.value = [];
+
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
 
