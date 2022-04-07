@@ -280,9 +280,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       delegate: SliverChildBuilderDelegate(
               (context,index){
             return InkWell(
-              onTap: (){
-                categoriesController.getListCategoryByCategory(categories[index]['id']);
-                Get.to(()=> ProductsOfDepartmentScreen(depId: categories[index]['id'],));
+              onTap: ()async{
+                await categoriesController.getListCategoryByCategory(categories[index]['depId']);
+                Get.to(()=> ProductsOfDepartmentScreen(depId: categories[index]['depId'],));
               },
               child: Padding(
                   padding: EdgeInsets.zero,

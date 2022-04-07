@@ -16,8 +16,8 @@ List<Map<String,String>> categories =[
 ];
 
 List<Map<String,String>> womenFashionDepartments =[
-  {'depName': 'New arrivals','depId':'1','imagePath':'assets/images/skg-photography-EtAV0Z_PmqU-unsplash.jpg','catName':'Women\'s Fashion','catId':'1'},
-  {'depName': 'Dresses','depId':'2','imagePath':'assets/images/pexels-lan-anh-ho…ng-10353828.jpg','catName':'Women\'s Fashion','catId':'1'},
+  {'depName': 'New arrivals','depId':'31afd7d2-5f4d-406d-ae5d-b46e5055b80c','imagePath':'assets/images/skg-photography-EtAV0Z_PmqU-unsplash.jpg','catName':'Women\'s Fashion','catId':'31afd7d2-5f4d-406d-ae5d-b46e5055b80c'},
+  {'depName': 'Dresses','depId':'31afd7d2-5f4d-406d-ae5d-b46e5055b80c','imagePath':'assets/images/pexels-lan-anh-ho…ng-10353828.jpg','catName':'Women\'s Fashion','catId':'31afd7d2-5f4d-406d-ae5d-b46e5055b80c'},
   {'depName': 'Abayat','depId':'3','imagePath':'assets/images/pexels-danang-wicaksono-3272517.jpg','catName':'Women\'s Fashion','catId':'1'},
   {'depName': 'Jeans','depId':'4','imagePath':'assets/images/pexels-heitor-verdi-2343661.jpg','catName':'Women\'s Fashion','catId':'1'},
   {'depName': 'Skirts','depId':'5','imagePath':'assets/images/david-hunter-IiNqiRj4SCg-unsplash.jpg','catName':'Women\'s Fashion','catId':'1'},
@@ -131,8 +131,8 @@ List<Map<String,String>> womenShoes =[
 
 ];
 List<Map<String,String>> kidsShoes =[
-  {'depName': 'Sports Shoes','depId':'1','imagePath':'assets/images/lefteris-kallergis-j1GiPlvSGWI-unsplash.jpg','catName':'Women\'s Fashion','depIdId':'13'},
-  {'depName': 'Sneakers','depId':'1','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','depIdId':'13'},
-  {'depName': 'Sandals','depId':'1','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','depIdId':'13'},
-  {'depName': 'Boots','depId':'1','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','depIdId':'13'},
+  {'depName': 'Sports Shoes','depId':'33739903-d8c5-4604-9f27-4e52273110e8','imagePath':'assets/images/lefteris-kallergis-j1GiPlvSGWI-unsplash.jpg','catName':'Women\'s Fashion','depIdId':'13'},
+  {'depName': 'Sneakers','depId':'33739903-d8c5-4604-9f27-4e52273110e8','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','depIdId':'13'},
+  {'depName': 'Sandals','depId':'33739903-d8c5-4604-9f27-4e52273110e8','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','depIdId':'13'},
+  {'depName': 'Boots','depId':'33739903-d8c5-4604-9f27-4e52273110e8','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','depIdId':'13'},
 ];
