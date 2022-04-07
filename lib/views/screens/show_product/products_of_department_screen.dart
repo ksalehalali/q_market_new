@@ -64,6 +64,8 @@ class _ProductsOfDepartmentScreenState
                           onTap: () {
                             Get.back();
                             productController.catProducts.value = [];
+                            categoriesController.departments.value = [];
+
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(

@@ -38,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void listenBottom() {
     if (kDebugMode) {
-      print('scroll 200');
     }
     //final direction = controller.position.userScrollDirection;
     if (scrollController!.position.pixels >= 200) {
