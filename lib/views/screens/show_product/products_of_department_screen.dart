@@ -14,8 +14,8 @@ import 'product_item.dart';
 
 class ProductsOfDepartmentScreen extends StatefulWidget {
   final String depId;
-
-  const ProductsOfDepartmentScreen({Key? key, required this.depId})
+  final bool haveChildren;
+  const ProductsOfDepartmentScreen({Key? key, required this.depId, required this.haveChildren})
       : super(key: key);
 
   @override
@@ -36,13 +36,89 @@ class _ProductsOfDepartmentScreenState
   void initState() {
     // TODO: implement initState
     super.initState();
-   if(categoriesController.departments.length > 0){
-     productController.getProductsByCat(categoriesController.departments[0]['id']);
-   }else{
-     Timer(1500.milliseconds,(){
-       productController.getProductsByCat(categoriesController.departments[0]['id']);
-     });
-   }
+  if(widget.haveChildren ==true){
+    if(categoriesController.departments.length > 0){
+      productController.getProductsByCat(categoriesController.departments[0]['id']);
+    }else{
+      Timer(200.milliseconds,(){
+        if(categoriesController.departments.length > 0){
+          productController.getProductsByCat(categoriesController.departments[0]['id']);
+          return;
+        }else{
+          Timer(200.milliseconds,(){
+            if(categoriesController.departments.length > 0){
+              productController.getProductsByCat(categoriesController.departments[0]['id']);
+              return;
+
+            }else{
+              Timer(200.milliseconds,(){
+                if(categoriesController.departments.length > 0){
+                  productController.getProductsByCat(categoriesController.departments[0]['id']);
+                  return;
+
+                }else{
+                  Timer(200.milliseconds,(){
+                    if(categoriesController.departments.length > 0){
+                      productController.getProductsByCat(categoriesController.departments[0]['id']);
+                      return;
+
+                    }else{
+                      Timer(200.milliseconds,(){
+                        if(categoriesController.departments.length > 0){
+                          productController.getProductsByCat(categoriesController.departments[0]['id']);
+                          return;
+
+                        }else{
+                          Timer(200.milliseconds,(){
+                            if(categoriesController.departments.length > 0){
+                              productController.getProductsByCat(categoriesController.departments[0]['id']);
+                              return;
+
+                            }else{
+                              Timer(200.milliseconds,(){
+                                if(categoriesController.departments.length > 0){
+                                  productController.getProductsByCat(categoriesController.departments[0]['id']);
+                                  return;
+
+                                }else{
+                                  Timer(200.milliseconds,(){
+                                    if(categoriesController.departments.length > 0){
+                                      productController.getProductsByCat(categoriesController.departments[0]['id']);
+                                      return;
+
+                                    }else{
+                                      Timer(200.milliseconds,(){
+                                        if(categoriesController.departments.length > 0){
+                                          productController.getProductsByCat(categoriesController.departments[0]['id']);
+                                          return;
+
+                                        }else{
+                                          Timer(200.milliseconds,(){
+                                            productController.getProductsByCat(categoriesController.departments[0]['id']);
+                                            return;
+                                          });
+                                        }                                       return;
+                                      });
+                                    }                                   return;
+                                  });
+                                }                               return;
+                              });
+                            }                           return;
+                          });
+                        }                       return;
+                      });
+                    }                   return;
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
+    }
+  }else{
+    productController.getProductsByCat(widget.depId);
+  }
   }
   @override
   Widget build(BuildContext context) {
@@ -122,10 +198,10 @@ class _ProductsOfDepartmentScreenState
               const SizedBox(
                 height: 10.0,
               ),
-              SizedBox(
+              widget.haveChildren==true?SizedBox(
                   width: screenSize.width,
                   height: screenSize.height * 0.1 - 50,
-                  child: _buildDepartmentsOptions()),
+                  child: _buildDepartmentsOptions()):Container(),
               const SizedBox(
                 height: 1.0,
               ),

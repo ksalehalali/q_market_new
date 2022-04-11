@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:geolocator/geolocator.dart' as geo;
+import 'package:q_market_n/controllers/cart_controller.dart';
 import 'package:q_market_n/controllers/catgories_controller.dart';
 import 'package:q_market_n/views/screens/main_screen.dart';
 import 'Assistants/assistantMethods.dart';
@@ -19,6 +20,7 @@ void main() async{
   final addressController = Get.putAsync(() async => AddressController(),permanent: true);
   final productController = Get.putAsync(() async => ProductsController(),permanent: true);
   final categoriesController = Get.putAsync(() async => CategoriesController(),permanent: true);
+  final cartController = Get.putAsync(() async => CartController(),permanent: true);
 
   runApp(
        const GetMaterialApp(

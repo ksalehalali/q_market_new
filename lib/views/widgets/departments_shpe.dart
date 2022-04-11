@@ -21,7 +21,7 @@ class DepartmentShapeTile extends StatelessWidget {
     return InkWell(
       onTap: (){
         categoriesController.getListCategoryByCategory(depId);
-        Get.to(()=> ProductsOfDepartmentScreen(depId: depId,));
+        Get.to(()=> ProductsOfDepartmentScreen(depId: depId, haveChildren: false,));
       },
       child: Column(
         children: <Widget>[

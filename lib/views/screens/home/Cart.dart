@@ -21,6 +21,12 @@ class _CartState extends State<Cart> {
   final cartController = Get.put(CartController());
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    cartController.getMyCartProds();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
@@ -56,40 +62,41 @@ class _CartState extends State<Cart> {
                     ],
                   ),
                 )
-                else Column(
-                  children: [
-                    // DELIVERY ADDRESS
-                    Container(
-                      margin: EdgeInsets.only(top: 16),
-                      child: Row(
-                        children: const [
-                          Icon(Icons.directions_car_rounded, color: Colors.black54,),
-                          SizedBox(width: 8,),
-                          Text(
-                            "Delivery address",
-                            style: TextStyle(
-                                color: Colors.black54
+                else Obx(()=>Column(
+                    children: [
+                      // DELIVERY ADDRESS
+                      Container(
+                        margin: EdgeInsets.only(top: 16),
+                        child: Row(
+                          children: const [
+                            Icon(Icons.directions_car_rounded, color: Colors.black54,),
+                            SizedBox(width: 8,),
+                            Text(
+                              "Delivery address",
+                              style: TextStyle(
+                                  color: Colors.black54
+                              ),
                             ),
-                          ),
-                          SizedBox(width: 8,),
-                          // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
-                          Text(
-                            "Address",
-                            style: TextStyle(
-                                color: Colors.black54
+                            SizedBox(width: 8,),
+                            // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
+                            Text(
+                              "Address",
+                              style: TextStyle(
+                                  color: Colors.black54
+                              ),
                             ),
-                          ),
-                          Spacer(),
-                          Icon(Icons.arrow_forward_ios_rounded, color: Colors.black54, size: 16,),
-                          SizedBox(width: 8,),
-                        ],
+                            Spacer(),
+                            Icon(Icons.arrow_forward_ios_rounded, color: Colors.black54, size: 16,),
+                            SizedBox(width: 8,),
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 16.0,),
-                    Divider(thickness: 1.0, color: Colors.black54,),
-                    SizedBox(height: 16.0,),
-                    cartController.buildCartItem(),
-                  ],
+                      SizedBox(height: 16.0,),
+                      Divider(thickness: 1.0, color: Colors.black54,),
+                      SizedBox(height: 16.0,),
+                      cartController.gotMyCart.value ==true? cartController.buildCartItem():Container(),
+                    ],
+                  ),
                 ),
 
                 SizedBox(height: 32,),

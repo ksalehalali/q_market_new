@@ -24,6 +24,15 @@ class ProductItemCard extends StatelessWidget {
 
   final ProductsController productController = Get.find();
 
+  Future<bool> onLikeButtonTapped(bool isLiked) async{
+    /// send your request here
+     final bool success= await productController.addProductToFav(product.id!);
+
+    /// if failed, you can do nothing
+     return success? !isLiked:isLiked;
+
+    //return !isLiked;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +96,8 @@ class ProductItemCard extends StatelessWidget {
                   ),
                   child: LikeButton(
                     size: buttonSize,
+                    onTap: onLikeButtonTapped,
+
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
                     padding: EdgeInsets.only(left:screenSize.width*.1-37,top: 2),
@@ -133,7 +144,6 @@ class ProductItemCard extends StatelessWidget {
                   print( product.providerName);
 
                   if(fromDetails){
-
                     Get.to(()=>ProductDetails(product: product,));
                   }else{
                     Get.to(()=>ProductDetails(product: product,));

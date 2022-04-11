@@ -14,11 +14,17 @@ var latestProducts = <ProductModel>[].obs;
 var catProducts = <ProductModel>[].obs;
 
 var product = ProductModel().obs;
+var productForCart = ProductModel();
+
 ProductModel productDetails = ProductModel();
 var colorsData=[].obs;
 var imagesData=[].obs;
 var getDetailsDone= false.obs;
-var imagesWidget=[].obs;
+var imagesWidget=[[],[],[],[],[]].obs;
+var imagesWidget1=[].obs;
+var imagesWidget2=[].obs;
+var imagesWidget3=[].obs;
+var productData ={};
 var sizes =[];
 var colors =[];
 
@@ -138,71 +144,81 @@ Future getOneProductDetails(String id)async{
   if (response.statusCode == 200) {
     imagesData.value=[];
     imagesWidget.value= [];
+    sizes = [];
     var json = jsonDecode(await response.stream.bytesToString());
-    var data = json['description'];
-    print('full product $data');
+     productData = json['description'];
+    print('full product $productData');
     product.value = ProductModel(
-      id:data['id'],
-      en_name: data['name_EN'],
-      ar_name: data['name_AR'],
-      price: double.parse(data['price'].toString()),
-      offer: data['offer'],
-      imageUrl:data['primaryImage'],
-      catId: data['catID'],
-      categoryNameEN: data['categoryName_EN'],
-      categoryNameAR: data['categoryName_AR'],
-      modelName: data['modelName'],
-      modelId:data['modelID'],
-      userId: data['userID'],
-      userName: data['userName'],
-      general: data['general'],
-      special: data['spical'],
-      providerName: data['merchentName'],
-      providerId: data['merchentID'],
-      colorsData: data['image'],
-      brand: data['brandName'],
+      id:productData['id'],
+      en_name: productData['name_EN'],
+      ar_name: productData['name_AR'],
+      price: double.parse(productData['price'].toString()),
+      offer: productData['offer'],
+      imageUrl:productData['primaryImage'],
+      catId: productData['catID'],
+      categoryNameEN: productData['categoryName_EN'],
+      categoryNameAR: productData['categoryName_AR'],
+      modelName: productData['modelName'],
+      modelId:productData['modelID'],
+      userId: productData['userID'],
+      userName: productData['userName'],
+      general: productData['general'],
+      special: productData['spical'],
+      providerName: productData['merchentName'],
+      providerId: productData['merchentID'],
+      colorsData: productData['image'],
+      brand: productData['brandName'],
 
     );
     productDetails =ProductModel(
-      id:data['id'],
-      en_name: data['name_EN'],
-      ar_name: data['name_AR'],
-      price: double.parse(data['price'].toString()),
-      offer: data['offer'],
-      imageUrl:data['primaryImage'],
-      catId: data['catID'],
-      categoryNameEN: data['categoryName'],
-      //categoryNameAR: data['categoryName_AR'],
-      modelName: data['modelName'],
-      modelId:data['modelID'],
-      userId: data['userID'],
-      userName: data['userName'],
-      general: data['general'],
-      special: data['spical'],
-      providerName: data['merchentName'],
-      providerId: data['merchentID'],
-      colorsData: data['image'],
-      brand: data['brandName'],
+      id:productData['id'],
+      en_name: productData['name_EN'],
+      ar_name: productData['name_AR'],
+      price: double.parse(productData['price'].toString()),
+      offer: productData['offer'],
+      imageUrl:productData['primaryImage'],
+      catId: productData['catID'],
+      categoryNameEN: productData['categoryName'],
+      //categoryNameAR: productData['categoryName_AR'],
+      modelName: productData['modelName'],
+      modelId:productData['modelID'],
+      userId: productData['userID'],
+      userName: productData['userName'],
+      general: productData['general'],
+      special: productData['spical'],
+      providerName: productData['merchentName'],
+      providerId: productData['merchentID'],
+      colorsData: productData['image'],
+      brand: productData['brandName'],
 
     );
-    sizes = data['size'];
-    colors = data['size'][0]['color'];
-    print('colors data ${productDetails.colorsData}');
+    sizes = productData['size'];
+    colors = productData['size'][0]['color'];
+    print('colors productData ${productDetails.colorsData}');
    await addImagesData();
     createImages(2);
     print(product);
   }
 }
-createImages(int index){
-  imagesWidget.value =[];
-    for(int i =0; i< imagesData.length; i++){
-      for(int i =0; i< imagesData[0].imagesUrls.length; i++){
-        if(imagesData[0].imagesUrls[i] !=null){
-          imagesWidget.add(
-              Image.network('$baseURL/${imagesData[0].imagesUrls[i]!}',fit: BoxFit.fill,)
+
+
+
+createImages(int indexX){
+  imagesWidget.value =[[],[],[],[]];
+  imagesWidget1.value =[];
+  imagesWidget2.value =[];
+  imagesWidget3.value =[];
+
+  for(int index =0; index< imagesData.length; index++){
+      for(int i =0; i< imagesData[index].imagesUrls!.length; i++){
+        if(imagesData[index].imagesUrls![i] !=null){
+          print('the index is $i');
+          imagesWidget[index].add(
+              Image.network('$baseURL/${imagesData[index].imagesUrls![i]}',fit: BoxFit.fill,)
           );
+
         }
-      }
+     }
 
     }
   getDetailsDone.value =true;
@@ -222,20 +238,104 @@ addColorsData(){
 
 addImagesData(){
   for(int i =0; i<productDetails.colorsData!.length;i++){
+    List<String> urls =[];
+    if(productDetails.colorsData![i]['image1']!=null)urls.add(productDetails.colorsData![i]['image1'],);
+    if(productDetails.colorsData![i]['image2']!=null)urls.add(productDetails.colorsData![i]['image2'],);
+    if(productDetails.colorsData![i]['image3']!=null)urls.add(productDetails.colorsData![i]['image3'],);
+    if(productDetails.colorsData![i]['image4']!=null)urls.add(productDetails.colorsData![i]['image4'],);
+
     imagesData.add(
         ProductImagesData(
-            imagesUrls: [
-        productDetails.colorsData![i]['image1'],
-              productDetails.colorsData![i]['image2'],
-              productDetails.colorsData![i]['image3'],
-              productDetails.colorsData![i]['image4'],
+            imagesUrls: urls,
+            color: productDetails.colorsData![i]['color'],
+            colorId: productDetails.colorsData![i]['colorID']
 
-        ],
-            color: productDetails.colorsData![i]['color']
         )
     );
+
+    print("$i ${productDetails.colorsData![i]['image1']}");
+    print("$i ${productDetails.colorsData![i]['image2']}");
+    print("$i ${productDetails.colorsData![i]['image3']}");
+    print("$i ${productDetails.colorsData![i]['image4']}");
+    //print(imagesData[i].imagesUrls);
   }
   update();
+}
+
+Future<bool> addProductToFav(String prodId) async {
+  var headers = {
+    'Authorization': 'Bearer ${user.accessToken}',
+    'Content-Type': 'application/json'
+  };
+  var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/AddFavourite'));
+  request.body = json.encode({
+    "ProdID": prodId
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+    return true;
+  }
+  else {
+  print(response.reasonPhrase);
+  return false;
+  }
+
+}
+
+Future getMyFav()async{
+  var headers = {
+    'Authorization': 'Bearer ${user.accessToken}',
+    'Content-Type': 'application/json'
+  };
+  var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/ListFavourite'));
+  request.body = json.encode({
+    "PageNumber": "0",
+    "SizeNumber": "1"
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+  }
+  else {
+    print(response.reasonPhrase);
+  }
+
+}
+
+Future deleteProdFromFav()async{
+  var headers = {
+    'Authorization': 'Bearer ${user.accessToken}',
+    'Content-Type': 'application/json'
+  };
+  var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/DeleteFavourite'));
+  request.body = json.encode({
+    "id": "93b38d25-0bb1-4eb7-acb9-08da1a1a6526"
+  });
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+  }
+  else {
+    print(response.reasonPhrase);
+  }
+
+}
+resetAll(){
+  productDetails =ProductModel();
+  sizes = [];
+  imagesData.value = [];
+  product.value = ProductModel();
+  imagesWidget.value =[];
 }
 @override
   void onInit() {

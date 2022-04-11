@@ -13,6 +13,8 @@ class ProductModel {
   final int? offer;
   final String? brand;
   final String? catId;
+  final String? colorId;
+  final String? sizeId;
   final String? categoryNameEN;
   final String? categoryNameAR;
   final List? special;
@@ -37,6 +39,8 @@ class ProductModel {
         this.providerId,
       this.brand,
         this.catId,
+        this.colorId,
+        this.sizeId,
         this.userName,
         this.categoryNameAR,
         this.categoryNameEN,

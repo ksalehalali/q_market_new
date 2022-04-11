@@ -51,10 +51,11 @@ dependencies:
 
 
 
-
-
-
-
+dependency_overrides:
+  photo_view:
+    git:
+      url: https://github.com/bluefireteam/photo_view
+      ref: master
 
 
 

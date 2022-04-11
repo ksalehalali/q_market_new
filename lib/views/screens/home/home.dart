@@ -325,16 +325,17 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CustomScrollView(
           scrollDirection: Axis.horizontal,
           slivers: [
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return ProductItemCard(
-                    product: productController.latestProducts[index],
-                    fromDetails: false,
-                  );
-                },
-                childCount: 3,
-                semanticIndexOffset: 2,
+            Obx(()=>SliverList(
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    return ProductItemCard(
+                      product: productController.latestProducts[index],
+                      fromDetails: false,
+                    );
+                  },
+                  childCount: productController.latestProducts.length,
+                  semanticIndexOffset: 2,
+                ),
               ),
             )
           ],

@@ -32,7 +32,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     // TODO: implement initState
     super.initState();
     departmentContent = womenFashionDepartments;
-    brandsContent =womenFashionBrands;
+    brandsContent =womenFashionDepartments;
     createBrandsList();
   }
   Widget buildCategoriesButtons(var data,int index){
@@ -52,7 +52,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             case 0:
               showBrands= true;
               departmentContent = womenFashionDepartments;
-              brandsContent = womenFashionBrands;
+              brandsContent = womenFashionDepartments;
               break;
             case 1:
               showBrands= true;
@@ -282,7 +282,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             return InkWell(
               onTap: ()async{
                 await categoriesController.getListCategoryByCategory(categories[index]['depId']);
-                Get.to(()=> ProductsOfDepartmentScreen(depId: categories[index]['depId'],));
+                Get.to(()=> ProductsOfDepartmentScreen(depId: categories[index]['depId'],haveChildren: categories[index]['hasChildren'],));
               },
               child: Padding(
                   padding: EdgeInsets.zero,
