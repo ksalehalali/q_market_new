@@ -11,32 +11,35 @@ Widget buildHorizontalListOfProducts(bool fromDetails) {
   return SizedBox(
     height: screenSize.height * 0.4 - 28,
     child: FutureBuilder(
-        builder: (context, data) =>
-        data.connectionState == ConnectionState.waiting
-            ? SizedBox(
-          width: 110,
-          height: 110,
-          child: FittedBox(
-            child: CircularProgressIndicator.adaptive(
-              strokeWidth: 0.9,
-            ),
-          ),
-        )
-            : CustomScrollView(
-          scrollDirection: Axis.horizontal,
-          slivers: [
-            Obx(()=>SliverList(
-                delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                    return ProductItemCard(
-                      product: productController.latestProducts[index],fromDetails: fromDetails,);
-                  },
-                  childCount:productController.latestProducts.length,
-                  semanticIndexOffset: 2,
+        builder: (context, data) => data.connectionState ==
+                ConnectionState.waiting
+            ? const SizedBox(
+                width: 110,
+                height: 110,
+                child: FittedBox(
+                  child: CircularProgressIndicator.adaptive(
+                    strokeWidth: 0.9,
+                  ),
                 ),
-              ),
-            )
-          ],
-        )),
+              )
+            : CustomScrollView(
+                scrollDirection: Axis.horizontal,
+                slivers: [
+                  Obx(
+                    () => SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return ProductItemCard(
+                            product: productController.latestProducts[index],
+                            fromDetails: fromDetails,
+                          );
+                        },
+                        childCount: productController.latestProducts.length,
+                        semanticIndexOffset: 2,
+                      ),
+                    ),
+                  )
+                ],
+              )),
   );
 }

@@ -1,21 +1,21 @@
 import 'dart:async';
-
+import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../Assistants/globals.dart';
 import '../../../controllers/catgories_controller.dart';
 import '../../../controllers/product_controller.dart';
-import '../../widgets/search_area_des.dart';
-import '../home/head_home_screen.dart';
 import '../home/search_area_des.dart';
 import 'product_item.dart';
 
 class ProductsOfDepartmentScreen extends StatefulWidget {
   final String depId;
   final bool haveChildren;
-  const ProductsOfDepartmentScreen({Key? key, required this.depId, required this.haveChildren})
+  const ProductsOfDepartmentScreen(
+      {Key? key, required this.depId, required this.haveChildren})
       : super(key: key);
 
   @override
@@ -23,103 +23,164 @@ class ProductsOfDepartmentScreen extends StatefulWidget {
       _ProductsOfDepartmentScreenState();
 }
 
-class _ProductsOfDepartmentScreenState
-    extends State<ProductsOfDepartmentScreen> {
+class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
+    with SingleTickerProviderStateMixin {
   bool showOneList = false;
   final CategoriesController categoriesController = Get.find();
   final ProductsController productController = Get.find();
 
-  List colors =[];
-  Color color =Colors.grey;
+  List colors = [];
+  Color color = Colors.grey;
   List<double> opacityColor = [];
+  late final AnimationController _controller;
+  bool show = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _controller.dispose();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  if(widget.haveChildren ==true){
-    if(categoriesController.departments.length > 0){
-      productController.getProductsByCat(categoriesController.departments[0]['id']);
-    }else{
-      Timer(200.milliseconds,(){
-        if(categoriesController.departments.length > 0){
-          productController.getProductsByCat(categoriesController.departments[0]['id']);
-          return;
-        }else{
-          Timer(200.milliseconds,(){
-            if(categoriesController.departments.length > 0){
-              productController.getProductsByCat(categoriesController.departments[0]['id']);
-              return;
-
-            }else{
-              Timer(200.milliseconds,(){
-                if(categoriesController.departments.length > 0){
-                  productController.getProductsByCat(categoriesController.departments[0]['id']);
-                  return;
-
-                }else{
-                  Timer(200.milliseconds,(){
-                    if(categoriesController.departments.length > 0){
-                      productController.getProductsByCat(categoriesController.departments[0]['id']);
-                      return;
-
-                    }else{
-                      Timer(200.milliseconds,(){
-                        if(categoriesController.departments.length > 0){
-                          productController.getProductsByCat(categoriesController.departments[0]['id']);
-                          return;
-
-                        }else{
-                          Timer(200.milliseconds,(){
-                            if(categoriesController.departments.length > 0){
-                              productController.getProductsByCat(categoriesController.departments[0]['id']);
-                              return;
-
-                            }else{
-                              Timer(200.milliseconds,(){
-                                if(categoriesController.departments.length > 0){
-                                  productController.getProductsByCat(categoriesController.departments[0]['id']);
-                                  return;
-
-                                }else{
-                                  Timer(200.milliseconds,(){
-                                    if(categoriesController.departments.length > 0){
-                                      productController.getProductsByCat(categoriesController.departments[0]['id']);
-                                      return;
-
-                                    }else{
-                                      Timer(200.milliseconds,(){
-                                        if(categoriesController.departments.length > 0){
-                                          productController.getProductsByCat(categoriesController.departments[0]['id']);
-                                          return;
-
-                                        }else{
-                                          Timer(200.milliseconds,(){
-                                            productController.getProductsByCat(categoriesController.departments[0]['id']);
+    _controller = AnimationController(vsync: this);
+    // _controller.addStatusListener((status) {
+    //   if(status == AnimationStatus.completed){
+    //     //
+    //   }
+    // });
+    if (widget.haveChildren == true) {
+      if (categoriesController.departments.length > 0) {
+        productController
+            .getProductsByCat(categoriesController.departments[0]['id']);
+      } else {
+        Timer(200.milliseconds, () {
+          if (categoriesController.departments.length > 0) {
+            productController
+                .getProductsByCat(categoriesController.departments[0]['id']);
+            return;
+          } else {
+            Timer(200.milliseconds, () {
+              if (categoriesController.departments.length > 0) {
+                productController.getProductsByCat(
+                    categoriesController.departments[0]['id']);
+                return;
+              } else {
+                Timer(200.milliseconds, () {
+                  if (categoriesController.departments.length > 0) {
+                    productController.getProductsByCat(
+                        categoriesController.departments[0]['id']);
+                    return;
+                  } else {
+                    Timer(200.milliseconds, () {
+                      if (categoriesController.departments.length > 0) {
+                        productController.getProductsByCat(
+                            categoriesController.departments[0]['id']);
+                        return;
+                      } else {
+                        Timer(200.milliseconds, () {
+                          if (categoriesController.departments.length > 0) {
+                            productController.getProductsByCat(
+                                categoriesController.departments[0]['id']);
+                            return;
+                          } else {
+                            Timer(200.milliseconds, () {
+                              if (categoriesController.departments.length > 0) {
+                                productController.getProductsByCat(
+                                    categoriesController.departments[0]['id']);
+                                return;
+                              } else {
+                                Timer(200.milliseconds, () {
+                                  if (categoriesController.departments.length >
+                                      0) {
+                                    productController.getProductsByCat(
+                                        categoriesController.departments[0]
+                                            ['id']);
+                                    return;
+                                  } else {
+                                    Timer(200.milliseconds, () {
+                                      if (categoriesController
+                                              .departments.length >
+                                          0) {
+                                        productController.getProductsByCat(
+                                            categoriesController.departments[0]
+                                                ['id']);
+                                        return;
+                                      } else {
+                                        Timer(200.milliseconds, () {
+                                          if (categoriesController
+                                                  .departments.length >
+                                              0) {
+                                            productController.getProductsByCat(
+                                                categoriesController
+                                                    .departments[0]['id']);
                                             return;
-                                          });
-                                        }                                       return;
-                                      });
-                                    }                                   return;
-                                  });
-                                }                               return;
-                              });
-                            }                           return;
-                          });
-                        }                       return;
-                      });
-                    }                   return;
-                  });
-                }
-              });
-            }
-          });
-        }
-      });
+                                          } else {
+                                            Timer(200.milliseconds, () {
+                                              if (categoriesController
+                                                  .departments.length >
+                                                  0) {
+                                                productController.getProductsByCat(
+                                                    categoriesController
+                                                        .departments[0]['id']);
+                                                return;
+                                              } else {
+                                                Timer(200.milliseconds, () {
+                                                  if (categoriesController
+                                                      .departments.length >
+                                                      0) {
+                                                    productController.getProductsByCat(
+                                                        categoriesController
+                                                            .departments[0]['id']);
+                                                    return;
+                                                  } else {
+                                                    Timer(200.milliseconds, () {
+                                                      productController
+                                                          .getProductsByCat(
+                                                          categoriesController
+                                                              .departments[0]
+                                                          ['id']);
+                                                      return;
+                                                    });
+                                                  }
+                                                  return;
+                                                });
+                                              }
+                                              return;
+                                            });
+                                          }
+                                          return;
+                                        });
+                                      }
+                                      return;
+                                    });
+                                  }
+                                  return;
+                                });
+                              }
+                              return;
+                            });
+                          }
+                          return;
+                        });
+                      }
+                      return;
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    } else {
+      productController.getProductsByCat(widget.depId);
     }
-  }else{
-    productController.getProductsByCat(widget.depId);
   }
-  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -141,7 +202,6 @@ class _ProductsOfDepartmentScreenState
                             Get.back();
                             productController.catProducts.value = [];
                             categoriesController.departments.value = [];
-
                           },
                           child: Padding(
                             padding: const EdgeInsets.only(
@@ -185,7 +245,7 @@ class _ProductsOfDepartmentScreenState
                     ),
                     const SearchAreaDesign(),
                     const SizedBox(
-                      height: 10.0,
+                      height: 5.0,
                     ),
                     Container(
                       width: screenSize.width,
@@ -198,18 +258,42 @@ class _ProductsOfDepartmentScreenState
               const SizedBox(
                 height: 10.0,
               ),
-              widget.haveChildren==true?SizedBox(
-                  width: screenSize.width,
-                  height: screenSize.height * 0.1 - 50,
-                  child: _buildDepartmentsOptions()):Container(),
-              const SizedBox(
-                height: 1.0,
+              widget.haveChildren == true
+                  ? SizedBox(
+                      width: screenSize.width,
+                      height: screenSize.height * 0.1 - 50,
+                      child: _buildDepartmentsOptions())
+                  : Container(),
+              Center(
+                child: Obx(
+                  () => productController.gotProductsByCat.value == false
+                      ? Lottie.asset(
+                          'assets/animations/30826-online-shopping.json',
+                          height: 102,
+                          width: 222,
+                          fit: BoxFit.cover,
+                          controller: _controller,
+                          onLoaded: (composition) {
+                            // Configure the AnimationController with the duration of the
+                            // Lottie file and start the animation.
+                            _controller
+                              ..duration = composition.duration
+                              ..forward();
+                          },
+                        )
+                      : Container(),
+                ),
               ),
-
               SizedBox(
-                  width: screenSize.width,
-                  height: screenSize.height * 0.7,
-                  child: _buildDepartmentProductsList())
+                width: screenSize.width,
+                height: screenSize.height * 0.6 - 10,
+                child: Obx(
+                  () => AnimatedOpacity(
+                      duration: 600.milliseconds,
+                      opacity: productController.opacity.value,
+                      child: _buildDepartmentProductsList()),
+                ),
+              ),
             ],
           ),
         ),
@@ -225,48 +309,55 @@ class _ProductsOfDepartmentScreenState
           () => SliverList(
             delegate: SliverChildBuilderDelegate(
               (context, index) {
-                for(int i =0; i<categoriesController.departments.length;i++){
-                  if(i==0){
+                for (int i = 0;
+                    i < categoriesController.departments.length;
+                    i++) {
+                  if (i == 0) {
                     colors.add(myHexColor);
                     opacityColor.add(1.0);
-
-                  }else{
+                  } else {
                     opacityColor.add(0.7);
                     colors.add(Colors.black);
-                  }}
+                  }
+                }
                 return InkWell(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
-
-                      for(int i =0; i<colors.length;i++){
-                        if(index==i){
-                          colors[index]= myHexColor;
-                          opacityColor[index]= 1.0;
-                        }else{
-                          opacityColor[i]= 0.7;
-                          colors[i]=Colors.black;
+                      for (int i = 0; i < colors.length; i++) {
+                        if (index == i) {
+                          colors[index] = myHexColor;
+                          opacityColor[index] = 1.0;
+                        } else {
+                          opacityColor[i] = 0.7;
+                          colors[i] = Colors.black;
                         }
                       }
                     });
-                    productController.getProductsByCat(categoriesController.departments[index]['id']);
+                    productController.getProductsByCat(
+                        categoriesController.departments[index]['id']);
                   },
                   child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: 5),
                     decoration: BoxDecoration(
-                        border: Border.all(
-                            width: 0.4, color: colors[index].withOpacity(opacityColor[index]),
-                        ),
-                        borderRadius: BorderRadius.circular(22),
-
+                      border: Border.all(
+                        width: 0.4,
+                        color: colors[index].withOpacity(opacityColor[index]),
+                      ),
+                      borderRadius: BorderRadius.circular(22),
                     ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: screenSize.height * 0.1 - 84, horizontal: 18),
+                          vertical: screenSize.height * 0.1 - 84,
+                          horizontal: 18),
                       child: Center(
                         child: Text(
                           categoriesController.departments[index]['name_EN'],
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400,color: colors[index].withOpacity(opacityColor[index]),),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color:
+                                colors[index].withOpacity(opacityColor[index]),
+                          ),
                         ),
                       ),
                     ),
@@ -284,10 +375,11 @@ class _ProductsOfDepartmentScreenState
 
   Widget _buildDepartmentProductsList() {
     return Padding(
-      padding: const EdgeInsets.only(top: 12.0),
+      padding: const EdgeInsets.only(top: 12.0, bottom: 0.0),
       child: Container(
         color: Colors.grey[50],
-        child: Obx(()=>GridView.builder(
+        child: Obx(
+          () => GridView.builder(
             itemCount: productController.catProducts.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
@@ -296,15 +388,16 @@ class _ProductsOfDepartmentScreenState
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 1,
-                crossAxisSpacing: 6.2,
+                crossAxisSpacing: 6.1,
                 childAspectRatio: 0.6),
             itemBuilder: (context, index) {
               return Padding(
-                  padding: EdgeInsets.zero,
-                  child: ProductItemCard(
-                    product:productController.catProducts[index] ,
-                    fromDetails: false,
-                  ),);
+                padding: EdgeInsets.zero,
+                child: ProductItemCard(
+                  product: productController.catProducts[index],
+                  fromDetails: false,
+                ),
+              );
             },
           ),
         ),

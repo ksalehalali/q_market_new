@@ -54,7 +54,7 @@ class ProductItemCard extends StatelessWidget {
        }
       },
       child: Container(
-        height: 250,
+        height: 220,
         width: size.width *0.4 +10,
         decoration: BoxDecoration(
             border: Border.all(width: 0.3,color: Colors.grey.withOpacity(0.4))

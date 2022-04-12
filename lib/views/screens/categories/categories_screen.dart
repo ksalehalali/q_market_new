@@ -281,7 +281,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               (context,index){
             return InkWell(
               onTap: ()async{
-                await categoriesController.getListCategoryByCategory(categories[index]['depId']);
+                 categoriesController.getListCategoryByCategory(categories[index]['depId']);
                 Get.to(()=> ProductsOfDepartmentScreen(depId: categories[index]['depId'],haveChildren: categories[index]['hasChildren'],));
               },
               child: Padding(
