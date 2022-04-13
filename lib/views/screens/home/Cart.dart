@@ -1,9 +1,6 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../../Assistants/globals.dart';
 import '../../../controllers/cart_controller.dart';
@@ -17,8 +14,13 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
-
   final cartController = Get.put(CartController());
+  @override
+  void activate() {
+    // TODO: implement activate
+    super.activate();
+    print('active');
+  }
 
   @override
   void initState() {
@@ -26,8 +28,10 @@ class _CartState extends State<Cart> {
     super.initState();
     cartController.getMyCartProds();
   }
+
   @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -37,79 +41,102 @@ class _CartState extends State<Cart> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (!cartController.isCartEmpty.value) Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset("${assetsIconDir}sad cart.svg"),
-                      SizedBox(height: 32,),
-                      const Text(
-                        "Shopping cart is empty!",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                if (!cartController.isCartEmpty.value)
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset("${assetsIconDir}sad cart.svg"),
+                        const SizedBox(
+                          height: 32,
                         ),
-                      ),
-                      SizedBox(height: 16,),
-                      const Text(
-                        "Shop now & add things you love to the cart",
-                        style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black54
+                        const Text(
+                          "Shopping cart is empty!",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-                else Obx(()=>Column(
-                    children: [
-                      // DELIVERY ADDRESS
-                      Container(
-                        margin: EdgeInsets.only(top: 16),
-                        child: Row(
-                          children: const [
-                            Icon(Icons.directions_car_rounded, color: Colors.black54,),
-                            SizedBox(width: 8,),
-                            Text(
-                              "Delivery address",
-                              style: TextStyle(
-                                  color: Colors.black54
+                        const SizedBox(
+                          height: 16,
+                        ),
+                        const Text(
+                          "Shop now & add things you love to the cart",
+                          style: TextStyle(fontSize: 16, color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Obx(
+                    () => Column(
+                      children: [
+                        // DELIVERY ADDRESS
+                        Container(
+                          margin: EdgeInsets.only(top: 16),
+                          child: Row(
+                            children: const [
+                              Icon(
+                                Icons.directions_car_rounded,
+                                color: Colors.black54,
                               ),
-                            ),
-                            SizedBox(width: 8,),
-                            // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
-                            Text(
-                              "Address",
-                              style: TextStyle(
-                                  color: Colors.black54
+                              SizedBox(
+                                width: 8,
                               ),
-                            ),
-                            Spacer(),
-                            Icon(Icons.arrow_forward_ios_rounded, color: Colors.black54, size: 16,),
-                            SizedBox(width: 8,),
-                          ],
+                              Text(
+                                "Delivery address",
+                                style: TextStyle(color: Colors.black54),
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                              // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
+                              Text(
+                                "Address",
+                                style: TextStyle(color: Colors.black54),
+                              ),
+                              Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.black54,
+                                size: 16,
+                              ),
+                              SizedBox(
+                                width: 8,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 16.0,),
-                      Divider(thickness: 1.0, color: Colors.black54,),
-                      SizedBox(height: 16.0,),
-                      cartController.gotMyCart.value ==true? cartController.buildCartItem():Container(),
-                    ],
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        const Divider(
+                          thickness: 1.0,
+                          color: Colors.black54,
+                        ),
+                        const SizedBox(
+                          height: 16.0,
+                        ),
+                        cartController.gotMyCart.value == true
+                            ? cartController.buildCartItem()
+                            : Container(),
+                      ],
+                    ),
                   ),
-                ),
 
-                SizedBox(height: 32,),
+                SizedBox(
+                  height: 32,
+                ),
                 Container(
                   child: const Text(
                     "Things you might like",
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
-                    ),
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                SizedBox(height: 32,),
+                SizedBox(
+                  height: 32,
+                ),
                 buildHorizontalListOfProducts(false),
 
 //              Container(
@@ -293,13 +320,40 @@ class _CartState extends State<Cart> {
 //                  ],
 //                ),
 //              ),
-                SizedBox(height: 32,),
+                SizedBox(
+                  height: 32,
+                ),
               ],
             ),
           ),
         ),
       ),
+      bottomSheet: buildBuyButton(1),
     );
   }
 
+  Widget buildBuyButton(double price) {
+    return Card(
+      margin: EdgeInsets.zero,
+      child: Row(
+        children: [
+          Expanded(
+            child: InkWell(
+                onTap: () {},
+                child: Container(
+                  height: 54,
+                  color: myHexColor2,
+                  child: Center(
+                      child: Obx(
+                    () => Text(
+                      'BUY  ITEM FOR ${cartController.fullPrice.value}  QAR',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  )),
+                )),
+          ),
+        ],
+      ),
+    );
+  }
 }

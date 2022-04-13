@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:delayed_display/delayed_display.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -38,8 +37,9 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
   @override
   void dispose() {
     // TODO: implement dispose
-    super.dispose();
     _controller.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -121,28 +121,32 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
                                           } else {
                                             Timer(200.milliseconds, () {
                                               if (categoriesController
-                                                  .departments.length >
+                                                      .departments.length >
                                                   0) {
-                                                productController.getProductsByCat(
-                                                    categoriesController
-                                                        .departments[0]['id']);
+                                                productController
+                                                    .getProductsByCat(
+                                                        categoriesController
+                                                                .departments[0]
+                                                            ['id']);
                                                 return;
                                               } else {
                                                 Timer(200.milliseconds, () {
                                                   if (categoriesController
-                                                      .departments.length >
+                                                          .departments.length >
                                                       0) {
-                                                    productController.getProductsByCat(
-                                                        categoriesController
-                                                            .departments[0]['id']);
+                                                    productController
+                                                        .getProductsByCat(
+                                                            categoriesController
+                                                                    .departments[
+                                                                0]['id']);
                                                     return;
                                                   } else {
                                                     Timer(200.milliseconds, () {
                                                       productController
                                                           .getProductsByCat(
-                                                          categoriesController
-                                                              .departments[0]
-                                                          ['id']);
+                                                              categoriesController
+                                                                      .departments[
+                                                                  0]['id']);
                                                       return;
                                                     });
                                                   }

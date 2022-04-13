@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../Assistants/assistantMethods.dart';
 import '../../Assistants/globals.dart';
 import '../../controllers/address_location_controller.dart';
+import '../../controllers/cart_controller.dart';
 import '../../controllers/product_controller.dart';
 import 'auth/register.dart';
 import 'categories/categories_screen.dart';
@@ -26,23 +27,26 @@ class _MainScreenState extends State<MainScreen> {
     const CategoriesScreen(),
     const Register(),
     const Cart(),
-     Account(),
+    Account(),
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
   Widget currentScreen = const HomeScreen();
   int? currentTp = 0;
-@override
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
   }
+
+  final cartController = Get.put(CartController());
+
   @override
   Widget build(BuildContext context) {
-  print(Get.size.height);
-  print(Get.size.width);
+    print(Get.size.height);
+    print(Get.size.width);
 
-  return Scaffold(
+    return Scaffold(
         body: PageStorage(
           bucket: bucket,
           child: currentScreen,
@@ -63,119 +67,99 @@ class _MainScreenState extends State<MainScreen> {
               NavigationBarTheme(
                   data: NavigationBarThemeData(
                       indicatorColor: Colors.grey.shade200,
-                      labelTextStyle:
-                          MaterialStateProperty.all(TextStyle(fontSize: 11,fontWeight: FontWeight.bold))),
+                      labelTextStyle: MaterialStateProperty.all(const TextStyle(
+                          fontSize: 11, fontWeight: FontWeight.bold))),
                   child: NavigationDestination(
-                    icon:  SvgPicture.asset(
-                        'assets/icons/home-fill.svg',
+                    icon: SvgPicture.asset('assets/icons/home-fill.svg',
                         color: Colors.grey[600],
                         height: 22.00,
                         width: 22.0,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                     label: 'Home',
-                    selectedIcon:  SvgPicture.asset(
-                        'assets/icons/home-fill.svg',
+                    selectedIcon: SvgPicture.asset('assets/icons/home-fill.svg',
                         height: 22.00,
                         width: 22.0,
-                        color:myHexColor3,
-                        semanticsLabel: 'A red up arrow'
-                    ),
-
+                        color: myHexColor3,
+                        semanticsLabel: 'A red up arrow'),
                   )),
               NavigationBarTheme(
                   data: NavigationBarThemeData(
                     indicatorColor: Colors.grey.shade200,
                     labelTextStyle: MaterialStateProperty.all(
-                      const TextStyle(fontSize: 11,fontWeight: FontWeight.bold),
+                      const TextStyle(
+                          fontSize: 11, fontWeight: FontWeight.bold),
                     ),
                   ),
                   child: NavigationDestination(
-                    icon:
-                    SvgPicture.asset(
+                    icon: SvgPicture.asset(
                         'assets/icons/categories-outline.svg',
                         color: Colors.grey[600],
                         height: 22.00,
                         width: 22.0,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                     label: 'Categories',
                     selectedIcon: SvgPicture.asset(
                         'assets/icons/categories-fill.svg',
                         color: myHexColor3,
                         height: 22.00,
                         width: 22.0,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                   )),
               NavigationBarTheme(
                   data: NavigationBarThemeData(
                       indicatorColor: Colors.grey.shade200,
-                      labelTextStyle:
-                          MaterialStateProperty.all(TextStyle(fontSize: 11,fontWeight: FontWeight.bold))),
+                      labelTextStyle: MaterialStateProperty.all(const TextStyle(
+                          fontSize: 11, fontWeight: FontWeight.bold))),
                   child: NavigationDestination(
-                    icon: SvgPicture.asset(
-                        'assets/icons/offers-outline.svg',
+                    icon: SvgPicture.asset('assets/icons/offers-outline.svg',
                         color: Colors.grey[600],
                         height: 22.00,
                         width: 22.0,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                     label: 'Clearance',
-                    selectedIcon:
-                    SvgPicture.asset(
+                    selectedIcon: SvgPicture.asset(
                         'assets/icons/offers-fill.svg',
                         color: Colors.red,
                         height: 22.00,
                         width: 22.0,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                   )),
               NavigationBarTheme(
                   data: NavigationBarThemeData(
                       indicatorColor: Colors.grey.shade200,
-                      labelTextStyle:
-                          MaterialStateProperty.all(TextStyle(fontSize: 11,fontWeight: FontWeight.bold))),
+                      labelTextStyle: MaterialStateProperty.all(const TextStyle(
+                          fontSize: 11, fontWeight: FontWeight.bold))),
                   child: NavigationDestination(
-                    icon: SvgPicture.asset(
-                        'assets/icons/cart-outline.svg',
+                    icon: SvgPicture.asset('assets/icons/cart-outline.svg',
                         color: Colors.grey[600],
                         height: 22.00,
                         width: 22.0,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                     label: 'Cart',
-                    selectedIcon:
-                    SvgPicture.asset(
-                        'assets/icons/cart-fill.svg',
+                    selectedIcon: SvgPicture.asset('assets/icons/cart-fill.svg',
                         height: 22.00,
                         width: 22.0,
                         color: Colors.red,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                   )),
               NavigationBarTheme(
                   data: NavigationBarThemeData(
                       indicatorColor: Colors.grey.shade200,
-                      labelTextStyle:
-                          MaterialStateProperty.all(const TextStyle(fontSize: 11, fontWeight: FontWeight.bold))),
+                      labelTextStyle: MaterialStateProperty.all(const TextStyle(
+                          fontSize: 11, fontWeight: FontWeight.bold))),
                   child: NavigationDestination(
-                    icon: SvgPicture.asset(
-                        'assets/icons/account-outline.svg',
+                    icon: SvgPicture.asset('assets/icons/account-outline.svg',
                         height: 22.00,
                         width: 22.0,
                         color: Colors.grey[600],
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                     label: 'My Account',
-                    selectedIcon:
-                    SvgPicture.asset(
+                    selectedIcon: SvgPicture.asset(
                         'assets/icons/account-fill.svg',
                         height: 22.00,
                         width: 22.0,
                         color: Colors.red,
-                        semanticsLabel: 'A red up arrow'
-                    ),
+                        semanticsLabel: 'A red up arrow'),
                   )),
             ]));
   }

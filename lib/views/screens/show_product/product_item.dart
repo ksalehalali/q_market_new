@@ -14,68 +14,73 @@ List likesList = [''];
 bool like = false;
 
 class ProductItemCard extends StatelessWidget {
-
   final ProductModel product;
   final bool fromDetails;
-   ProductItemCard({
-    Key? key,
-   required this.product,required this.fromDetails
-  }) : super(key: key);
+  ProductItemCard({Key? key, required this.product, required this.fromDetails})
+      : super(key: key);
 
   final ProductsController productController = Get.find();
 
-  Future<bool> onLikeButtonTapped(bool isLiked) async{
+  Future<bool> onLikeButtonTapped(bool isLiked) async {
     /// send your request here
-     final bool success= await productController.addProductToFav(product.id!);
+    final bool success = await productController.addProductToFav(product.id!);
 
     /// if failed, you can do nothing
-     return success? !isLiked:isLiked;
+    return success ? !isLiked : isLiked;
 
     //return !isLiked;
   }
 
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
-    double buttonSize =22;
+    double buttonSize = 22;
     final screenSize = Get.size;
     return InkWell(
-      onTap: (){
+      onTap: () {
         print("product id === ${product.id}");
-         productController.getOneProductDetails(product.id!);
-        print( product.providerName);
-       if(fromDetails){
-        Get.to(()=>ProductDetails(product: product,));
-       }else{
-         productController.getOneProductDetails(product.id!);
+        productController.getOneProductDetails(product.id!);
+        print(product.providerName);
+        if (fromDetails) {
+          Get.to(() => ProductDetails(
+                product: product,
+              ));
+        } else {
+          productController.getOneProductDetails(product.id!);
 
-         Get.to(()=>ProductDetails(product: product,));
-       }
+          Get.to(() => ProductDetails(
+                product: product,
+              ));
+        }
       },
       child: Container(
         height: 220,
-        width: size.width *0.4 +10,
+        width: size.width * 0.4 + 10,
         decoration: BoxDecoration(
-            border: Border.all(width: 0.3,color: Colors.grey.withOpacity(0.4))
-        ),
-        margin: EdgeInsets.only(
-          left:5,
+            border:
+                Border.all(width: 0.3, color: Colors.grey.withOpacity(0.4))),
+        margin: const EdgeInsets.only(
+          left: 5,
           right: 5,
         ),
-        padding: EdgeInsets.only(top: 6,right: 6,left: 6,bottom: 0),
+        padding: const EdgeInsets.only(top: 6, right: 6, left: 6, bottom: 0),
         child: Stack(
           children: <Widget>[
             InkWell(
                 onTap: () {
                   productController.getOneProductDetails(product.id!);
-                  print( product.providerName);
+                  print(product.providerName);
 
-                  if(fromDetails){
-                    Get.to(()=>ProductDetails(product: product,));
-                  }else{
-                    Get.to(()=>ProductDetails(product: product,));
-                  }                },
+                  if (fromDetails) {
+                    Get.to(() => ProductDetails(
+                          product: product,
+                        ));
+                  } else {
+                    Get.to(() => ProductDetails(
+                          product: product,
+                        ));
+                  }
+                },
                 child: Image.network(
                   '$baseURL/${product.imageUrl!}',
                   fit: BoxFit.fill,
@@ -88,35 +93,32 @@ class ProductItemCard extends StatelessWidget {
                 child: Container(
                   padding: EdgeInsets.zero,
                   margin: EdgeInsets.zero,
-                  width: screenSize.width*.1-5,
-                  height: screenSize.width*.1-5,
+                  width: screenSize.width * .1 - 5,
+                  height: screenSize.width * .1 - 5,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
-                      color: Colors.white.withOpacity(.9)
-                  ),
+                      color: Colors.white.withOpacity(.9)),
                   child: LikeButton(
                     size: buttonSize,
                     onTap: onLikeButtonTapped,
 
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    padding: EdgeInsets.only(left:screenSize.width*.1-37,top: 2),
-                    circleColor:
-                    const CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                    padding: EdgeInsets.only(
+                        left: screenSize.width * .1 - 37, top: 2),
+                    circleColor: const CircleColor(
+                        start: Color(0xff00ddff), end: Color(0xff0099cc)),
                     bubblesColor: const BubblesColor(
                       dotPrimaryColor: Color(0xff33b5e5),
                       dotSecondaryColor: Color(0xff0099cc),
                     ),
                     likeBuilder: (bool isLiked) {
-
-                      return SvgPicture.asset(
-                          'assets/icons/heart.svg',
+                      return SvgPicture.asset('assets/icons/heart.svg',
                           alignment: Alignment.center,
                           color: isLiked ? myHexColor3 : Colors.grey,
-                          height:buttonSize,
+                          height: buttonSize,
                           width: buttonSize,
-                          semanticsLabel: 'A red up arrow'
-                      );
+                          semanticsLabel: 'A red up arrow');
                     },
                     //likeCount: 665,
                     // countBuilder: (int? count, bool isLiked, String text) {
@@ -137,17 +139,22 @@ class ProductItemCard extends StatelessWidget {
                   ),
                 )),
             Positioned(
-              top:size.height *0.3 -56,
+              top: size.height * 0.3 - 56,
               child: InkWell(
-                onTap: (){
+                onTap: () {
                   productController.getOneProductDetails(product.id!);
-                  print( product.providerName);
+                  print(product.providerName);
 
-                  if(fromDetails){
-                    Get.to(()=>ProductDetails(product: product,));
-                  }else{
-                    Get.to(()=>ProductDetails(product: product,));
-                  }                },
+                  if (fromDetails) {
+                    Get.to(() => ProductDetails(
+                          product: product,
+                        ));
+                  } else {
+                    Get.to(() => ProductDetails(
+                          product: product,
+                        ));
+                  }
+                },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -156,70 +163,75 @@ class ProductItemCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
-
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(vertical: 8.0),
+                                  const EdgeInsets.symmetric(vertical: 8.0),
                               child: SizedBox(
                                 width: size.width * 0.3,
-                                child: Text("${product.en_name}".toUpperCase(),textDirection: TextDirection.rtl,
+                                child: Text("${product.en_name}".toUpperCase(),
+                                    textDirection: TextDirection.rtl,
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
-                                    style:TextStyle(fontSize: 13,color: Colors.grey)),
+                                    style: const TextStyle(
+                                        fontSize: 13, color: Colors.grey)),
                               ),
                             ),
                             SizedBox(
                               width: size.width * 0.3,
                               child: Text(
-                                "${(product.price)!-(product.offer!*1.0)} QR ".toUpperCase(),
+                                "${product.price! - (product.price)! * (product.offer!) / 100} QR "
+                                    .toUpperCase(),
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 textAlign: TextAlign.left,
                                 style: const TextStyle(
                                     fontFamily: 'Montserrat-Arabic Regular',
                                     color: Colors.black,
-                                    fontSize: 13,fontWeight: FontWeight.bold),
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(vertical: 6.0),
+                                  const EdgeInsets.symmetric(vertical: 6.0),
                               child: Text(
                                 '${product.categoryNameEN}'.toUpperCase(),
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                     fontFamily: 'Montserrat-Arabic Regular',
                                     color: Colors.black.withOpacity(0.7),
-                                    fontSize: 12,fontWeight: FontWeight.w500),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w500),
                               ),
                             ),
-
                             SizedBox(
                               width: size.width * 0.4,
                               child: Row(
                                 children: [
                                   Text(
-                                    "${product.price!.toStringAsFixed(3)} QR".toUpperCase(),
+                                    "${product.price!.toStringAsFixed(3)} QR"
+                                        .toUpperCase(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                     textAlign: TextAlign.left,
                                     style: const TextStyle(
-                                      decoration: TextDecoration.lineThrough,
+                                        decoration: TextDecoration.lineThrough,
                                         fontFamily: 'Montserrat-Arabic Regular',
                                         color: Colors.grey,
                                         fontSize: 11),
                                   ),
-                                  SizedBox(width: 7.0,),
+                                  const SizedBox(
+                                    width: 7.0,
+                                  ),
                                   Text(
                                     "Discount ${product.offer}%",
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
-
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
                                         fontFamily: 'Montserrat-Arabic Regular',
@@ -233,7 +245,6 @@ class ProductItemCard extends StatelessWidget {
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),

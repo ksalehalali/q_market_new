@@ -21,26 +21,27 @@ class ProductDetails extends StatefulWidget {
   _ProductDetailsState createState() => _ProductDetailsState();
 }
 
-int indexListImages =0;
+int indexListImages = 0;
+
 class _ProductDetailsState extends State<ProductDetails>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   final ProductsController productController = Get.find();
   final CartController cartController = Get.find();
 
-  List<Color> _colorSize = [
+  final List<Color> _colorSize = [
     myHexColor3,
   ];
-  List<Color> _colorSizeBorder = [
+  final List<Color> _colorSizeBorder = [
     myHexColor3,
   ];
   Color? _color = myHexColor3;
   Color? _color2 = Colors.grey[700];
 
-  List<Color> _colorColor = [
+  final List<Color> _colorColor = [
     myHexColor3,
   ];
-  List<Color> _colorColorBorder = [
+  final List<Color> _colorColorBorder = [
     myHexColor3,
   ];
   final Color? _colorColorC = myHexColor3;
@@ -48,7 +49,7 @@ class _ProductDetailsState extends State<ProductDetails>
   bool showOver = false;
   bool showSpec = false;
   List sizes = ['S', 'M', 'L', 'XL', 'XXL'];
-  var urlImages=[];
+  var urlImages = [];
   var currentSize;
   var currentColor;
 
@@ -63,15 +64,18 @@ class _ProductDetailsState extends State<ProductDetails>
     // TODO: implement dispose
     super.dispose();
   }
-  Future<bool> onLikeButtonTapped(bool isLiked) async{
+
+  Future<bool> onLikeButtonTapped(bool isLiked) async {
     /// send your request here
-    final bool success= await productController.addProductToFav(widget.product!.id!);
+    final bool success =
+        await productController.addProductToFav(widget.product!.id!);
 
     /// if failed, you can do nothing
-    return success? !isLiked:isLiked;
+    return success ? !isLiked : isLiked;
 
     //return !isLiked;
   }
+
   @override
   Widget build(BuildContext context) {
     double buttonSize = 21;
@@ -96,14 +100,13 @@ class _ProductDetailsState extends State<ProductDetails>
                   ),
                   Row(
                     children: [
-
                       InkWell(
                         onTap: () {
                           Get.back();
                           print(productController.latestProducts.length);
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 12.0,left: 10),
+                          padding: const EdgeInsets.only(right: 12.0, left: 10),
                           child: SvgPicture.asset('assets/icons/left arrow.svg',
                               alignment: Alignment.center,
                               //color:,
@@ -112,8 +115,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               semanticsLabel: 'A red up arrow'),
                         ),
                       ),
-
-                      Expanded(child: SearchAreaDesign()),
+                      const Expanded(child: SearchAreaDesign()),
                     ],
                   ),
                   const SizedBox(
@@ -123,22 +125,23 @@ class _ProductDetailsState extends State<ProductDetails>
                     children: [
                       productController.getDetailsDone.value == true
                           ? Column(
-                            children: [
-                              SizedBox(
-                                  height: screenSize.height*0.4,
+                              children: [
+                                SizedBox(
+                                  height: screenSize.height * 0.4,
                                   width: double.infinity,
                                   child:
-                                  // InkWell(
-                                  //     onTap: (){
-                                  //       gallery();
-                                  //     },
-                                  //     child: Ink.image(image: NetworkImage("$baseURL/${productController.imagesData[0].imagesUrls[0]}",),height: 300,))
+                                      // InkWell(
+                                      //     onTap: (){
+                                      //       gallery();
+                                      //     },
+                                      //     child: Ink.image(image: NetworkImage("$baseURL/${productController.imagesData[0].imagesUrls[0]}",),height: 300,))
 
-                                  Obx(()=> Carousel(
-                                    onImageTap: (i){
-                                      print(i);
-                                      gallery(i);
-                                    },
+                                      Obx(
+                                    () => Carousel(
+                                      onImageTap: (i) {
+                                        print(i);
+                                        gallery(i);
+                                      },
                                       dotSize: 4.0,
                                       dotSpacing: 15.0,
                                       dotVerticalPadding: 00,
@@ -146,97 +149,107 @@ class _ProductDetailsState extends State<ProductDetails>
                                       autoplay: true,
                                       autoplayDuration: 7.seconds,
                                       animationDuration: 900.milliseconds,
-                                      dotBgColor: Colors.transparent.withOpacity(0.1),
+                                      dotBgColor:
+                                          Colors.transparent.withOpacity(0.1),
                                       dotColor: Colors.white,
                                       dotIncreasedColor: Colors.red,
                                       dotPosition: DotPosition.bottomLeft,
-                                      images: productController.imagesWidget.value[indexListImages],
+                                      images: productController
+                                          .imagesWidget.value[indexListImages],
                                     ),
                                   ),
                                 ),
-                            ],
-                          )
-                          : Center(child: Container(
-                        color: Colors.white,
-                          height: screenSize.height*0.4,
-                          width: double.infinity,
-                          child: Image.asset('assets/images/animation/99353-loading-circle.gif',))),
+                              ],
+                            )
+                          : Center(
+                              child: Container(
+                                  color: Colors.white,
+                                  height: screenSize.height * 0.4,
+                                  width: double.infinity,
+                                  child: Image.asset(
+                                    'assets/images/animation/99353-loading-circle.gif',
+                                  ))),
                       productController.getDetailsDone.value == true
                           ? Positioned(
-                          top: 8.0,
-                          left: 10.0,
-                          child: Container(
-                            padding: EdgeInsets.zero,
-                            margin: EdgeInsets.zero,
-                            width: screenSize.width * .1 - 5,
-                            height: screenSize.width * .1 - 5,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: Colors.white.withOpacity(.9)),
-                            child: LikeButton(
-                              size: buttonSize,
-                              onTap: onLikeButtonTapped,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              padding: EdgeInsets.only(
-                                  left: screenSize.width * .1 - 37, top: 2),
-                              circleColor: const CircleColor(
-                                  start: Color(0xff00ddff),
-                                  end: Color(0xff0099cc)),
-                              bubblesColor: const BubblesColor(
-                                dotPrimaryColor: Color(0xff33b5e5),
-                                dotSecondaryColor: Color(0xff0099cc),
-                              ),
-                              likeBuilder: (bool isLiked) {
-                                return SvgPicture.asset(
-                                    'assets/icons/heart.svg',
-                                    alignment: Alignment.center,
-                                    color: isLiked ? myHexColor3 : Colors.grey,
-                                    height: buttonSize,
-                                    width: buttonSize,
-                                    semanticsLabel: 'A red up arrow');
-                              },
-                            ),
-                          )):Container(),
+                              top: 8.0,
+                              left: 10.0,
+                              child: Container(
+                                padding: EdgeInsets.zero,
+                                margin: EdgeInsets.zero,
+                                width: screenSize.width * .1 - 5,
+                                height: screenSize.width * .1 - 5,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.white.withOpacity(.9)),
+                                child: LikeButton(
+                                  size: buttonSize,
+                                  onTap: onLikeButtonTapped,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  padding: EdgeInsets.only(
+                                      left: screenSize.width * .1 - 37, top: 2),
+                                  circleColor: const CircleColor(
+                                      start: Color(0xff00ddff),
+                                      end: Color(0xff0099cc)),
+                                  bubblesColor: const BubblesColor(
+                                    dotPrimaryColor: Color(0xff33b5e5),
+                                    dotSecondaryColor: Color(0xff0099cc),
+                                  ),
+                                  likeBuilder: (bool isLiked) {
+                                    return SvgPicture.asset(
+                                        'assets/icons/heart.svg',
+                                        alignment: Alignment.center,
+                                        color:
+                                            isLiked ? myHexColor3 : Colors.grey,
+                                        height: buttonSize,
+                                        width: buttonSize,
+                                        semanticsLabel: 'A red up arrow');
+                                  },
+                                ),
+                              ))
+                          : Container(),
                       productController.getDetailsDone.value == true
-                          ?Positioned(
-                        top: screenSize.height * .1 - 28,
-                        left: 10.0,
-                        child: Container(
-                          padding: EdgeInsets.zero,
-                          margin: EdgeInsets.zero,
-                          width: screenSize.width * .1 - 5,
-                          height: screenSize.width * .1 - 5,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              color: Colors.white.withOpacity(.9)),
-                          child: LikeButton(
-                            size: buttonSize,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            onTap: (isLiked) async {
-                              print('share');
-                              return isLiked;
-                            },
-                            padding: EdgeInsets.only(
-                                left: screenSize.width * .1 - 37, top: 2),
-                            circleColor: const CircleColor(
-                                start: Colors.grey, end: Colors.grey),
-                            bubblesColor: const BubblesColor(
-                              dotPrimaryColor: Color(0xff33b5e5),
-                              dotSecondaryColor: Color(0xff0099cc),
-                            ),
-                            likeBuilder: (bool isLiked) {
-                              return SvgPicture.asset('assets/icons/share3.svg',
-                                  alignment: Alignment.center,
-                                  color: isLiked ? myHexColor3 : Colors.grey,
-                                  height: buttonSize,
-                                  width: buttonSize,
-                                  semanticsLabel: 'A red up arrow');
-                            },
-                          ),
-                        ),
-                      ):Container()
+                          ? Positioned(
+                              top: screenSize.height * .1 - 28,
+                              left: 10.0,
+                              child: Container(
+                                padding: EdgeInsets.zero,
+                                margin: EdgeInsets.zero,
+                                width: screenSize.width * .1 - 5,
+                                height: screenSize.width * .1 - 5,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(100),
+                                    color: Colors.white.withOpacity(.9)),
+                                child: LikeButton(
+                                  size: buttonSize,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  onTap: (isLiked) async {
+                                    print('share');
+                                    return isLiked;
+                                  },
+                                  padding: EdgeInsets.only(
+                                      left: screenSize.width * .1 - 37, top: 2),
+                                  circleColor: const CircleColor(
+                                      start: Colors.grey, end: Colors.grey),
+                                  bubblesColor: const BubblesColor(
+                                    dotPrimaryColor: Color(0xff33b5e5),
+                                    dotSecondaryColor: Color(0xff0099cc),
+                                  ),
+                                  likeBuilder: (bool isLiked) {
+                                    return SvgPicture.asset(
+                                        'assets/icons/share3.svg',
+                                        alignment: Alignment.center,
+                                        color:
+                                            isLiked ? myHexColor3 : Colors.grey,
+                                        height: buttonSize,
+                                        width: buttonSize,
+                                        semanticsLabel: 'A red up arrow');
+                                  },
+                                ),
+                              ),
+                            )
+                          : Container()
                     ],
                   ),
                   const SizedBox(
@@ -261,7 +274,17 @@ class _ProductDetailsState extends State<ProductDetails>
                           height: screenSize.height * 0.1 - 76,
                         ),
                         Text(
-                          '${widget.product!.en_name}',
+                          widget.product!.en_name!.toUpperCase(),
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: Colors.black),
+                        ),
+                        SizedBox(
+                          height: screenSize.height * 0.1 - 76,
+                        ),
+                        Text(
+                          '${widget.product!.price! - productController.offerFromPrice.value}',
                           style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
@@ -311,12 +334,12 @@ class _ProductDetailsState extends State<ProductDetails>
                                   height: 18.00,
                                   width: 18.0,
                                   semanticsLabel: 'A red up arrow'),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10.0,
                               ),
                               const Text('Delivery time :'),
-                              Spacer(),
-                              Text(' Jan 28 - Jan 30'),
+                              const Spacer(),
+                              const Text(' Jan 28 - Jan 30'),
                               SizedBox(
                                 width: screenSize.width * 0.1 - 12,
                               )
@@ -329,12 +352,13 @@ class _ProductDetailsState extends State<ProductDetails>
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 14.0),
                     child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 0),
                       decoration: BoxDecoration(
                           color: Colors.grey[300],
                           borderRadius: BorderRadius.circular(3)),
                       child: Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                         child: Container(
                           color: Colors.white,
                           child: Column(
@@ -359,7 +383,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                           fontWeight: FontWeight.w600,
                                           fontSize: 15),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 8.0,
                                     ),
                                     Text(
@@ -369,8 +393,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                           fontSize: 16,
                                           color: myHexColor3),
                                     ),
-                                    Spacer(),
-                                    Icon(Icons.keyboard_arrow_right)
+                                    const Spacer(),
+                                    const Icon(Icons.keyboard_arrow_right)
                                   ],
                                 ),
                               )
@@ -485,7 +509,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       ),
                                       width: screenSize.width * .5 - 30),
                                   SizedBox(
-                                      width: screenSize.width *0.5,
+                                      width: screenSize.width * 0.5,
                                       child: Text(
                                         'Specifications Specifications Specifications Specifications Specifications',
                                         maxLines: 3,
@@ -495,7 +519,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                           fontSize: 11,
                                         ),
                                       )),
-                                  Spacer()
+                                  const Spacer()
                                 ],
                               ),
                             ),
@@ -517,16 +541,17 @@ class _ProductDetailsState extends State<ProductDetails>
                                         ),
                                         width: screenSize.width * .5 - 30),
                                     SizedBox(
-                                        width: screenSize.width *0.5,
+                                        width: screenSize.width * 0.5,
                                         child: Text(
-                                          productController.productDetails.colorsData![0]['color'],
+                                          productController.productDetails
+                                              .colorsData![0]['color'],
                                           maxLines: 3,
                                           style: TextStyle(
                                               color: Colors.grey[800],
                                               fontSize: 11,
                                               fontWeight: FontWeight.w500),
                                         )),
-                                    Spacer()
+                                    const Spacer()
                                   ],
                                 ),
                               ),
@@ -547,7 +572,8 @@ class _ProductDetailsState extends State<ProductDetails>
                                             fontWeight: FontWeight.w600),
                                       )),
                                   Text(
-                                    productController.productDetails.categoryNameEN!,
+                                    productController
+                                        .productDetails.categoryNameEN!,
                                     maxLines: 3,
                                     style: TextStyle(
                                       fontWeight: FontWeight.w500,
@@ -555,7 +581,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       fontSize: 11,
                                     ),
                                   ),
-                                  Spacer()
+                                  const Spacer()
                                 ],
                               ),
                             ),
@@ -584,7 +610,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                           fontSize: 11,
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Spacer()
+                                    const Spacer()
                                   ],
                                 ),
                               ),
@@ -613,7 +639,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       fontSize: 11,
                                     ),
                                   ),
-                                  Spacer()
+                                  const Spacer()
                                 ],
                               ),
                             ),
@@ -643,7 +669,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                           fontSize: 11,
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Spacer()
+                                    const Spacer()
                                   ],
                                 ),
                               ),
@@ -672,7 +698,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                       fontSize: 11,
                                     ),
                                   ),
-                                  Spacer()
+                                  const Spacer()
                                 ],
                               ),
                             ),
@@ -684,7 +710,6 @@ class _ProductDetailsState extends State<ProductDetails>
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-
                                     SizedBox(
                                         width: screenSize.width * .5 - 30,
                                         child: Text(
@@ -702,12 +727,11 @@ class _ProductDetailsState extends State<ProductDetails>
                                           fontSize: 11,
                                           fontWeight: FontWeight.w500),
                                     ),
-                                    Spacer()
+                                    const Spacer()
                                   ],
                                 ),
                               ),
                             ),
-
                           ],
                         )
                       : Container(
@@ -746,7 +770,7 @@ class _ProductDetailsState extends State<ProductDetails>
                             ],
                           ),
                         ),
-                  SizedBox(
+                  const SizedBox(
                     height: 60,
                   ),
                   Padding(
@@ -761,7 +785,7 @@ class _ProductDetailsState extends State<ProductDetails>
                     ),
                   ),
                   buildHorizontalListOfProducts(true),
-                  SizedBox(
+                  const SizedBox(
                     height: 60,
                   ),
                 ],
@@ -804,7 +828,7 @@ class _ProductDetailsState extends State<ProductDetails>
                     });
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: 8.0),
                     child: Container(
                       height: 24,
                       width: 78,
@@ -813,7 +837,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               width: 1.2, color: _colorSizeBorder[index])),
                       child: Center(
                         child: Text(
-                            productController.sizes[index]['size'],
+                          productController.sizes[index]['size'],
                           style: TextStyle(
                               color: _colorSize[index],
                               fontWeight: FontWeight.bold,
@@ -843,7 +867,7 @@ class _ProductDetailsState extends State<ProductDetails>
         slivers: [
           SliverList(
             delegate: SliverChildBuilderDelegate(
-                  (context, index) {
+              (context, index) {
                 _colorColor.add(Colors.grey[800]!);
                 _colorColorBorder.add(Colors.grey[400]!);
 
@@ -851,7 +875,7 @@ class _ProductDetailsState extends State<ProductDetails>
                   onTap: () {
                     currentColor = productController.imagesData[index].color;
                     print(index);
-                    indexListImages=index;
+                    indexListImages = index;
                     setState(() {
                       for (var i = 0; i < _colorColor.length; i++) {
                         if (i == index) {
@@ -865,7 +889,7 @@ class _ProductDetailsState extends State<ProductDetails>
                     });
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: 8.0),
                     child: Container(
                       height: 24,
                       width: 78,
@@ -900,20 +924,23 @@ class _ProductDetailsState extends State<ProductDetails>
       child: Row(
         children: [
           Expanded(
-                child:  InkWell(
-                    onTap: (){
-                      cartController.addToCart(productController.productData['id'], productController.productData['image'][0]['colorID'], productController.productData['size'][0]['sizeID']);
-                    },
-                    child:Container(
-              height: 54,
-              color: myHexColor1,
-              child: const Center(
-                child: Text(
-                  'Add to Cart',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            )),
+            child: InkWell(
+                onTap: () {
+                  cartController.addToCart(
+                      productController.productData['id'],
+                      productController.productData['image'][0]['colorID'],
+                      productController.productData['size'][0]['sizeID']);
+                },
+                child: Container(
+                  height: 54,
+                  color: myHexColor1,
+                  child: const Center(
+                    child: Text(
+                      'Add to Cart',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                )),
           ),
           Container(
             height: 44,
@@ -922,8 +949,8 @@ class _ProductDetailsState extends State<ProductDetails>
             child: Center(
               child: Text(
                 '${price.toStringAsFixed(3)}',
-                style:
-                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),
           )
@@ -931,15 +958,20 @@ class _ProductDetailsState extends State<ProductDetails>
       ),
     );
   }
-  
-  void gallery(int i)=> Navigator.of(context).push(MaterialPageRoute(builder: (_)=>GalleryWidget(index:i,urlImages:productController.imagesData[indexListImages].imagesUrls)));
+
+  void gallery(int i) => Navigator.of(context).push(MaterialPageRoute(
+      builder: (_) => GalleryWidget(
+          index: i,
+          urlImages:
+              productController.imagesData[indexListImages].imagesUrls)));
 }
 
 class GalleryWidget extends StatefulWidget {
   final PageController pageController;
   final List<String> urlImages;
   final int index;
-   GalleryWidget({Key? key,required this.urlImages, this.index =0}) :pageController =PageController(initialPage: index);
+  GalleryWidget({Key? key, required this.urlImages, this.index = 0})
+      : pageController = PageController(initialPage: index);
 
   @override
   State<GalleryWidget> createState() => _GalleryWidgetState();
@@ -953,6 +985,7 @@ class _GalleryWidgetState extends State<GalleryWidget> {
     super.dispose();
     widget.pageController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -971,26 +1004,27 @@ class _GalleryWidgetState extends State<GalleryWidget> {
               alignment: Alignment.bottomLeft,
               children: [
                 PhotoViewGallery.builder(
-                  backgroundDecoration: BoxDecoration(
-                    color: myHexColor
-                  ),
+                  backgroundDecoration: BoxDecoration(color: myHexColor),
                   pageController: widget.pageController,
                   itemCount: widget.urlImages.length,
-                  builder: (context,index){
+                  builder: (context, index) {
                     final urlImage = widget.urlImages[index];
-                    return PhotoViewGalleryPageOptions(imageProvider: NetworkImage("$baseURL/$urlImage",),
-                    minScale: PhotoViewComputedScale.contained,
-                      maxScale: PhotoViewComputedScale.contained *4,
-
+                    return PhotoViewGalleryPageOptions(
+                      imageProvider: NetworkImage(
+                        "$baseURL/$urlImage",
+                      ),
+                      minScale: PhotoViewComputedScale.contained,
+                      maxScale: PhotoViewComputedScale.contained * 4,
                     );
                   },
-                  onPageChanged: (index)=> setState(() =>this.index =index),
+                  onPageChanged: (index) => setState(() => this.index = index),
                 ),
                 Container(
-                  padding: EdgeInsets.only(top: 33,bottom: 20,right: 20,left: 20),
-                  child:  Text(
+                  padding: const EdgeInsets.only(
+                      top: 33, bottom: 20, right: 20, left: 20),
+                  child: Text(
                     'image ${index + 1}/${widget.urlImages.length}',
-                    style: TextStyle(fontSize: 22,color: myHexColor),
+                    style: TextStyle(fontSize: 22, color: myHexColor),
                   ),
                 )
               ],
@@ -1001,4 +1035,3 @@ class _GalleryWidgetState extends State<GalleryWidget> {
     );
   }
 }
-

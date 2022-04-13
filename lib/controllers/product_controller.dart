@@ -28,6 +28,7 @@ class ProductsController extends GetxController {
   var productData = {};
   var sizes = [];
   var colors = [];
+  var offerFromPrice = 0.0.obs;
 
   Future getLatestProducts() async {
     getDetailsDone.value = false;
@@ -193,6 +194,7 @@ class ProductsController extends GetxController {
       createImages(2);
       print(product);
     }
+    offerFromPrice.value = productDetails.price! * productDetails.offer! / 100;
   }
 
   createImages(int indexX) {
