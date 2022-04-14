@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 import '../../../Assistants/globals.dart';
@@ -13,8 +14,9 @@ class Cart extends StatefulWidget {
   _CartState createState() => _CartState();
 }
 
+final cartController = Get.put(CartController());
+
 class _CartState extends State<Cart> {
-  final cartController = Get.put(CartController());
   @override
   void activate() {
     // TODO: implement activate
@@ -31,11 +33,12 @@ class _CartState extends State<Cart> {
 
   @override
   Widget build(BuildContext context) {
-    print('build');
+    final screenSize = Get.size;
+
     return Scaffold(
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 16.0),
+          //margin: const EdgeInsets.symmetric(horizontal: 0.0),
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
             child: Column(
@@ -70,258 +73,89 @@ class _CartState extends State<Cart> {
                   )
                 else
                   Obx(
-                    () => Column(
-                      children: [
-                        // DELIVERY ADDRESS
-                        Container(
-                          margin: EdgeInsets.only(top: 16),
-                          child: Row(
-                            children: const [
-                              Icon(
-                                Icons.directions_car_rounded,
-                                color: Colors.black54,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                "Delivery address",
-                                style: TextStyle(color: Colors.black54),
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                              // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
-                              Text(
-                                "Address",
-                                style: TextStyle(color: Colors.black54),
-                              ),
-                              Spacer(),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: Colors.black54,
-                                size: 16,
-                              ),
-                              SizedBox(
-                                width: 8,
-                              ),
-                            ],
+                    () => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Column(
+                        children: [
+                          // DELIVERY ADDRESS
+                          Container(
+                            margin: const EdgeInsets.only(top: 16),
+                            child: Row(
+                              children: const [
+                                Icon(
+                                  Icons.directions_car_rounded,
+                                  color: Colors.black54,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                Text(
+                                  "Delivery address",
+                                  style: TextStyle(color: Colors.black54),
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                                // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
+                                Text(
+                                  "Address",
+                                  style: TextStyle(color: Colors.black54),
+                                ),
+                                Spacer(),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: Colors.black54,
+                                  size: 16,
+                                ),
+                                SizedBox(
+                                  width: 8,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-                        const Divider(
-                          thickness: 1.0,
-                          color: Colors.black54,
-                        ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-                        cartController.gotMyCart.value == true
-                            ? cartController.buildCartItem()
-                            : Container(),
-                      ],
+                          SizedBox(
+                            height: screenSize.height * 0.1 - 70,
+                          ),
+                          const Divider(
+                            thickness: 1.0,
+                            color: Colors.black54,
+                          ),
+                          SizedBox(
+                            height: screenSize.height * 0.1 - 70,
+                          ),
+                          cartController.gotMyCart.value == true
+                              ? cartController.buildCartItem()
+                              : Container(),
+                        ],
+                      ),
                     ),
                   ),
-
                 SizedBox(
-                  height: 32,
+                  height: screenSize.height * 0.1 - 50,
                 ),
-                Container(
-                  child: const Text(
-                    "Things you might like",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                buildCartDetails(),
+                SizedBox(
+                  height: screenSize.height * 0.1 - 50,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Container(
+                    child: const Text(
+                      "Things you might like",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
                 SizedBox(
-                  height: 32,
+                  height: screenSize.height * 0.1 - 50,
                 ),
-                buildHorizontalListOfProducts(false),
-
-//              Container(
-//                height: 250,
-//                child: ListView(
-//                  scrollDirection: Axis.horizontal,
-//                  children: [
-//                    // A SINGLE PRODUCT
-//                    Container(
-//                      width: 175,
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: [
-//                          Stack(
-//                            children: [
-//                              Image.asset(
-//                                "${assetsDir}digital-marketing-courses-in-qatar-featured-image.jpeg",
-//                                width: 175,
-//                              ),
-//                              Positioned(
-//                                top: 8.0,
-//                                left: 8.0,
-//                                child: SvgPicture.asset(
-//                                  "${assetsIconDir}tick.svg"
-//                                ),
-//                              )
-//                            ],
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "Christian Dior cream 50 ml sad",
-//                            style: TextStyle(
-//                              color: Colors.black54,
-//                              fontSize: 18
-//                            ),
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "128.00 \$",
-//                            style: TextStyle(
-//                              color: Colors.black54,
-//                              fontWeight: FontWeight.bold,
-//                              fontSize: 20
-//                            ),
-//                          ),
-//
-//                        ],
-//                      ),
-//                    ),
-//                    SizedBox(width: 16.0,),
-//                    // A SINGLE PRODUCT
-//                    Container(
-//                      width: 175,
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: [
-//                          Stack(
-//                            children: [
-//                              Image.asset(
-//                                "${assetsDir}productsample.jpg",
-//                                width: 175,
-//                              ),
-//                              Positioned(
-//                                top: 8.0,
-//                                left: 8.0,
-//                                child: SvgPicture.asset(
-//                                    "${assetsIconDir}tick.svg"
-//                                ),
-//                              )
-//                            ],
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "Christian Dior cream 50 ml sad",
-//                            style: TextStyle(
-//                                color: Colors.black54,
-//                                fontSize: 18
-//                            ),
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "128.00 \$",
-//                            style: TextStyle(
-//                                color: Colors.black54,
-//                                fontWeight: FontWeight.bold,
-//                                fontSize: 20
-//                            ),
-//                          ),
-//
-//                        ],
-//                      ),
-//                    ),
-//
-//                    SizedBox(width: 16.0,),
-//                    // A SINGLE PRODUCT
-//                    Container(
-//                      width: 175,
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: [
-//                          Stack(
-//                            children: [
-//                              Image.asset(
-//                                "${assetsDir}productsample.jpg",
-//                                width: 175,
-//                              ),
-//                              Positioned(
-//                                top: 8.0,
-//                                left: 8.0,
-//                                child: SvgPicture.asset(
-//                                    "${assetsIconDir}tick.svg"
-//                                ),
-//                              )
-//                            ],
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "Christian Dior cream 50 ml sad",
-//                            style: TextStyle(
-//                                color: Colors.black54,
-//                                fontSize: 18
-//                            ),
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "128.00 \$",
-//                            style: TextStyle(
-//                                color: Colors.black54,
-//                                fontWeight: FontWeight.bold,
-//                                fontSize: 20
-//                            ),
-//                          ),
-//
-//                        ],
-//                      ),
-//                    ),
-//
-//                    SizedBox(width: 16.0,),
-//                    // A SINGLE PRODUCT
-//                    Container(
-//                      width: 175,
-//                      child: Column(
-//                        crossAxisAlignment: CrossAxisAlignment.start,
-//                        children: [
-//                          Stack(
-//                            children: [
-//                              Image.asset(
-//                                "${assetsDir}productsample.jpg",
-//                                width: 175,
-//                              ),
-//                              Positioned(
-//                                top: 8.0,
-//                                left: 8.0,
-//                                child: SvgPicture.asset(
-//                                    "${assetsIconDir}tick.svg"
-//                                ),
-//                              )
-//                            ],
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "Christian Dior cream 50 ml sad",
-//                            style: TextStyle(
-//                                color: Colors.black54,
-//                                fontSize: 18
-//                            ),
-//                          ),
-//                          SizedBox(height: 5.0,),
-//                          const Text(
-//                            "128.00 \$",
-//                            style: TextStyle(
-//                                color: Colors.black54,
-//                                fontWeight: FontWeight.bold,
-//                                fontSize: 20
-//                            ),
-//                          ),
-//
-//                        ],
-//                      ),
-//                    ),
-//                  ],
-//                ),
-//              ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: buildHorizontalListOfProducts(false),
+                ),
                 SizedBox(
-                  height: 32,
+                  height: screenSize.height * 0.1 - 50,
                 ),
               ],
             ),
@@ -329,6 +163,114 @@ class _CartState extends State<Cart> {
         ),
       ),
       bottomSheet: buildBuyButton(1),
+    );
+  }
+
+  Widget buildCartDetails() {
+    return Container(
+      color: const Color.fromARGB(255, 199, 208, 234),
+      child: Column(
+        children: [
+          Padding(
+            padding:
+                const EdgeInsets.only(top: 12, bottom: 18, right: 14, left: 14),
+            child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  color: Colors.white,
+                ),
+                height: 44,
+                width: screenSize.width - 30,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10, left: 10),
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      prefix: InkWell(
+                          onTap: () {},
+                          child: Text(
+                            'Apply  | ',
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w700,
+                                color: myHexColor4),
+                          )),
+                      hintText: ' Enter the discount code',
+                    ),
+                  ),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Row(
+              children: [
+                const Text(
+                  "Products price",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 60, 63, 73)),
+                ),
+                const Spacer(),
+                Obx(
+                  () => Text(
+                    cartController.fullPrice.toStringAsFixed(2),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromARGB(255, 60, 63, 73)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Row(
+              children: const [
+                Text(
+                  "Shipping fee",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 60, 63, 73)),
+                ),
+                Spacer(),
+                Text(
+                  "0.0 QAR",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 60, 63, 73)),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            child: Row(
+              children: [
+                const Text(
+                  "Total",
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: Color.fromARGB(255, 60, 63, 73)),
+                ),
+                const Spacer(),
+                Obx(
+                  () => Text(
+                    cartController.fullPrice.toStringAsFixed(2),
+                    style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color.fromARGB(255, 60, 63, 73)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -346,8 +288,10 @@ class _CartState extends State<Cart> {
                   child: Center(
                       child: Obx(
                     () => Text(
-                      'BUY  ITEM FOR ${cartController.fullPrice.value}  QAR',
-                      style: TextStyle(color: Colors.white),
+                      cartController.myPrCartProducts.length > 1
+                          ? 'BUY ${cartController.myPrCartProducts.length} ITEMS FOR ${cartController.fullPrice.value.toStringAsFixed(2)}  QAR'
+                          : 'BUY ${cartController.myPrCartProducts.length} ITEM FOR ${cartController.fullPrice.value.toStringAsFixed(2)}  QAR',
+                      style: const TextStyle(color: Colors.white),
                     ),
                   )),
                 )),

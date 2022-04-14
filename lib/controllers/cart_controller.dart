@@ -13,7 +13,7 @@ class CartController extends GetxController {
   var itemsInserted = false.obs;
 
   var cartItems = <Widget>[].obs;
-  var myPrCartProducts = [];
+  var myPrCartProducts = [].obs;
   var cartProducts = [];
   var fullPrice = 0.0.obs;
 
@@ -218,22 +218,32 @@ class CartController extends GetxController {
     };
     var request = http.Request(
         'POST', Uri.parse('https://dashcommerce.click68.com/api/ListCart'));
-    request.body = json.encode({"PageNumber": "1", "SizeNumber": "11"});
+    request.body = json.encode({"PageNumber": "1", "SizeNumber": "15"});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      myPrCartProducts = [];
+      myPrCartProducts.value = [];
       cartProducts = [];
       cartItems.value = [];
       var json = jsonDecode(await response.stream.bytesToString());
-      myPrCartProducts = json['description'];
+      myPrCartProducts.value = json['description'];
       print(json);
       gotMyCart.value = true;
+      calculateFulPriceProducts(0);
       update();
     } else {
       print(response.reasonPhrase);
+    }
+  }
+
+  calculateFulPriceProducts(int index) {
+    fullPrice.value = 0.0;
+    var offer = num.parse(myPrCartProducts[index]['offer']);
+    for (int i = 0; i < myPrCartProducts.length; i++) {
+      fullPrice.value = fullPrice.value +
+          num.parse(myPrCartProducts[i]['price']) * offer / 100;
     }
   }
 
