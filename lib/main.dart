@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart' as geo;
 import 'package:q_market_n/controllers/cart_controller.dart';
 import 'package:q_market_n/controllers/catgories_controller.dart';
 import 'package:q_market_n/views/screens/main_screen.dart';
+import 'Assistants/globals.dart';
 import 'controllers/address_location_controller.dart';
 import 'controllers/product_controller.dart';
 import 'controllers/start_up_controller.dart';
@@ -46,7 +47,7 @@ class _MyAppState extends State<MyApp> {
     // TODO: implement initState
     super.initState();
     locatePosition();
-    //startUpController.fetchUserLoginPreference();
+    startUpController.fetchUserLoginPreference();
   }
 
   var geoLocator = geo.Geolocator();
@@ -74,20 +75,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return const MainScreen();
-    // Container(
-    //   padding: EdgeInsets.all(140),
-    //   margin: EdgeInsets.zero,
-    //   color: Colors.white,
-    //   child: FittedBox(
-    //     child: SizedBox(
-    //         height: 22,
-    //         width: 22,
-    //         child: CircularProgressIndicator.adaptive(
-    //           backgroundColor: myHexColor,
-    //           strokeWidth: 2,
-    //         )),
-    //   ),
-    // );
+    return Container(
+      padding: EdgeInsets.all(140),
+      margin: EdgeInsets.zero,
+      color: Colors.white,
+      child: FittedBox(
+        child: SizedBox(
+            height: 22,
+            width: 22,
+            child: CircularProgressIndicator.adaptive(
+              backgroundColor: myHexColor,
+              strokeWidth: 2,
+            )),
+      ),
+    );
   }
 }

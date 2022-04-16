@@ -50,7 +50,9 @@ dependencies:
   fluttertoast: ^8.0.9
   lottie:
   delayed_display:
-
+  cached_network_image: ^3.2.0
+  flutter_cache_manager: ^3.3.0
+  
 dependency_overrides:
   photo_view:
     git:

@@ -7,25 +7,38 @@ Widget headHomeScreen(MediaQueryData screenSize) {
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: Container(
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        // const Icon(Icons.shopping_cart),
+        Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            // const Icon(Icons.shopping_cart),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Hello!', style: TextStyle(fontSize: 13,color: myHexColor3,fontWeight: FontWeight.w500,),),
-                SizedBox(height: 4,),
-                Text('Khaled Ali',style: TextStyle(fontSize: 15,color: Colors.grey[900],fontWeight: FontWeight.bold))
-              ],
+          children: [
+            Text(
+              'Hello!',
+              style: TextStyle(
+                fontSize: 13,
+                color: myHexColor3,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-            // Image.asset(
-            //   'assets/images/logo.png',
-            //   height: screenSize.size.height *0.1-25,
-            //   width: screenSize.size.width *0.2+5,
-            //   fit: BoxFit.fill,
-            // )
+            SizedBox(
+              height: 4,
+            ),
+            Text('Khaled Ali',
+                style: TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey[900],
+                    fontWeight: FontWeight.bold))
           ],
-        )),
+        ),
+        // Image.asset(
+        //   'assets/images/logo.png',
+        //   height: screenSize.size.height *0.1-25,
+        //   width: screenSize.size.width *0.2+5,
+        //   fit: BoxFit.fill,
+        // )
+      ],
+    )),
   );
 }

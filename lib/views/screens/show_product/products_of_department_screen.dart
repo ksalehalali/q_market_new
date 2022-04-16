@@ -141,7 +141,8 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
                                                                 0]['id']);
                                                     return;
                                                   } else {
-                                                    Timer(200.milliseconds, () {
+                                                    Timer(2200.milliseconds,
+                                                        () {
                                                       productController
                                                           .getProductsByCat(
                                                               categoriesController
@@ -400,6 +401,7 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
                 child: ProductItemCard(
                   product: productController.catProducts[index],
                   fromDetails: false,
+                  from: 'dep',
                 ),
               );
             },

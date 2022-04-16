@@ -168,7 +168,7 @@ class _CartState extends State<Cart> {
 
   Widget buildCartDetails() {
     return Container(
-      color: const Color.fromARGB(255, 199, 208, 234),
+      color: Color.fromARGB(255, 216, 224, 245),
       child: Column(
         children: [
           Padding(
@@ -186,9 +186,16 @@ class _CartState extends State<Cart> {
                   child: TextFormField(
                     decoration: InputDecoration(
                       prefix: InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            if (!Get.isSnackbarOpen) {
+                              Get.snackbar('Wrong code!',
+                                  "Please check the code you entered",
+                                  colorText: Colors.red,
+                                  backgroundColor: Colors.white);
+                            }
+                          },
                           child: Text(
-                            'Apply  | ',
+                            'APPLY  | ',
                             style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,

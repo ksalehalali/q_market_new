@@ -11,6 +11,11 @@ import '../../../controllers/cart_controller.dart';
 import '../../../controllers/product_controller.dart';
 import '../../../models/product_model.dart';
 import '../../widgets/horizontal_listOfProducts.dart';
+import '../auth/register.dart';
+import '../categories/categories_screen.dart';
+import '../home/Cart.dart';
+import '../home/account.dart';
+import '../home/home.dart';
 import '../home/search_area_des.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -102,7 +107,9 @@ class _ProductDetailsState extends State<ProductDetails>
                     children: [
                       InkWell(
                         onTap: () {
+                          Get.off(ProductDetails());
                           Get.back();
+
                           print(productController.latestProducts.length);
                         },
                         child: Padding(
@@ -284,7 +291,7 @@ class _ProductDetailsState extends State<ProductDetails>
                           height: screenSize.height * 0.1 - 76,
                         ),
                         Text(
-                          '${widget.product!.price! - productController.offerFromPrice.value}',
+                          '${widget.product!.price! - productController.offerFromPrice.value} QAR',
                           style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
@@ -791,7 +798,8 @@ class _ProductDetailsState extends State<ProductDetails>
                 ],
               ),
             ),
-            bottomSheet: buildAddCartPrice(widget.product!.price!),
+            bottomSheet: buildAddCartPrice(
+                widget.product!.price!, widget.product!.offer),
           ),
         ),
       ),
@@ -918,7 +926,7 @@ class _ProductDetailsState extends State<ProductDetails>
     );
   }
 
-  Widget buildAddCartPrice(double price) {
+  Widget buildAddCartPrice(double price, int? offer) {
     return Card(
       margin: EdgeInsets.zero,
       child: Row(
@@ -948,7 +956,7 @@ class _ProductDetailsState extends State<ProductDetails>
             color: Colors.white,
             child: Center(
               child: Text(
-                '${price.toStringAsFixed(3)}',
+                '${price - price * offer! / 100}',
                 style: const TextStyle(
                     color: Colors.black, fontWeight: FontWeight.bold),
               ),

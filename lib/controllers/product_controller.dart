@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -11,10 +12,14 @@ import '../models/product_colors_data.dart';
 
 class ProductsController extends GetxController {
   var latestProducts = <ProductModel>[].obs;
+  var recommendedProducts = <ProductModel>[].obs;
+  var offersProducts = <ProductModel>[].obs;
+
   var catProducts = <ProductModel>[].obs;
+  var favProducts = [].obs;
+
   var gotProductsByCat = false.obs;
   var product = ProductModel().obs;
-  var productForCart = ProductModel();
   var opacity = 0.0.obs;
 
   ProductModel productDetails = ProductModel();
@@ -31,7 +36,6 @@ class ProductsController extends GetxController {
   var offerFromPrice = 0.0.obs;
 
   Future getLatestProducts() async {
-    getDetailsDone.value = false;
     var headers = {
       'Authorization': 'bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -126,7 +130,107 @@ class ProductsController extends GetxController {
     update();
   }
 
+  //get products by cat home
+  Future getProductsByCatHome(String catId, String cat) async {
+    print(cat);
+    catProducts.value = [];
+    opacity.value = 0.0;
+    gotProductsByCat.value = false;
+    getDetailsDone.value = false;
+    var headers = {
+      'Authorization': 'bearer ${user.accessToken}',
+      'Content-Type': 'application/json'
+    };
+    var request =
+        http.Request('POST', Uri.parse('$baseURL/api/ListProductByCategory'));
+    request.body = json.encode({"id": catId, "PageNumber": 0, "PageSize": 50});
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var json = jsonDecode(await response.stream.bytesToString());
+      var data = json['description'];
+
+      if (cat == 'latest') {
+        latestProducts.value = [];
+        for (int i = 0; i < data.length; i++) {
+          latestProducts.add(ProductModel(
+            id: data[i]['id'],
+            en_name: data[i]['name_EN'],
+            ar_name: data[i]['name_AR'],
+            price: double.parse(data[i]['price'].toString()),
+            offer: data[i]['offer'],
+            imageUrl: data[i]['image'],
+            catId: data[i]['catID'],
+            categoryNameEN: data[i]['categoryName_EN'],
+            categoryNameAR: data[i]['categoryName_AR'],
+            modelName: data[i]['modelName'],
+            modelId: data[i]['modelID'],
+            userId: data[i]['userID'],
+            userName: data[i]['userName'],
+            providerName: data[i]['userName'],
+            providerId: data[i]['userID'],
+            brand: data[i]['brandName'],
+          ));
+        }
+        print(' products count :: ${latestProducts.length}');
+      } else if (cat == 'recommended') {
+        recommendedProducts.value = [];
+        for (int i = 0; i < data.length; i++) {
+          recommendedProducts.add(ProductModel(
+            id: data[i]['id'],
+            en_name: data[i]['name_EN'],
+            ar_name: data[i]['name_AR'],
+            price: double.parse(data[i]['price'].toString()),
+            offer: data[i]['offer'],
+            imageUrl: data[i]['image'],
+            catId: data[i]['catID'],
+            categoryNameEN: data[i]['categoryName_EN'],
+            categoryNameAR: data[i]['categoryName_AR'],
+            modelName: data[i]['modelName'],
+            modelId: data[i]['modelID'],
+            userId: data[i]['userID'],
+            userName: data[i]['userName'],
+            providerName: data[i]['userName'],
+            providerId: data[i]['userID'],
+            brand: data[i]['brandName'],
+          ));
+        }
+        print(' products count :: ${recommendedProducts.length}');
+      } else if (cat == 'offers') {
+        offersProducts.value = [];
+        for (int i = 0; i < data.length; i++) {
+          offersProducts.add(ProductModel(
+            id: data[i]['id'],
+            en_name: data[i]['name_EN'],
+            ar_name: data[i]['name_AR'],
+            price: double.parse(data[i]['price'].toString()),
+            offer: data[i]['offer'],
+            imageUrl: data[i]['image'],
+            catId: data[i]['catID'],
+            categoryNameEN: data[i]['categoryName_EN'],
+            categoryNameAR: data[i]['categoryName_AR'],
+            modelName: data[i]['modelName'],
+            modelId: data[i]['modelID'],
+            userId: data[i]['userID'],
+            userName: data[i]['userName'],
+            providerName: data[i]['userName'],
+            providerId: data[i]['userID'],
+            brand: data[i]['brandName'],
+          ));
+        }
+        print(' products count :: ${offersProducts.length}');
+      }
+      update();
+    } else {
+      print(response.reasonPhrase);
+    }
+    update();
+  }
+
   Future getOneProductDetails(String id) async {
+    getDetailsDone.value = false;
     print('get prod id :: $id');
     var headers = {
       'Authorization': 'bearer ${user.accessToken}',
@@ -141,6 +245,8 @@ class ProductsController extends GetxController {
     if (response.statusCode == 200) {
       imagesData.value = [];
       imagesWidget.value = [];
+
+      update();
       sizes = [];
       var json = jsonDecode(await response.stream.bytesToString());
       productData = json['description'];
@@ -207,12 +313,31 @@ class ProductsController extends GetxController {
       for (int i = 0; i < imagesData[index].imagesUrls!.length; i++) {
         if (imagesData[index].imagesUrls![i] != null) {
           print('the index is $i');
-          imagesWidget[index].add(Image.network(
-            '$baseURL/${imagesData[index].imagesUrls![i]}',
-            fit: BoxFit.fill,
-          ));
+          imagesWidget[index].add(
+            ClipRRect(
+                borderRadius: BorderRadius.circular(6),
+                child: CachedNetworkImage(
+                  //cacheManager: customCacheManager,
+                  key: UniqueKey(),
+                  imageUrl: '$baseURL/${imagesData[index].imagesUrls![i]}',
+                  height: screenSize.height * 0.2 + 20,
+                  width: screenSize.width * 0.4,
+                  maxHeightDiskCache: 110,
+                  fit: BoxFit.fill,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => Container(
+                    color: Colors.black,
+                    child: const Icon(
+                      Icons.error,
+                      color: Colors.red,
+                    ),
+                  ),
+                )),
+          );
         }
       }
+      getDetailsDone.value = true;
     }
     getDetailsDone.value = true;
     update();
@@ -283,6 +408,7 @@ class ProductsController extends GetxController {
   }
 
   Future getMyFav() async {
+    favProducts.value = [];
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -295,26 +421,33 @@ class ProductsController extends GetxController {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      var json = jsonDecode(await response.stream.bytesToString());
+      print("my fav products $json");
+
+      var data = json['description'];
+      if (json['status'] == true) {
+        favProducts.value = data;
+      }
     } else {
       print(response.reasonPhrase);
     }
   }
 
-  Future deleteProdFromFav() async {
+  Future deleteProdFromFav(String prodId) async {
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
     };
     var request = http.Request('POST',
         Uri.parse('https://dashcommerce.click68.com/api/DeleteFavourite'));
-    request.body = json.encode({"id": "93b38d25-0bb1-4eb7-acb9-08da1a1a6526"});
+    request.body = json.encode({"id": prodId});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      getMyFav();
     } else {
       print(response.reasonPhrase);
     }
@@ -332,6 +465,5 @@ class ProductsController extends GetxController {
   void onInit() {
     // TODO: implement onInit
     super.onInit();
-    getLatestProducts();
   }
 }

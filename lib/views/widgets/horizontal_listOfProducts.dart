@@ -32,6 +32,7 @@ Widget buildHorizontalListOfProducts(bool fromDetails) {
                           return ProductItemCard(
                             product: productController.latestProducts[index],
                             fromDetails: fromDetails,
+                            from: 'home_hor',
                           );
                         },
                         childCount: productController.latestProducts.length,

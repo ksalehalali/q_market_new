@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,6 @@ import '../Assistants/globals.dart';
 import '../views/screens/auth/register.dart';
 
 class StartUpController extends GetxController {
-
   final registerController = Get.put(RegisterController());
 
   @override
@@ -26,20 +24,20 @@ class StartUpController extends GetxController {
   }
 
   Future<void> fetchUserLoginPreference() async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-//    String? prefToken = prefs.getString('token');
-//    String? prefUsername = prefs.getString('username');
-//    String? prefPassword = prefs.getString('password');
+    String? prefToken = prefs.getString('token');
+    String? prefUsername = prefs.getString('username');
+    String? prefPassword = prefs.getString('password');
 
-     final storage = GetStorage();
+    final storage = GetStorage();
 
     String? storageToken = storage.read('token');
     String? storageUsername = storage.read('username');
     String? storagePassword = storage.read('password');
 
     print("ssssss ${storageToken}");
-    if(storageToken == null){
+    if (storageToken == null) {
       print('null');
 //      Navigator.push(context, MaterialPageRoute(builder: (context)=>Register()));
 //      Get.to(() => Account());
@@ -49,10 +47,9 @@ class StartUpController extends GetxController {
       });
     } else {
       token = storageToken;
-      await registerController.makeAutoLoginRequest(storageUsername, storagePassword);
-//      Get.to(MainScreen(indexOfScreen: 0,));
+      await registerController.makeAutoLoginRequest(
+          storageUsername, storagePassword);
+      Get.to(const MainScreen());
     }
-
   }
-
 }

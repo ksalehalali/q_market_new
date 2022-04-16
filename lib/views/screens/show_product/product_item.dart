@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,7 +17,12 @@ bool like = false;
 class ProductItemCard extends StatelessWidget {
   final ProductModel product;
   final bool fromDetails;
-  ProductItemCard({Key? key, required this.product, required this.fromDetails})
+  final String from;
+  ProductItemCard(
+      {Key? key,
+      required this.product,
+      required this.fromDetails,
+      required this.from})
       : super(key: key);
 
   final ProductsController productController = Get.find();
@@ -67,26 +73,41 @@ class ProductItemCard extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             InkWell(
-                onTap: () {
-                  productController.getOneProductDetails(product.id!);
-                  print(product.providerName);
+              onTap: () {
+                productController.getOneProductDetails(product.id!);
+                print(product.providerName);
 
-                  if (fromDetails) {
-                    Get.to(() => ProductDetails(
-                          product: product,
-                        ));
-                  } else {
-                    Get.to(() => ProductDetails(
-                          product: product,
-                        ));
-                  }
-                },
-                child: Image.network(
-                  '$baseURL/${product.imageUrl!}',
-                  fit: BoxFit.fill,
-                  height: 180,
-                  width: size.width / 2,
-                )),
+                if (fromDetails) {
+                  Get.to(() => ProductDetails(
+                        product: product,
+                      ));
+                } else {
+                  Get.to(() => ProductDetails(
+                        product: product,
+                      ));
+                }
+              },
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: CachedNetworkImage(
+                    //cacheManager: customCacheManager,
+                    key: UniqueKey(),
+                    imageUrl: '$baseURL/${product.imageUrl}',
+                    height: screenSize.height * 0.2 + 20,
+                    width: screenSize.width * 0.4,
+                    maxHeightDiskCache: 110,
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Container(
+                      color: Colors.black,
+                      child: const Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
+                    ),
+                  )),
+            ),
             Positioned(
                 top: 8.0,
                 left: 10.0,
@@ -210,11 +231,11 @@ class ProductItemCard extends StatelessWidget {
                               ),
                             ),
                             SizedBox(
-                              width: size.width * 0.4,
+                              width: size.width * 0.4 + 10,
                               child: Row(
                                 children: [
                                   Text(
-                                    "${product.price!.toStringAsFixed(3)} QR"
+                                    "${product.price!.toStringAsFixed(3)} QAR"
                                         .toUpperCase(),
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
