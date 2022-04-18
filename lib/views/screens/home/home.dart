@@ -2,6 +2,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:q_market_n/views/address/add_address_screen.dart';
 import 'package:q_market_n/views/screens/home/search_area_des.dart';
 import '../../../Assistants/globals.dart';
 import '../../../Data/data_for_ui.dart';
@@ -80,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddressOnMap()));
+                              builder: (context) => const AddAddressScreen()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

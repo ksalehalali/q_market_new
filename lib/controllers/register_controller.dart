@@ -62,6 +62,7 @@ class RegisterController extends GetxController {
           fontSize: 16.0);
     } else if (response.statusCode == 200) {
       var jsonResponse = json.decode(response.body);
+      print(jsonResponse);
       if (jsonResponse["status"]) {
         storeUserLoginPreference(
             jsonResponse["description"]["token"],
