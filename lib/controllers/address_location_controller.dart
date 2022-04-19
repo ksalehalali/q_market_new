@@ -11,16 +11,24 @@ import '../views/address/config-maps.dart';
 
 class AddressController extends GetxController {
   var myCurrentLoc = LatLng(0.0, 0.0).obs;
+  var myFullCurrentAddress = ''.obs;
+  var aAddress = ''.obs;
+  var bAddress = ''.obs;
+  var myAddressData =[].obs;
   var areaLoc = LatLng(0.0, 0.0).obs;
   var addressWidgetSize = 20.0.obs;
   var addressWidgetIconSize = 17.0.obs;
   var s = 50.obs;
+  var gotMyAddress =false.obs;
 
   var pinAddress = ''.obs;
   List placePredictionList = [].obs;
 
-  updatePinAddress(String address) {
+  updatePinAddress(String address ,a,b) {
     pinAddress.value = address;
+    myFullCurrentAddress.value = address;
+    aAddress.value =a;
+    bAddress.value =b;
     update();
   }
 
@@ -45,7 +53,7 @@ class AddressController extends GetxController {
     update();
   }
 
-  Future addNewAddress() async {
+  Future addNewAddress(String addressName) async {
     print('address === ${pinAddress.value}');
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
@@ -56,7 +64,8 @@ class AddressController extends GetxController {
     request.body = json.encode({
       "Longitude": myCurrentLoc.value.longitude,
       "Latitude": myCurrentLoc.value.latitude,
-      "Address": pinAddress.value.toString()
+      "Address": pinAddress.value.toString(),
+      "NameAddress":addressName
     });
     request.headers.addAll(headers);
 
@@ -64,6 +73,7 @@ class AddressController extends GetxController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      getMyAddresses();
     } else {
       print(response.reasonPhrase);
     }
@@ -83,7 +93,10 @@ class AddressController extends GetxController {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
+      var json = jsonDecode(await response.stream.bytesToString());
+      var data = json['description'];
+      print(data);
+      myAddressData.value = data;
     } else {
       print(response.reasonPhrase);
     }

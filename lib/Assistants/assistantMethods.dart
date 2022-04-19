@@ -16,12 +16,38 @@ class AssistantMethods {
     String placeAddress = "";
 
     var res = await RequestAssistant.getRequest(
-        'https://api.mapbox.com/geocoding/v5/mapbox.places/${latLng.longitude},${latLng.latitude}.json?access_token=$mapbox_token');
+        'https://api.mapbox.com/geocoding/v5/mapbox.places/${latLng.longitude},${latLng.latitude}.json?language=en&access_token=$mapbox_token');
     if (res != "failed") {
-      print('address :: ${res['features'][0]['place_name']}');
+      // print("res === $res");
+      // print('address :: ${res['features'][0]['place_name']}');
+      // print('address :: ${res['features'][1]['id']}');
+      // print('address :: ${res['features'][2]['place_name']}');
+      // print('address :: ${res['features'][3]['place_name']}');
+
+      print('0 :: ${res['features'][0]}');
+      print('0 context :: ${res['features'][0]['context'][2]['text_en']}'); //المحافضة
+      print('0 context :: ${res['features'][0]['context'][1]['text_en']}'); //المنطقة
+
+      print('0 :: ${res['features'][0]['text_en']}'); //العنوان
+
+      //print('0 :: ${res['features'][0]['place_name_en']}');
+
+      // print('1 :: ${res['features'][1]}');
+      // print('1 :: ${res['features'][1]['text']}');
+      // print('1 :: ${res['features'][1]['place_name']}');
+      //
+      // print('2 :: ${res['features'][2]}');
+      // print('2 :: ${res['features'][2]['text']}');
+      // print('2 :: ${res['features'][2]['place_name']}');
+      //
+      // print('3 :: ${res['features'][3]}');
+      // print('3 :: ${res['features'][3]['text']}');
+      // print('3 :: ${res['features'][3]['place_name']}');
+
+
       placeAddress = res['features'][0]['place_name'];
       box.write('address', res['features'][0]['place_name']);
-      addressController.updatePinAddress(res['features'][0]['place_name']);
+      addressController.updatePinAddress('${res['features'][0]['context'][2]['text_en']} - ${res['features'][0]['context'][1]['text_en']} (${res['features'][0]['text_en']})',res['features'][0]['context'][2]['text_en'],res['features'][0]['context'][1]['text_en']);
     } else {
       print(res);
       print("get address failed");

@@ -13,6 +13,7 @@ import '../../controllers/address_location_controller.dart';
 import '../screens/home/home.dart';
 import '../screens/main_screen.dart';
 import '../widgets/search_area_des.dart';
+import 'add_address_screen.dart';
 
 class AddressOnMap extends StatefulWidget {
   const AddressOnMap({Key? key}) : super(key: key);
@@ -96,9 +97,8 @@ class AddressOnMapState extends State<AddressOnMap> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  addressController.addNewAddress();
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainScreen()));
+                      MaterialPageRoute(builder: (context) => AddAddressScreen()));
                 },
                 child: Text(
                   'CONFIRM LOCATION',

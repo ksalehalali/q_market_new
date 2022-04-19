@@ -9,6 +9,7 @@ import '../../../Data/data_for_ui.dart';
 import '../../../controllers/address_location_controller.dart';
 import '../../../controllers/product_controller.dart';
 import '../../address/address_on_map.dart';
+import '../../address/list_addresses.dart';
 import '../../address/search_address_screen.dart';
 import '../../widgets/departments_shpe.dart';
 import '../../widgets/horizontal_listOfProducts.dart';
@@ -78,10 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: addressController.addressWidgetSize.value,
                   child: InkWell(
                     onTap: () {
+                      addressController.getMyAddresses();
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const AddAddressScreen()));
+                              builder: (context) =>  ListAddresses()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
