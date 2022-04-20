@@ -6,6 +6,7 @@ import 'package:q_market_n/views/screens/main_screen.dart';
 
 import '../../controllers/address_location_controller.dart';
 import 'address_on_map.dart';
+import 'list_addresses.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({Key? key}) : super(key: key);
@@ -230,7 +231,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     onPressed: () {
                       addressController.addNewAddress(_addresNameController.text);
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => MainScreen()));
+                          MaterialPageRoute(builder: (context) => const ListAddresses()));
                     },
                     child: const Text(
                       'SAVE ADDRESS',

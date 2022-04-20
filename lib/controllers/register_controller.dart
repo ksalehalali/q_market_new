@@ -64,6 +64,9 @@ class RegisterController extends GetxController {
       var jsonResponse = json.decode(response.body);
       print(jsonResponse);
       if (jsonResponse["status"]) {
+        user.accessToken = jsonResponse["description"]["token"];
+        user.id = jsonResponse["description"]["id"];
+
         storeUserLoginPreference(
             jsonResponse["description"]["token"],
             jsonResponse["description"]["userName"],

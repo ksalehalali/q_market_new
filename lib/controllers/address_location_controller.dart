@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:q_market_n/Assistants/globals.dart';
 import '../Assistants/request-assistant.dart';
 import '../Data/current_data.dart';
 import '../models/placePredictions.dart';
@@ -14,21 +17,22 @@ class AddressController extends GetxController {
   var myFullCurrentAddress = ''.obs;
   var aAddress = ''.obs;
   var bAddress = ''.obs;
-  var myAddressData =[].obs;
+  var myAddressData = [].obs;
   var areaLoc = LatLng(0.0, 0.0).obs;
   var addressWidgetSize = 20.0.obs;
   var addressWidgetIconSize = 17.0.obs;
   var s = 50.obs;
-  var gotMyAddress =false.obs;
+  var gotMyAddress = false.obs;
+  var addresses = [].obs;
 
   var pinAddress = ''.obs;
   List placePredictionList = [].obs;
 
-  updatePinAddress(String address ,a,b) {
+  updatePinAddress(String address, a, b) {
     pinAddress.value = address;
     myFullCurrentAddress.value = address;
-    aAddress.value =a;
-    bAddress.value =b;
+    aAddress.value = a;
+    bAddress.value = b;
     update();
   }
 
@@ -65,7 +69,7 @@ class AddressController extends GetxController {
       "Longitude": myCurrentLoc.value.longitude,
       "Latitude": myCurrentLoc.value.latitude,
       "Address": pinAddress.value.toString(),
-      "NameAddress":addressName
+      "NameAddress": addressName
     });
     request.headers.addAll(headers);
 
@@ -80,6 +84,8 @@ class AddressController extends GetxController {
   }
 
   Future getMyAddresses() async {
+    myAddressData.value = [];
+    gotMyAddress.value = false;
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -95,6 +101,7 @@ class AddressController extends GetxController {
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
+      gotMyAddress.value = true;
       print(data);
       myAddressData.value = data;
     } else {
@@ -102,6 +109,28 @@ class AddressController extends GetxController {
     }
   }
 
+  Future deleteAddress(String id)async{
+    var headers = {
+      'Authorization': 'Bearer ${user.accessToken}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/DeleteAddress'));
+    request.body = json.encode({
+      "id": id
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      getMyAddresses();
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
 //
   void findPlace(String placeName) async {
     if (placeName.length > 1) {
@@ -137,6 +166,17 @@ class AddressController extends GetxController {
       }
     }
   }
+  Color? _color = myHexColor3;
+  Color? _color2 = Colors.grey[700];
+
+  final List<Color> _colorColor = [
+    myHexColor3,
+  ];
+  final List<Color> _colorColorBorder = [
+    myHexColor3,
+  ];
+
+
 }
 
 class PlaceShort {
