@@ -17,6 +17,8 @@ class AddAddressScreen extends StatefulWidget {
 
 class _AddAddressScreenState extends State<AddAddressScreen> {
   PhoneNumber number = PhoneNumber(isoCode: 'QA');
+  PhoneNumber phoneNumber = PhoneNumber(isoCode: 'QA');
+
   final AddressController addressController = Get.find();
   TextEditingController _addresNameController = TextEditingController();
   @override
@@ -42,7 +44,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   ),
                   InkWell(
                     onTap: () {
-                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const MainScreen()));
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const MainScreen()));
                     },
                     child: Text(
                       "Cancel",
@@ -60,9 +63,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             ),
             Padding(
               padding: const EdgeInsets.all(0.0),
-              child:  Text(
+              child: Text(
                 'Location Information',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color: myHexColor),
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: myHexColor),
               ),
             ),
             SizedBox(
@@ -74,9 +80,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
+                    children: [
                       SizedBox(
-                        width:170,
+                        width: 170,
                         child: Text(
                           addressController.aAddress.value,
                           maxLines: 1,
@@ -91,7 +97,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         height: 12,
                       ),
                       SizedBox(
-                        width:screenSize.width*0.7,
+                        width: screenSize.width * 0.7,
                         child: Text(
                           addressController.bAddress.value,
                           maxLines: 1,
@@ -106,8 +112,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   ),
                   Spacer(),
                   InkWell(
-                    onTap: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const AddressOnMap()));
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const AddressOnMap()));
                     },
                     child: Container(
                         height: 72,
@@ -116,8 +123,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             image: const DecorationImage(
                               fit: BoxFit.fill,
                               opacity: 0.7,
-
-
                               image: AssetImage(
                                 'assets/images/isolate-golden-location-pin.jpg',
                               ),
@@ -153,11 +158,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             Text(
               'Personal Information',
               style: TextStyle(
-                  fontSize: 16,
-                  color: myHexColor,
-                  fontWeight: FontWeight.bold),
+                  fontSize: 16, color: myHexColor, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: screenSize.height*0.1-70,),
+            SizedBox(
+              height: screenSize.height * 0.1 - 70,
+            ),
             Container(
               width: screenSize.width,
               color: Colors.grey[100],
@@ -166,13 +171,14 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 14),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12.0, vertical: 14),
                     child: SizedBox(
-                      width: screenSize.width*0.8,
+                      width: screenSize.width * 0.8,
                       child: InternationalPhoneNumberInput(
                         onInputChanged: (PhoneNumber number) {
                           print(number.phoneNumber);
-
+                          phoneNumber = number;
                         },
                         onInputValidated: (bool value) {
                           print(value);
@@ -183,17 +189,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         maxLength: 8,
                         ignoreBlank: false,
                         autoValidateMode: AutovalidateMode.disabled,
-                        selectorTextStyle: TextStyle(color: Colors.grey[600],fontSize: 22),
-                        textStyle: TextStyle(color: Colors.black,fontSize: 22,fontWeight: FontWeight.bold),
-                        inputDecoration: InputDecoration(
-
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(4),
-                            borderSide: BorderSide(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
+                        selectorTextStyle:
+                            TextStyle(color: Colors.grey[600], fontSize: 22),
+                        textStyle: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold),
+                        inputDecoration: InputDecoration(),
                         initialValue: number,
 //                            textFieldController: controller,
                         formatInput: false,
@@ -202,40 +204,46 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         inputBorder: OutlineInputBorder(),
                         onSaved: (PhoneNumber number) {
                           print('On Saved: $number');
+                          phoneNumber = number;
                         },
                       ),
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    child:  Theme(
+                    child: Theme(
                       data: ThemeData.from(
                         colorScheme: ColorScheme.fromSwatch(
                             primarySwatch: primaryColorSwatch),
                       ),
-                      child:SizedBox(
-                        width: screenSize.width*0.8,
+                      child: SizedBox(
+                        width: screenSize.width * 0.8,
                         child: TextFormField(
                           controller: _addresNameController,
-                        decoration:  InputDecoration(
-                          focusColor: myHexColor,
-                          hoverColor: myHexColor,
-
-                          label: Text('Name')
+                          decoration: InputDecoration(
+                              focusColor: myHexColor,
+                              hoverColor: myHexColor,
+                              label: Text('Name')),
                         ),
-                    ),
                       ),
-                  ),),
-                   SizedBox(height: screenSize.height*0.1-40,),
+                    ),
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.1 - 40,
+                  ),
                   ElevatedButton(
                     onPressed: () {
-                      addressController.addNewAddress(_addresNameController.text);
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const ListAddresses()));
+                      addressController.addNewAddress(
+                          _addresNameController.text, phoneNumber);
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ListAddresses()));
                     },
                     child: const Text(
                       'SAVE ADDRESS',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                     style: ElevatedButton.styleFrom(
                         maximumSize: Size(220, 300),
@@ -244,8 +252,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         onPrimary: Colors.white,
                         alignment: Alignment.center),
                   ),
-                  SizedBox(height: screenSize.height*0.1-60,),
-
+                  SizedBox(
+                    height: screenSize.height * 0.1 - 60,
+                  ),
                 ],
               ),
             ),

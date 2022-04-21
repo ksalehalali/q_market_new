@@ -81,33 +81,38 @@ class _CartState extends State<Cart> {
                           Container(
                             margin: const EdgeInsets.only(top: 16),
                             child: Row(
-                              children: const [
-                                Icon(
+                              children: [
+                                const Icon(
                                   Icons.directions_car_rounded,
                                   color: Colors.black54,
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
-                                Text(
+                                const Text(
                                   "Delivery address",
-                                  style: TextStyle(color: Colors.black54),
+                                  style: const TextStyle(color: Colors.black54),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                                 // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
-                                Text(
+                                const Text(
                                   "Address",
                                   style: TextStyle(color: Colors.black54),
                                 ),
-                                Spacer(),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: Colors.black54,
-                                  size: 16,
+                                const Spacer(),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: Colors.black54,
+                                    size: 16,
+                                  ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 8,
                                 ),
                               ],
@@ -168,7 +173,7 @@ class _CartState extends State<Cart> {
 
   Widget buildCartDetails() {
     return Container(
-      color: Color.fromARGB(255, 216, 224, 245),
+      color: const Color.fromARGB(255, 216, 224, 245),
       child: Column(
         children: [
           Padding(

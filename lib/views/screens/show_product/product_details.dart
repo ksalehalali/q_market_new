@@ -107,7 +107,7 @@ class _ProductDetailsState extends State<ProductDetails>
                     children: [
                       InkWell(
                         onTap: () {
-                          Get.off(ProductDetails());
+                          Get.off(const ProductDetails());
                           Get.back();
 
                           print(productController.latestProducts.length);
@@ -123,6 +123,55 @@ class _ProductDetailsState extends State<ProductDetails>
                         ),
                       ),
                       const Expanded(child: SearchAreaDesign()),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const Cart()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                SvgPicture.asset(
+                                    '/Users/khaled/StudioProjects/q_market_n/assets/icons/cart-fill.svg',
+                                    alignment: Alignment.center,
+                                    //color:,
+                                    height: 26,
+                                    width: 26,
+                                    semanticsLabel: 'A red up arrow'),
+                                Positioned(
+                                    right: 0.0,
+                                    top: 0.0,
+                                    child: Container(
+                                        height: 14,
+                                        width: 14,
+                                        decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            color: const Color.fromARGB(
+                                                255, 246, 138, 24)),
+                                        child: Center(
+                                          child: Obx(
+                                            () => Text(
+                                              cartController
+                                                  .myPrCartProducts.length
+                                                  .toString(),
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                  fontSize: 10,
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        )))
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                   const SizedBox(

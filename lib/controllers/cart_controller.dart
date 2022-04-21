@@ -16,7 +16,7 @@ class CartController extends GetxController {
   var myPrCartProducts = [].obs;
   var cartProducts = [];
   var fullPrice = 0.0.obs;
-
+  var countFromItem = 1.obs;
   Column buildCartItem() {
     cartItems.value = [];
     print("length ${myPrCartProducts.length}");
@@ -151,12 +151,17 @@ class CartController extends GetxController {
                         const SizedBox(
                           width: 8,
                         ),
-                        const Text("1"),
+                        Text("$countFromItem"),
                         const SizedBox(
                           width: 8,
                         ),
-                        Container(
-                          child: const Icon(Icons.add),
+                        InkWell(
+                          onTap: () {
+                            countFromItem++;
+                          },
+                          child: Container(
+                            child: const Icon(Icons.add),
+                          ),
                         ),
                         const SizedBox(
                           width: 8,
@@ -266,10 +271,12 @@ class CartController extends GetxController {
         myPrCartProducts.value = json['description'];
 
         gotMyCart.value = true;
+        print('cart items = ${myPrCartProducts.length}');
         calculateFulPriceProducts(0);
         update();
       }
     } else {
+      print('error in get cart items');
       print(response.reasonPhrase);
     }
   }
@@ -323,5 +330,11 @@ class CartController extends GetxController {
         brand: productData['brandName'],
       );
     }
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
   }
 }

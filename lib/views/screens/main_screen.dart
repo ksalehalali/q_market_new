@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:q_market_n/views/screens/offers_screen.dart';
 import '../../Assistants/assistantMethods.dart';
 import '../../Assistants/globals.dart';
 import '../../controllers/address_location_controller.dart';
@@ -21,11 +22,12 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final AddressController addressController = Get.find();
+  final cartController = Get.put(CartController());
 
   final List<Widget> screens = [
     const HomeScreen(),
     const CategoriesScreen(),
-    const Register(),
+    const OffersScreen(),
     const Cart(),
     Account(),
   ];
@@ -38,15 +40,15 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    cartController.getMyCartProds();
     productController.getProductsByCatHome(
         '0c348ba7-1873-425e-8e49-97e0ec8ceebe', 'recommended');
     productController.getProductsByCatHome(
         'd115a1f7-2407-4446-9caa-dc9744e5bfa8', 'latest');
     productController.getProductsByCatHome(
         'a7c777ed-cb81-46f3-bd6b-7667842d7819', 'offers');
+    addressController.getMyAddresses();
   }
-
-  final cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {

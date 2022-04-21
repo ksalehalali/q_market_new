@@ -80,10 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: InkWell(
                     onTap: () {
                       addressController.getMyAddresses();
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  ListAddresses()));
+                              builder: (context) => ListAddresses()));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
