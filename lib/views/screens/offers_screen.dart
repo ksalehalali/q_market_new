@@ -55,7 +55,7 @@ class _OffersScreenState extends State<OffersScreen> {
           itemCount: categories.length,
           scrollDirection: Axis.horizontal,
           shrinkWrap: true,
-          padding: EdgeInsets.zero,
+          padding: EdgeInsets.zero, //a
           semanticChildCount: 0,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 1,
