@@ -4,20 +4,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:q_market_n/Assistants/globals.dart';
-import 'package:q_market_n/views/screens/home/Cart.dart';
+import 'package:q_market_n/views/screens/order/Cart.dart';
 
-import '../controllers/address_location_controller.dart';
-import '../controllers/cart_controller.dart';
-import 'address/list_addresses.dart';
+import '../../../controllers/address_location_controller.dart';
+import '../../../controllers/cart_controller.dart';
+import '../../address/list_addresses.dart';
 
-class BuyOptions extends StatefulWidget {
-  const BuyOptions({Key? key}) : super(key: key);
+class BayOptions extends StatefulWidget {
+  const BayOptions({Key? key}) : super(key: key);
 
   @override
-  State<BuyOptions> createState() => _BuyOptionsState();
+  State<BayOptions> createState() => _BayOptionsState();
 }
 
-class _BuyOptionsState extends State<BuyOptions> {
+class _BayOptionsState extends State<BayOptions> {
   int _value =1;
   final storage = GetStorage();
   bool showAddressDetails=false;
@@ -41,6 +41,7 @@ class _BuyOptionsState extends State<BuyOptions> {
         ),
         body: Column(
           children: [
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Container(width: screenSize.width,height: 1,color: myHexColor,),
@@ -143,7 +144,7 @@ class _BuyOptionsState extends State<BuyOptions> {
                                     _value = val!;
                                   });
                                 }),
-                                Text('Pay by card'),
+                                Text('Pay with card'),
                                 Spacer(),
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 12.0),
@@ -170,7 +171,7 @@ class _BuyOptionsState extends State<BuyOptions> {
                                     _value =val!;
                                   });
                                 }),
-                                Text('Cash pay'),
+                                Text('Pay with cash'),
                                 Spacer(),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 12.0),

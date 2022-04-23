@@ -52,9 +52,9 @@ List<Map<String,dynamic>> kidsBabyToysDepartments =[
 ];
 
 List<Map<String,dynamic>> accessoriesAndGifts =[
-  {'depName': 'Eyewear','depId':'1','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','catId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8'           ,"hasChildren":false},
-  {'depName': 'Jewellery','depId':'1','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','catId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8'         ,"hasChildren":false},
-  {'depName': 'Various Accessories','depId':'1','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s catId','depIdId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8',"hasChildren":false},
+  {'depName': 'Eyewear','depId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','catId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8'     ,"hasChildren":false},
+  {'depName': 'Jewellery','depId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s Fashion','catId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8'     ,"hasChildren":false},
+  {'depName': 'Various Accessories','depId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8','imagePath':'assets/images/zara-outlet.jpg','catName':'Women\'s catId','depIdId':'d115a1f7-2407-4446-9caa-dc9744e5bfa8',"hasChildren":false},
 ];
 
 List<Map<String,dynamic>> beautySuppliesAndPersonalCare =[

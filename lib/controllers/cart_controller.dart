@@ -12,9 +12,17 @@ class CartController extends GetxController {
   var isCartEmpty = true.obs;
   var gotMyCart = false.obs;
   var itemsInserted = false.obs;
-
+  var gotMyOrders =false.obs;
   var cartItems = <Widget>[].obs;
+  var orderItems = <Widget>[].obs;
+
   var myPrCartProducts = [].obs;
+  var myOrders = [].obs;
+  var myOrdersDetails = [].obs;
+  var ordersProdsWidget =[];
+  var listOfListOrdersWidget =[[],[]];
+
+  var oneOrderDetails = {}.obs;
   var cartProducts = [];
   var fullPrice = 0.0.obs;
   var countFromItem = 1.obs;
@@ -208,6 +216,151 @@ class CartController extends GetxController {
     );
   }
 
+  //orders
+  Column buildOrderItem() {
+    orderItems.value =[];
+    print("----0 ${myOrdersDetails[0]['listProduct']}");
+    print("----1 ${myOrdersDetails[1]['listProduct']}");
+    print("----2 ${myOrdersDetails[2]['listProduct']}");
+    print("----3 ${myOrdersDetails[3]['listProduct']}");
+
+    for (int i = 0; i < myOrdersDetails[0]['listProduct'].length; i++) {
+      var price = myOrdersDetails[0]['listProduct'][i]["price"] *
+          myOrdersDetails[0]['listProduct'][i]["offer"] /
+          100;
+
+      update();
+      orderItems.add(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 3,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${myOrdersDetails[0]['listProduct'][i]['product']}",
+                      style: const TextStyle(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "${myOrdersDetails[0]['listProduct'][i]["color"]}",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "${myOrdersDetails[0]['listProduct'][i]["size"]}",
+                      style: TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    SizedBox(
+                      width: screenSize.width * 0.4 + 10,
+                      child: Row(
+                        children: [
+                          Text(
+                            "${myOrdersDetails[0]['listProduct'][i]["price"]} QAR".toUpperCase(),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                            style: const TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                fontFamily: 'Montserrat-Arabic Regular',
+                                color: Colors.grey,
+                                fontSize: 13),
+                          ),
+                          const SizedBox(
+                            width: 7.0,
+                          ),
+                          Text(
+                            "Discount ${myOrdersDetails[0]['listProduct'][i]["offer"]}%",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontFamily: 'Montserrat-Arabic Regular',
+                                color: myHexColor3,
+                                fontSize: 13),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                ///to do
+                // ClipRRect(
+                //   borderRadius: BorderRadius.circular(10),
+                //   child: Container(
+                //     width: 100,
+                //     child: Image.network(
+                //       "$baseURL/${myPrCartProducts[i]['image']}",
+                //       height: 150,
+                //       fit: BoxFit.fill,
+                //     ),
+                //   ),
+                // ),
+              ],
+            ),
+            Text(
+              "${myOrdersDetails[0]['listProduct'][i]["price"] - price} QAR",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+            Text(
+              "seller ${myOrdersDetails[0]['userName']}",
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+
+
+
+                InkWell(
+                  onTap: (() => deleteProdFromCart(myPrCartProducts[i]['id'])),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.delete_outline,
+                        color: Colors.red,
+                      ),
+                      Text(
+                        "Remove",
+                        style: TextStyle(color: Colors.red),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+      );
+      itemsInserted.value = true;
+
+      update();
+    }
+    update();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [...orderItems],
+    );
+  }
   Future addToCart(String prodId, colorId, sizeId) async {
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
@@ -314,6 +467,68 @@ class CartController extends GetxController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
+
+  Future getMyOrders()async{
+    gotMyOrders.value = false;
+    myOrdersDetails.value = [];
+    var headers = {
+      'Authorization': 'Bearer ${user.accessToken}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/ListOrderByUser'));
+    request.body = json.encode({
+      "PageNumber": "0",
+      "SizeNumber": "22"
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var json = jsonDecode(await response.stream.bytesToString());
+      var data = json['description'];
+      myOrders.value =data;
+      for(int i =0; i<myOrders.length; i++){
+        await getOneOrder(myOrders[i]['id']);
+        print(myOrdersDetails[i]['listProduct'][0]['product']);
+      }
+      print(myOrdersDetails.length);
+      gotMyOrders.value = true;
+
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
+
+  Future getOneOrder(String id)async{
+    var headers = {
+      'Authorization': 'Bearer ${user.accessToken}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/GetOrder'));
+    request.body = json.encode({
+      "id": id
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var json = jsonDecode(await response.stream.bytesToString());
+      var data = json['description'];
+      oneOrderDetails.value = data;
+      myOrdersDetails.add(data);
+
+      print(oneOrderDetails);
+
     }
     else {
       print(response.reasonPhrase);

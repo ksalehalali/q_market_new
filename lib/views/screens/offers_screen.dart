@@ -243,9 +243,9 @@ class _OffersScreenState extends State<OffersScreen> {
                     BoxShadow(color: myHexColor1),
                   ],
                   image: const DecorationImage(
-                    fit: BoxFit.fitWidth,
+                    fit: BoxFit.fill,
                     image: AssetImage(
-                      '/Users/khaled/StudioProjects/q_market_n/assets/images/pexels-erik-mclean-4077321.jpg',
+                      'assets/images/pexels-erik-mclean-4077321.jpg',
                     ),
                   ),
                 )),

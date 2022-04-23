@@ -9,7 +9,7 @@ import '../../controllers/cart_controller.dart';
 import '../../controllers/product_controller.dart';
 import 'auth/register.dart';
 import 'categories/categories_screen.dart';
-import 'home/Cart.dart';
+import 'order/Cart.dart';
 import 'home/account.dart';
 import 'home/home.dart';
 

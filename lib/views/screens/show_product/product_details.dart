@@ -13,7 +13,7 @@ import '../../../models/product_model.dart';
 import '../../widgets/horizontal_listOfProducts.dart';
 import '../auth/register.dart';
 import '../categories/categories_screen.dart';
-import '../home/Cart.dart';
+import '../order/Cart.dart';
 import '../home/account.dart';
 import '../home/home.dart';
 import '../home/search_area_des.dart';

@@ -96,9 +96,7 @@ class _CartState extends State<Cart> {
                                   "Delivery address",
                                   style: const TextStyle(color: Colors.black54),
                                 ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
+
                                 // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
                                 const Text(
                                   "Address",
@@ -109,15 +107,16 @@ class _CartState extends State<Cart> {
                                   onTap: () {
                                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MainScreen()));
                                   },
-                                  child: const Icon(
-                                    Icons.arrow_forward_ios_rounded,
-                                    color: Colors.black54,
-                                    size: 16,
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: const Icon(
+                                      Icons.arrow_forward_ios_rounded,
+                                      color: Colors.black87,
+                                      size: 22,
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
+
                               ],
                             ),
                           ),
@@ -297,7 +296,7 @@ class _CartState extends State<Cart> {
           Expanded(
             child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,)));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,)));
                 },
                 child: Container(
                   height: 54,

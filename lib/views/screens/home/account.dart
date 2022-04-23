@@ -12,6 +12,7 @@ import '../../../controllers/account_controller.dart';
 import '../../../controllers/address_location_controller.dart';
 import '../../../controllers/product_controller.dart';
 import '../../../controllers/register_controller.dart';
+import '../order/my_orders.dart';
 
 class Account extends StatelessWidget {
   Account({Key? key}) : super(key: key);
@@ -148,6 +149,21 @@ class Account extends StatelessWidget {
                             ),
                           ),
                         ),
+                        InkWell(
+                            onTap: () {
+                              productController.getMyFav();
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => MyOrders()));
+                            },
+                            child: buildOptionRow(
+                                "My Orders List", Icons.shopping_cart)),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 64.0),
+                          child: Divider(
+                            thickness: 1,
+                          ),
+                        ),
+
                         InkWell(
                             onTap: () {
                               productController.getMyFav();
