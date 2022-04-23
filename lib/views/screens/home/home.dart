@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ListAddresses()));
+                              builder: (context) => ListAddresses(fromCart: false,)));
                     },
                     child: Padding(
                       padding: const EdgeInsets.symmetric(

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -290,48 +291,35 @@ class CartController extends GetxController {
           num.parse(myPrCartProducts[i]['price']) * offer / 100;
     }
   }
+  final storage = GetStorage();
 
-  Future getOneProductDetailsForCart(String id) async {
-    print('get prod id :: $id');
+  Future addNewOrder()async{
     var headers = {
-      'Authorization': 'bearer ${user.accessToken}',
+      'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('$baseURL/api/GetProduct'));
-    request.body = json.encode({'id': id});
+    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/AddOrder'));
+    request.body = json.encode({
+      "api_key": "u#XW|27@vl*8>n,sCr]qq)K@c^tpC}",
+      "api_secret": "/IIOpP`[(9]e`#S1&Yx{zm_w(mkbMO",
+      "invoiceValue": fullPrice.toDouble(),
+      "invoiceId": "11212",
+      "paymentGateway": "test",
+      "AddressID": storage.read("idAddressSelected"),
+      "Payment": 0
+    });
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      var json = jsonDecode(await response.stream.bytesToString());
-      var productData = json['description'];
-
-      print('full product $productData');
-      return ProductModel(
-        id: productData['id'],
-        en_name: productData['name_EN'],
-        ar_name: productData['name_AR'],
-        price: double.parse(productData['price'].toString()),
-        offer: productData['offer'],
-        imageUrl: productData['primaryImage'],
-        catId: productData['catID'],
-        categoryNameEN: productData['categoryName_EN'],
-        categoryNameAR: productData['categoryName_AR'],
-        modelName: productData['modelName'],
-        modelId: productData['modelID'],
-        userId: productData['userID'],
-        userName: productData['userName'],
-        general: productData['general'],
-        special: productData['spical'],
-        providerName: productData['merchentName'],
-        providerId: productData['merchentID'],
-        colorsData: productData['image'],
-        brand: productData['brandName'],
-      );
+      print(await response.stream.bytesToString());
     }
-  }
+    else {
+      print(response.reasonPhrase);
+    }
 
+  }
   @override
   void onInit() {
     // TODO: implement onInit

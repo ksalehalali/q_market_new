@@ -4,12 +4,15 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../Assistants/globals.dart';
 import '../../controllers/address_location_controller.dart';
+import '../buy_options.dart';
+import '../screens/home/Cart.dart';
 import '../screens/main_screen.dart';
 import 'add_address_screen.dart';
 import 'address_on_map.dart';
 
 class ListAddresses extends StatefulWidget {
-  const ListAddresses({Key? key}) : super(key: key);
+  bool fromCart ;
+   ListAddresses({Key? key,required this.fromCart}) : super(key: key);
 
   @override
   State<ListAddresses> createState() => _ListAddressesState();
@@ -53,9 +56,15 @@ class _ListAddressesState extends State<ListAddresses> {
                       ),
                       InkWell(
                           onTap: () {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (context) => const MainScreen()));
+                            if(widget.fromCart ==true){
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => const Cart()));
+                            }else{
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: (context) => const MainScreen()));
+                            }
                           },
                           child: Icon(
                             Icons.cancel_outlined,
@@ -68,7 +77,7 @@ class _ListAddressesState extends State<ListAddresses> {
                 SizedBox(
                     height: screenSize.height - 220,
                     width: screenSize.width,
-                    child: _buildDepartmentsOptions()),
+                    child: buildAddressesOptions()),
                 ElevatedButton.icon(
                   onPressed: () {
                     Navigator.push(
@@ -96,7 +105,7 @@ class _ListAddressesState extends State<ListAddresses> {
     );
   }
 
-  Widget _buildDepartmentsOptions() {
+  Widget buildAddressesOptions() {
     return CustomScrollView(
       scrollDirection: Axis.vertical,
       slivers: [
@@ -135,6 +144,15 @@ class _ListAddressesState extends State<ListAddresses> {
                         }
                       }
                     });
+                    if(widget.fromCart ==false){
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => const MainScreen()));
+                    }else{
+                      Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                              builder: (context) => const BuyOptions()));
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),

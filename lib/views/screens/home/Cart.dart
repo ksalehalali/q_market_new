@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:q_market_n/views/address/list_addresses.dart';
+import 'package:q_market_n/views/screens/main_screen.dart';
 
 import '../../../Assistants/globals.dart';
 import '../../../controllers/cart_controller.dart';
+import '../../address/addresses_options_dialog.dart';
 import '../../widgets/horizontal_listOfProducts.dart';
 
 class Cart extends StatefulWidget {
@@ -104,7 +107,7 @@ class _CartState extends State<Cart> {
                                 const Spacer(),
                                 InkWell(
                                   onTap: () {
-                                    Navigator.of(context).pop();
+                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MainScreen()));
                                   },
                                   child: const Icon(
                                     Icons.arrow_forward_ios_rounded,
@@ -293,7 +296,9 @@ class _CartState extends State<Cart> {
         children: [
           Expanded(
             child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,)));
+                },
                 child: Container(
                   height: 54,
                   color: myHexColor2,
