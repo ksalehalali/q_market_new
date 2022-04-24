@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../Assistants/globals.dart';
+import '../../search/productsSearch.dart';
 
 class SearchAreaDesign extends StatefulWidget {
   const SearchAreaDesign({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class _SearchAreaDesignState extends State<SearchAreaDesign> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const SearchProductScreen()));
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),

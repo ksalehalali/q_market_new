@@ -19,3 +19,42 @@ class PlacePredictions {
   }
 
 }
+
+
+class ProductPredictions {
+   String? id;
+   String? en_name;
+   String? ar_name;
+   String? userName;
+   String? userId;
+   String? modelName;
+   String? imageUrl;
+   double? price;
+   int? offer;
+   String? brand;
+   String? categoryNameEN;
+   String? categoryNameAR;
+
+  ProductPredictions(
+      {this.id,
+      this.en_name,
+      this.ar_name,
+      this.userName,
+      this.userId,
+      this.modelName,
+      this.imageUrl,
+      this.price,
+      this.offer,
+      this.brand,
+      this.categoryNameEN,
+      this.categoryNameAR});
+  ProductPredictions.fromJson(Map<String, dynamic> json){
+    id =json["id"];
+    en_name =json["en_name"];
+    ar_name =json["name_AR"];
+    userName =json["userName"];
+    price =json["price"].toDouble();
+    brand =json["brandNameEN"];
+  }
+
+}

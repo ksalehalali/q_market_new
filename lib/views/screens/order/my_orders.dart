@@ -23,6 +23,7 @@ class _MyOrdersState extends State<MyOrders> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: myHexColor,
       child: SafeArea(child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,

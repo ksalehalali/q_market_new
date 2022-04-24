@@ -9,8 +9,10 @@ import 'package:q_market_n/controllers/catgories_controller.dart';
 import 'package:q_market_n/views/screens/main_screen.dart';
 import 'Assistants/globals.dart';
 import 'controllers/address_location_controller.dart';
+import 'controllers/lang_controller.dart';
 import 'controllers/product_controller.dart';
 import 'controllers/start_up_controller.dart';
+import 'localization/localization.dart';
 import 'views/screens/categories/categories_screen.dart';
 
 void main() async {
@@ -24,8 +26,12 @@ void main() async {
       Get.putAsync(() async => CategoriesController(), permanent: true);
   final cartController =
       Get.putAsync(() async => CartController(), permanent: true);
+  final langController =Get.putAsync(() async => LangController(),permanent: true);
 
-  runApp(const GetMaterialApp(
+  runApp( GetMaterialApp(
+    locale: Locale('en'),
+    fallbackLocale: Locale('en'),
+    translations: Localization(),
     home: MyApp(),
     debugShowCheckedModeBanner: false,
   ));

@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:q_market_n/Assistants/globals.dart';
+import 'package:q_market_n/models/product_model.dart';
 import '../Assistants/request-assistant.dart';
 import '../Data/current_data.dart';
 import '../models/placePredictions.dart';
@@ -29,6 +30,7 @@ class AddressController extends GetxController {
 
   var pinAddress = ''.obs;
   List placePredictionList = [].obs;
+  List productPredictionList = [].obs;
 
   updatePinAddress(String address, a, b) {
     pinAddress.value = address;
@@ -80,6 +82,7 @@ class AddressController extends GetxController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      getMyAddresses();
     } else {
       print(response.reasonPhrase);
     }
@@ -165,6 +168,53 @@ class AddressController extends GetxController {
     }
   }
 
+  //
+  void findProduct(String productName) async {
+    if (productName.length > 1) {
+      placePredictionList.clear();
+      var headers = {
+        'Authorization': 'Bearer ${user.accessToken}',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/SearchProduct'));
+      request.body = json.encode({
+        "PageSize": 100,
+        "PageNumber": 1,
+        "KeyWord": productName
+      });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var json = jsonDecode(await response.stream.bytesToString());
+        var data = json['description'];
+        print("search list length == ${data.length}");
+        var predictions = data;
+        var placesList = (predictions as List)
+            .map((e) => ProductPredictions.fromJson(e))
+            .toList();
+
+        //placePredictionList = placesList;
+        placesList.forEach((element) {
+          productPredictionList.add(ProductModel(
+              id: element.id,
+              ar_name: element.ar_name,
+              en_name: element.en_name,
+              brand: element.brand,
+              price: element.price));
+        });
+        update();
+
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+
+
+    }
+  }
   Color? _color = myHexColor3;
   Color? _color2 = Colors.grey[700];
 

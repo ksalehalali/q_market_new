@@ -5,15 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import '../Assistants/globals.dart';
+import '../Assistants/request-assistant.dart';
+import '../models/placePredictions.dart';
 import '../models/product_model.dart';
 
 import '../Data/current_data.dart';
 import '../models/product_colors_data.dart';
+import '../views/address/config-maps.dart';
+import 'address_location_controller.dart';
 
 class ProductsController extends GetxController {
   var latestProducts = <ProductModel>[].obs;
   var recommendedProducts = <ProductModel>[].obs;
   var offersProducts = <ProductModel>[].obs;
+  List placePredictionList = [].obs;
 
   var catProducts = <ProductModel>[].obs;
   var favProducts = [].obs;
@@ -77,6 +82,45 @@ class ProductsController extends GetxController {
     }
     update();
   }
+//
+  void findPlace(String placeName) async {
+    if (placeName.length > 1) {
+
+      placePredictionList.clear();
+      String autoCompleteUrl =
+          "https://api.mapbox.com/geocoding/v5/mapbox.places/$placeName.json?worldview=us&country=kw&access_token=$mapbox_token";
+
+      var res = await RequestAssistant.getRequest(autoCompleteUrl);
+
+
+      if (res == "failed") {
+        print('failed');
+        return;
+      }
+      if (res["features"] != null) {
+        print(res['status']);
+        var predictions = res["features"];
+
+        var placesList = (predictions as List)
+            .map((e) => PlacePredictions.fromJson(e))
+            .toList();
+
+        //placePredictionList = placesList;
+        placesList.forEach((element) {
+          placePredictionList.add(PlaceShort(
+              placeId: element.id,
+              mainText: element.text,
+              secondText: element.place_name,
+              lat: element.lat,
+              lng: element.lng
+          ));
+        });
+        print(placePredictionList.first.mainText);
+        update();
+      }
+    }
+  }
+
 
 //get products by cat
   Future getProductsByCat(String catId) async {
