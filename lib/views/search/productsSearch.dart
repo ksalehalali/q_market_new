@@ -1,13 +1,17 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:q_market_n/models/product_model.dart';
 
+import '../../Assistants/globals.dart';
 import '../../Assistants/request-assistant.dart';
 import '../../controllers/address_location_controller.dart';
+import '../../controllers/product_controller.dart';
 import '../../models/address.dart';
 import '../address/address_on_map.dart';
 import '../address/config-maps.dart';
+import '../screens/show_product/product_details.dart';
 import '../widgets/divider.dart';
 import '../widgets/progressDialog.dart';
 
@@ -23,6 +27,7 @@ class SearchProductScreen extends StatefulWidget {
 class _SearchProductScreenState extends State<SearchProductScreen> {
   TextEditingController dropAddressController = TextEditingController();
   final AddressController addressController = Get.find();
+  final ProductsController productController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -32,40 +37,48 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
         children: [
           SizedBox(height: 70,),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              controller: dropAddressController,
+            padding: const EdgeInsets.all(12.0),
+            child: SizedBox(
+              height: 48,
+              child: TextFormField(
+                controller: dropAddressController,
 
-              onTap: () {
+                onTap: () {
 
-              },
-              onChanged: (val) {
-                addressController.findProduct(val);
+                },
+                onChanged: (val) {
+                  productController.findProduct(val);
 
-              },
-              onFieldSubmitted: (val) {
+                },
+                onFieldSubmitted: (val) {
 
-              },
-              decoration: InputDecoration(
-                alignLabelWithHint: true,
-                hintText: 'What are you looking for?',
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(5.5),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: Colors.grey,
+                },
+                decoration: InputDecoration(
+                  alignLabelWithHint: true,
+                  hintText: 'What are you looking for?',
+                  hintStyle: TextStyle(
+                    height: 1,
+                      fontWeight: FontWeight.bold
                   ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(5.5),
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.grey,
+                    ),
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    color: Colors.grey[400],
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  labelText: "Enter Product Name",
+
+                  labelStyle: TextStyle(color: Colors.grey[600]),
                 ),
-                prefixIcon: Icon(
-                  Icons.search_rounded,
-                  color: Colors.grey[400],
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                labelText: "Enter Product Name",
-                labelStyle: TextStyle(color: Colors.grey[400]),
               ),
             ),
           ),
@@ -82,11 +95,11 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
                     padding: EdgeInsets.all(0.0),
                     itemBuilder: (context, index) => PredictionTile(
                       productPredictions:
-                      addressController.productPredictionList[index],
+                      productController.productPredictionList[index],
                     ),
-                    itemCount: addressController.productPredictionList.length,
+                    itemCount: productController.productPredictionList.length,
                     separatorBuilder: (BuildContext context, index) =>
-                        DividerWidget(),
+                       Divider(thickness: 0.4,),
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                   )),
@@ -101,6 +114,7 @@ class _SearchProductScreenState extends State<SearchProductScreen> {
 class PredictionTile extends StatelessWidget {
   final ProductModel? productPredictions;
   final AddressController addressController = Get.find();
+  final ProductsController productController = Get.find();
 
   PredictionTile({Key? key, this.productPredictions}) : super(key: key);
 
@@ -109,7 +123,11 @@ class PredictionTile extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        productController.getOneProductDetails(productPredictions!.id!);
 
+        Get.to(() => ProductDetails(
+          product: productPredictions,
+        ));
         // Navigator.pushAndRemoveUntil(
         //     context,
         //     MaterialPageRoute(builder: (context) => const AddressOnMap()),
@@ -123,25 +141,50 @@ class PredictionTile extends StatelessWidget {
             ),
             Row(
               children: [
-                Icon(Icons.add_location),
-                SizedBox(
-                  width: 14.0,
-                ),
+
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: CachedNetworkImage(
+                            //cacheManager: customCacheManager,
+                            key: UniqueKey(),
+                            imageUrl: '$baseURL/${productPredictions!.imageUrl}',
+                            height: screenSize.height * 0.3,
+                            width: screenSize.width * 0.5,
+                            maxHeightDiskCache: 110,
+                            fit: BoxFit.fill,
+                            placeholder: (context, url) =>
+                            const Center(child: CircularProgressIndicator()),
+                            errorWidget: (context, url, error) => Container(
+                              color: Colors.black,
+                              child: const Icon(
+                                Icons.error,
+                                color: Colors.red,
+                                size: 38,
+                              ),
+                            ),
+                          )),
+                      SizedBox(height: 6,),
                       Text(
-                        productPredictions!.ar_name!,
+                        productPredictions!.en_name!,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(fontSize: 16.0),
+                        style: const TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600,letterSpacing: 1),
+                      ),
+                      SizedBox(height: 6,),
+                      Text(
+                        productPredictions!.brand!,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontSize: 16.0,fontWeight: FontWeight.w600,letterSpacing: 1),
                       ),
                       SizedBox(height: 4.0),
                       Text(
-                        productPredictions!.price.toString(),
+                        "${productPredictions!.price.toString()} QAR",
                         overflow: TextOverflow.ellipsis,
                         style:
-                        TextStyle(fontSize: 12.0, color: Colors.grey[600]),
+                        TextStyle(fontSize: 14.0, color: Colors.grey[800],letterSpacing: 0.5),
                       ),
                       SizedBox(
                         height: 8,
@@ -151,9 +194,7 @@ class PredictionTile extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              width: 14.0,
-            ),
+
           ],
         ),
       ),

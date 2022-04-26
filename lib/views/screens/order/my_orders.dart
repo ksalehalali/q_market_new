@@ -35,9 +35,9 @@ class _MyOrdersState extends State<MyOrders> {
         child: Obx(()=>Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              cartController.gotMyOrders.value ==true ?cartController.buildOrderItem():Container(),
+              // cartController.gotMyOrders.value ==true ?cartController.buildOrderItem():Container(),
              cartController.gotMyOrders.value ==true ? SizedBox(
-                  height: screenSize.height -300,
+                  height: screenSize.height -100,
 
                   child: buildOrdersList()):Container(),
 
@@ -55,6 +55,7 @@ class _MyOrdersState extends State<MyOrders> {
 
   Widget buildOrdersList() {
     return CustomScrollView(
+      key: const Key('a'),
       scrollDirection: Axis.vertical,
       slivers: [
         Obx(
@@ -73,7 +74,7 @@ class _MyOrdersState extends State<MyOrders> {
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
                           width: 0.7,
-                          color: Colors.grey,
+                          color: myHexColor,
                         ),
                       ),
                       child: Padding(
@@ -90,7 +91,7 @@ class _MyOrdersState extends State<MyOrders> {
                                     SizedBox(
                                       width:screenSize.width *0.8-46,
                                       child: Text(
-                                        'Order ${cartController.myOrders[indexA]['id']}',overflow: TextOverflow.ellipsis,maxLines: 1,
+                                        'Order ${cartController.myOrders[indexA]['result']['id']}',maxLines: 1,
                                         style: TextStyle(
                                             fontSize: 12,
                                             color: Colors.grey[900],fontWeight: FontWeight.bold),
@@ -98,7 +99,7 @@ class _MyOrdersState extends State<MyOrders> {
                                     ),
                                     SizedBox(height: 2,),
                                     Text(
-                                      'Placed On  ${DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(cartController.myOrders[indexA]['orderDate']))}',
+                                      'Placed On  ${DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(cartController.myOrders[indexA]['result']['orderDate']))}',
                                       style: TextStyle(
                                           fontSize: 11,
                                           color: Colors.grey[700]),
@@ -124,11 +125,14 @@ class _MyOrdersState extends State<MyOrders> {
                               ],
                             ),
                             Divider(
-                              thickness: 1,
+                              thickness: 0.7,
                               height: 10,
                             ),
-
-                            // Text("${cartController.myOrdersDetails[0]['listProduct'][0]['product']}")
+                            
+                            SizedBox(
+                                height: screenSize.height *0.2,
+                                width: screenSize.width,
+                                child: _buildOrderProductsList(indexA))
                         ]),
                       ),
                     ),
@@ -145,6 +149,130 @@ class _MyOrdersState extends State<MyOrders> {
       ],
     );
   }
+
+  Widget _buildOrderProductsList(int indexA) {
+    return CustomScrollView(
+      key: const Key('b'),
+
+      scrollDirection: Axis.horizontal,
+      slivers: [
+        Obx(
+              () => SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    var price = cartController.myOrders[indexA]['result']['prduct'][index]["price"] *
+                        cartController.myOrders[indexA]['result']['prduct'][index]["offer"] /
+                        100;
+                return InkWell(
+                  onTap: () {
+
+                  },
+                  child:  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 3,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          ///to do
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              width: 80,
+                              child: Image.network(
+                                "$baseURL/${cartController.myOrders[indexA]['result']['prduct'][index]['image']}",
+                                height: 122,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Container(
+                              height: screenSize.height *0.1+30,
+
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  Text(
+                                    "${cartController.myOrders[indexA]['result']['prduct'][index]['product']}",
+                                    style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14),
+                                  ),
+
+                                  const SizedBox(
+                                    height: 8,
+                                  ),
+                                  SizedBox(
+                                    width: screenSize.width * 0.4 + 10,
+                                    child: Row(
+                                      children: [
+                                        Text(
+                                          "${cartController.myOrders[indexA]['result']['prduct'][index]["price"]} QAR".toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
+                                          style: const TextStyle(
+                                              decoration: TextDecoration.lineThrough,
+                                              fontFamily: 'Montserrat-Arabic Regular',
+                                              color: Colors.grey,
+                                              fontSize: 13),
+                                        ),
+                                        const SizedBox(
+                                          width: 7.0,
+                                        ),
+                                        Text(
+                                          "Discount ${cartController.myOrders[indexA]['result']['prduct'][index]["offer"]}%",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                              fontFamily: 'Montserrat-Arabic Regular',
+                                              color: myHexColor3,
+                                              fontSize: 13),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Text(
+                                    "${cartController.myOrders[indexA]['result']['prduct'][index]["price"] - price} QAR",
+                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                  ),
+
+                                  const SizedBox(
+                                    height: 12,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+
+                        ],
+                      ),
+
+
+
+                    ],
+                  ),
+                );
+
+              },
+              childCount: cartController.myOrders[indexA]['result']['prduct'].length,
+              semanticIndexOffset: 2,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget buildOrderItems(int indexA){
     print(indexA);
     return  SizedBox(

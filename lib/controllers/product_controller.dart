@@ -18,7 +18,7 @@ class ProductsController extends GetxController {
   var latestProducts = <ProductModel>[].obs;
   var recommendedProducts = <ProductModel>[].obs;
   var offersProducts = <ProductModel>[].obs;
-  List placePredictionList = [].obs;
+  List productPredictionList = [].obs;
 
   var catProducts = <ProductModel>[].obs;
   var favProducts = [].obs;
@@ -81,44 +81,6 @@ class ProductsController extends GetxController {
       print(response.reasonPhrase);
     }
     update();
-  }
-//
-  void findPlace(String placeName) async {
-    if (placeName.length > 1) {
-
-      placePredictionList.clear();
-      String autoCompleteUrl =
-          "https://api.mapbox.com/geocoding/v5/mapbox.places/$placeName.json?worldview=us&country=kw&access_token=$mapbox_token";
-
-      var res = await RequestAssistant.getRequest(autoCompleteUrl);
-
-
-      if (res == "failed") {
-        print('failed');
-        return;
-      }
-      if (res["features"] != null) {
-        print(res['status']);
-        var predictions = res["features"];
-
-        var placesList = (predictions as List)
-            .map((e) => PlacePredictions.fromJson(e))
-            .toList();
-
-        //placePredictionList = placesList;
-        placesList.forEach((element) {
-          placePredictionList.add(PlaceShort(
-              placeId: element.id,
-              mainText: element.text,
-              secondText: element.place_name,
-              lat: element.lat,
-              lng: element.lng
-          ));
-        });
-        print(placePredictionList.first.mainText);
-        update();
-      }
-    }
   }
 
 
@@ -273,6 +235,57 @@ class ProductsController extends GetxController {
     update();
   }
 
+  //
+  void findProduct(String productName) async {
+    productPredictionList.clear();
+
+    if (productName.length > 1) {
+
+      var headers = {
+        'Authorization': 'Bearer ${user.accessToken}',
+        'Content-Type': 'application/json'
+      };
+      var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/SearchProduct'));
+      request.body = json.encode({
+        "PageSize": 100,
+        "PageNumber": 1,
+        "KeyWord": productName
+      });
+      request.headers.addAll(headers);
+
+      http.StreamedResponse response = await request.send();
+
+      if (response.statusCode == 200) {
+        var json = jsonDecode(await response.stream.bytesToString());
+        var data = json['description'];
+        print("search list length == ${data.length}");
+        var predictions = data;
+        var placesList = (predictions as List)
+            .map((e) => ProductPredictions.fromJson(e))
+            .toList();
+
+        //placePredictionList = placesList;
+        placesList.forEach((element) {
+          productPredictionList.add(ProductModel(
+              id: element.id,
+              ar_name: element.ar_name,
+              en_name: element.en_name,
+              brand: element.brand,
+              imageUrl: element.imageUrl,
+              price: element.price));
+        });
+        update();
+
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+
+
+    }
+  }
+
   Future getOneProductDetails(String id) async {
     getDetailsDone.value = false;
     print('get prod id :: $id');
@@ -343,6 +356,7 @@ class ProductsController extends GetxController {
       await addImagesData();
       createImages(2);
       print(product);
+
     }
     offerFromPrice.value = productDetails.price! * productDetails.offer! / 100;
   }

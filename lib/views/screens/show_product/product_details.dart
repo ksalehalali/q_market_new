@@ -137,7 +137,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               alignment: Alignment.center,
                               children: [
                                 SvgPicture.asset(
-                                    '/Users/khaled/StudioProjects/q_market_n/assets/icons/cart-fill.svg',
+                                    'assets/icons/cart-fill.svg',
                                     alignment: Alignment.center,
                                     //color:,
                                     height: 26,
@@ -847,8 +847,8 @@ class _ProductDetailsState extends State<ProductDetails>
                 ],
               ),
             ),
-            bottomSheet: buildAddCartPrice(
-                widget.product!.price!, widget.product!.offer),
+            bottomSheet:productController.getDetailsDone.value ==true? buildAddCartPrice(
+                productController.productDetails.price!, productController.productDetails.offer):Container(),
           ),
         ),
       ),

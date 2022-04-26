@@ -26,6 +26,8 @@ class CartController extends GetxController {
   var cartProducts = [];
   var fullPrice = 0.0.obs;
   var countFromItem = 1.obs;
+
+
   Column buildCartItem() {
     cartItems.value = [];
     print("length ${myPrCartProducts.length}");
@@ -216,17 +218,14 @@ class CartController extends GetxController {
     );
   }
 
-  //orders
-  Column buildOrderItem() {
-    orderItems.value =[];
-    print("----0 ${myOrdersDetails[0]['listProduct']}");
-    print("----1 ${myOrdersDetails[1]['listProduct']}");
-    print("----2 ${myOrdersDetails[2]['listProduct']}");
-    print("----3 ${myOrdersDetails[3]['listProduct']}");
 
-    for (int i = 0; i < myOrdersDetails[0]['listProduct'].length; i++) {
-      var price = myOrdersDetails[0]['listProduct'][i]["price"] *
-          myOrdersDetails[0]['listProduct'][i]["offer"] /
+  //orders
+  Row buildOrderItem(int index) {
+    orderItems.value =[];
+
+    for (int i = 0; i < myOrders[index]['result']['prduct'].length; i++) {
+      var price = myOrders[index]['result']['prduct'][i]["price"] *
+          myOrders[index]['result']['prduct'][i]["offer"] /
           100;
 
       update();
@@ -241,31 +240,31 @@ class CartController extends GetxController {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+
+                ///to do
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: 100,
+                    child: Image.network(
+                      "$baseURL/${myOrders[index]['result']['prduct'][i]['image']}",
+                      height: 150,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "${myOrdersDetails[0]['listProduct'][i]['product']}",
+                      "${myOrders[index]['result']['prduct'][i]['product']}",
                       style: const TextStyle(
                           color: Colors.black54,
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "${myOrdersDetails[0]['listProduct'][i]["color"]}",
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "${myOrdersDetails[0]['listProduct'][i]["size"]}",
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
+
                     const SizedBox(
                       height: 8,
                     ),
@@ -274,7 +273,7 @@ class CartController extends GetxController {
                       child: Row(
                         children: [
                           Text(
-                            "${myOrdersDetails[0]['listProduct'][i]["price"]} QAR".toUpperCase(),
+                            "${myOrders[index]['result']['prduct'][i]["price"]} QAR".toUpperCase(),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             textAlign: TextAlign.left,
@@ -288,7 +287,7 @@ class CartController extends GetxController {
                             width: 7.0,
                           ),
                           Text(
-                            "Discount ${myOrdersDetails[0]['listProduct'][i]["offer"]}%",
+                            "Discount ${myOrders[index]['result']['prduct'][i]["offer"]}%",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             textAlign: TextAlign.left,
@@ -302,52 +301,19 @@ class CartController extends GetxController {
                     ),
                   ],
                 ),
-                ///to do
-                // ClipRRect(
-                //   borderRadius: BorderRadius.circular(10),
-                //   child: Container(
-                //     width: 100,
-                //     child: Image.network(
-                //       "$baseURL/${myPrCartProducts[i]['image']}",
-                //       height: 150,
-                //       fit: BoxFit.fill,
-                //     ),
-                //   ),
-                // ),
+
               ],
             ),
             Text(
-              "${myOrdersDetails[0]['listProduct'][i]["price"] - price} QAR",
+              "${myOrders[index]['result']['prduct'][i]["price"] - price} QAR",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              "seller ${myOrdersDetails[0]['userName']}",
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+
             const SizedBox(
               height: 12,
             ),
 
 
-
-                InkWell(
-                  onTap: (() => deleteProdFromCart(myPrCartProducts[i]['id'])),
-                  child: Row(
-                    children: const [
-                      Icon(
-                        Icons.delete_outline,
-                        color: Colors.red,
-                      ),
-                      Text(
-                        "Remove",
-                        style: TextStyle(color: Colors.red),
-                      )
-                    ],
-                  ),
-                )
               ],
             ),
       );
@@ -356,8 +322,7 @@ class CartController extends GetxController {
       update();
     }
     update();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return Row(
       children: [...orderItems],
     );
   }
@@ -494,10 +459,10 @@ class CartController extends GetxController {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
       myOrders.value =data;
-      for(int i =0; i<myOrders.length; i++){
-        await getOneOrder(myOrders[i]['id']);
-        print(myOrdersDetails[i]['listProduct'][0]['product']);
-      }
+      // for(int i =0; i<myOrders.length; i++){
+      //   await getOneOrder(myOrders[i]['id']);
+      //   print(myOrdersDetails[i]['listProduct'][0]['product']);
+      // }
       print(myOrdersDetails.length);
       gotMyOrders.value = true;
 

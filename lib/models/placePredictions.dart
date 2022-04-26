@@ -50,11 +50,14 @@ class ProductPredictions {
       this.categoryNameAR});
   ProductPredictions.fromJson(Map<String, dynamic> json){
     id =json["id"];
-    en_name =json["en_name"];
+    en_name =json["name_EN"];
     ar_name =json["name_AR"];
     userName =json["userName"];
     price =json["price"].toDouble();
     brand =json["brandNameEN"];
+    offer=json['offer'];
+    imageUrl =json['image'];
+
   }
 
 }
