@@ -20,7 +20,7 @@ class ProductsController extends GetxController {
   var offersProducts = <ProductModel>[].obs;
   List productPredictionList = [].obs;
 
-  var catProducts = <ProductModel>[].obs;
+  var cartProducts = <ProductModel>[].obs;
   var favProducts = [].obs;
 
   var gotProductsByCat = false.obs;
@@ -32,9 +32,7 @@ class ProductsController extends GetxController {
   var imagesData = [].obs;
   var getDetailsDone = false.obs;
   var imagesWidget = [[], [], [], [], []].obs;
-  var imagesWidget1 = [].obs;
-  var imagesWidget2 = [].obs;
-  var imagesWidget3 = [].obs;
+
   var productData = {};
   var sizes = [];
   var colors = [];
@@ -86,7 +84,7 @@ class ProductsController extends GetxController {
 
 //get products by cat
   Future getProductsByCat(String catId) async {
-    catProducts.value = [];
+    cartProducts.value = [];
     opacity.value = 0.0;
     gotProductsByCat.value = false;
     getDetailsDone.value = false;
@@ -102,12 +100,12 @@ class ProductsController extends GetxController {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      catProducts.value = [];
+      cartProducts.value = [];
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
 
       for (int i = 0; i < data.length; i++) {
-        catProducts.add(ProductModel(
+        cartProducts.add(ProductModel(
           id: data[i]['id'],
           en_name: data[i]['name_EN'],
           ar_name: data[i]['name_AR'],
@@ -128,7 +126,7 @@ class ProductsController extends GetxController {
       }
       gotProductsByCat.value = true;
       opacity.value = 1.0;
-      print(' products count :: ${catProducts.length}');
+      print(' products count :: ${cartProducts.length}');
       update();
     } else {
       print(response.reasonPhrase);
@@ -139,7 +137,7 @@ class ProductsController extends GetxController {
   //get products by cat home
   Future getProductsByCatHome(String catId, String cat) async {
     print(cat);
-    catProducts.value = [];
+    cartProducts.value = [];
     opacity.value = 0.0;
     gotProductsByCat.value = false;
     getDetailsDone.value = false;
@@ -363,9 +361,6 @@ class ProductsController extends GetxController {
 
   createImages(int indexX) {
     imagesWidget.value = [[], [], [], []];
-    imagesWidget1.value = [];
-    imagesWidget2.value = [];
-    imagesWidget3.value = [];
 
     for (int index = 0; index < imagesData.length; index++) {
       for (int i = 0; i < imagesData[index].imagesUrls!.length; i++) {
@@ -374,21 +369,24 @@ class ProductsController extends GetxController {
           imagesWidget[index].add(
             ClipRRect(
                 borderRadius: BorderRadius.circular(6),
-                child: CachedNetworkImage(
-                  //cacheManager: customCacheManager,
-                  key: UniqueKey(),
-                  imageUrl: '$baseURL/${imagesData[index].imagesUrls![i]}',
-                  height: screenSize.height * 0.2 + 20,
-                  width: screenSize.width * 0.4,
-                  maxHeightDiskCache: 110,
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) =>
-                      const Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Container(
-                    color: Colors.black,
-                    child: const Icon(
-                      Icons.error,
-                      color: Colors.red,
+                child: Hero(
+                  tag: productDetails.id!,
+                  child: CachedNetworkImage(
+                    //cacheManager: customCacheManager,
+                    key: UniqueKey(),
+                    imageUrl: '$baseURL/${imagesData[index].imagesUrls![i]}',
+                    height: screenSize.height * 0.2 + 20,
+                    width: screenSize.width * 0.4,
+                    maxHeightDiskCache: 110,
+                    fit: BoxFit.fill,
+                    placeholder: (context, url) =>
+                        const Center(child: CircularProgressIndicator()),
+                    errorWidget: (context, url, error) => Container(
+                      color: Colors.black,
+                      child: const Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
                     ),
                   ),
                 )),

@@ -40,7 +40,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                         onTap: () {
                           clearCache();
                           Get.back();
-                          productController.catProducts.value = [];
+                          productController.cartProducts.value = [];
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(

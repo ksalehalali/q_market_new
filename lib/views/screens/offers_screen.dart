@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:q_market_n/Assistants/globals.dart';
+import 'package:q_market_n/views/screens/show_product/product_details.dart';
 
 import '../../Data/data_for_ui.dart';
 import '../../controllers/product_controller.dart';
@@ -181,8 +182,27 @@ class _OffersScreenState extends State<OffersScreen> {
                     return ProductItemCard(
                       product: productController.recommendedProducts[index],
                       fromDetails: false,
-                      from: "home_ho_rec",
+                      from: "home_ho_rec", press: (){
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration:
+                          const Duration(milliseconds: 500),
+                          reverseTransitionDuration:
+                          const Duration(milliseconds: 500),
+                          pageBuilder: (context, animation,
+                              secondaryAnimation) =>
+                              FadeTransition(
+                                opacity: animation,
+                                child: ProductDetails(
+                                  product: productController.recommendedProducts[index],
+                                ),
+                              ),
+                        ),
+                      );
+                    },
                     );
+
                   },
                   childCount: productController.recommendedProducts.length,
                   semanticIndexOffset: 2,
@@ -207,7 +227,25 @@ class _OffersScreenState extends State<OffersScreen> {
                     return ProductItemCard(
                       product: productController.offersProducts[index],
                       fromDetails: false,
-                      from: "home_hor_offers",
+                      from: "home_hor_offers",press: (){
+                      Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          transitionDuration:
+                          const Duration(milliseconds: 500),
+                          reverseTransitionDuration:
+                          const Duration(milliseconds: 500),
+                          pageBuilder: (context, animation,
+                              secondaryAnimation) =>
+                              FadeTransition(
+                                opacity: animation,
+                                child: ProductDetails(
+                                  product: productController.recommendedProducts[index],
+                                ),
+                              ),
+                        ),
+                      );
+                    },
                     );
                   },
                   childCount: productController.offersProducts.length,

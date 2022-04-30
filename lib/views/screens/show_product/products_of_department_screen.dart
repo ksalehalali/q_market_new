@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:q_market_n/views/screens/show_product/product_details.dart';
 
 import '../../../Assistants/globals.dart';
 import '../../../controllers/catgories_controller.dart';
@@ -205,7 +206,7 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
                         InkWell(
                           onTap: () {
                             Get.back();
-                            productController.catProducts.value = [];
+                            productController.cartProducts.value = [];
                             categoriesController.departments.value = [];
                           },
                           child: Padding(
@@ -385,7 +386,7 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
         color: Colors.grey[50],
         child: Obx(
           () => GridView.builder(
-            itemCount: productController.catProducts.length,
+            itemCount: productController.cartProducts.length,
             scrollDirection: Axis.vertical,
             shrinkWrap: true,
             padding: EdgeInsets.zero,
@@ -399,10 +400,31 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
               return Padding(
                 padding: EdgeInsets.zero,
                 child: ProductItemCard(
-                  product: productController.catProducts[index],
+                  product: productController.cartProducts[index],
                   fromDetails: false,
                   from: 'dep',
-                ),
+    press: (){
+    Navigator.push(
+    context,
+    PageRouteBuilder(
+    transitionDuration:
+    const Duration(milliseconds: 500),
+    reverseTransitionDuration:
+    const Duration(milliseconds: 500),
+    pageBuilder: (context, animation,
+    secondaryAnimation) =>
+    FadeTransition(
+    opacity: animation,
+    child: ProductDetails(
+    product: productController.recommendedProducts[index],
+    ),
+    ),
+    ),
+    );
+    },
+    )
+
+
               );
             },
           ),

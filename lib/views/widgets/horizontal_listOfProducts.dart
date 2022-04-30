@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/product_controller.dart';
+import '../screens/show_product/product_details.dart';
 import '../screens/show_product/product_item.dart';
 
 Widget buildHorizontalListOfProducts(bool fromDetails) {
@@ -29,10 +30,54 @@ Widget buildHorizontalListOfProducts(bool fromDetails) {
                     () => SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                          return ProductItemCard(
-                            product: productController.latestProducts[index],
-                            fromDetails: fromDetails,
-                            from: 'home_hor',
+                          return InkWell(
+                            onTap: () {
+                              productController.getOneProductDetails(
+                                productController.latestProducts[index].id!,
+                              );
+
+                              Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                      transitionDuration:
+                                          const Duration(milliseconds: 500),
+                                      reverseTransitionDuration:
+                                          const Duration(milliseconds: 500),
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          FadeTransition(
+                                            opacity: animation,
+                                            child: ProductDetails(
+                                              product: productController
+                                                  .latestProducts[index],
+                                            ),
+                                          )));
+                            },
+                            child: ProductItemCard(
+                              product: productController.latestProducts[index],
+                              fromDetails: fromDetails,
+                              from: 'home_hor',
+                              press: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    transitionDuration:
+                                        const Duration(milliseconds: 500),
+                                    reverseTransitionDuration:
+                                        const Duration(milliseconds: 500),
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        FadeTransition(
+                                      opacity: animation,
+                                      child: ProductDetails(
+                                        product: productController
+                                            .recommendedProducts[index],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
                           );
                         },
                         childCount: productController.latestProducts.length,

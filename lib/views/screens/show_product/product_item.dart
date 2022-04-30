@@ -16,12 +16,14 @@ bool like = false;
 
 class ProductItemCard extends StatelessWidget {
   final ProductModel product;
+  final VoidCallback press;
   final bool fromDetails;
   final String from;
   ProductItemCard(
       {Key? key,
       required this.product,
       required this.fromDetails,
+        required this.press,
       required this.from})
       : super(key: key);
 
@@ -44,20 +46,23 @@ class ProductItemCard extends StatelessWidget {
     final screenSize = Get.size;
     return InkWell(
       onTap: () {
-        print("product id === ${product.id}");
         productController.getOneProductDetails(product.id!);
-        print(product.providerName);
-        if (fromDetails) {
-          Get.to(() => ProductDetails(
-                product: product,
-              ));
-        } else {
-          productController.getOneProductDetails(product.id!);
-
-          Get.to(() => ProductDetails(
-                product: product,
-              ));
-        }
+        press();
+        // print("product id === ${product.id}");
+        // productController.getOneProductDetails(product.id!);
+        // print(product.providerName);
+        // if (fromDetails) {
+        //   Get.to(() => ProductDetails(
+        //         product: product,
+        //       ));
+        //
+        // } else {
+        //   productController.getOneProductDetails(product.id!);
+        //
+        //   Get.to(() => ProductDetails(
+        //         product: product,
+        //       ));
+        // }
       },
       child: Container(
         height: 220,
@@ -75,35 +80,40 @@ class ProductItemCard extends StatelessWidget {
             InkWell(
               onTap: () {
                 productController.getOneProductDetails(product.id!);
-                print(product.providerName);
 
-                if (fromDetails) {
-                  Get.to(() => ProductDetails(
-                        product: product,
-                      ));
-                } else {
-                  Get.to(() => ProductDetails(
-                        product: product,
-                      ));
-                }
+                press();
+                // print(product.providerName);
+                //
+                // if (fromDetails) {
+                //   Get.to(() => ProductDetails(
+                //         product: product,
+                //       ));
+                // } else {
+                //   Get.to(() => ProductDetails(
+                //         product: product,
+                //       ));
+                // }
               },
               child: ClipRRect(
                   borderRadius: BorderRadius.circular(6),
-                  child: CachedNetworkImage(
-                    //cacheManager: customCacheManager,
-                    key: UniqueKey(),
-                    imageUrl: '$baseURL/${product.imageUrl}',
-                    height: screenSize.height * 0.2 + 20,
-                    width: screenSize.width * 0.4,
-                    maxHeightDiskCache: 110,
-                    fit: BoxFit.fill,
-                    placeholder: (context, url) =>
-                        const Center(child: CircularProgressIndicator()),
-                    errorWidget: (context, url, error) => Container(
-                      color: Colors.black,
-                      child: const Icon(
-                        Icons.error,
-                        color: Colors.red,
+                  child: Hero(
+                    tag: product.id!,
+                    child: CachedNetworkImage(
+                      //cacheManager: customCacheManager,
+                      key: UniqueKey(),
+                      imageUrl: '$baseURL/${product.imageUrl}',
+                      height: screenSize.height * 0.2 + 20,
+                      width: screenSize.width * 0.4,
+                      maxHeightDiskCache: 110,
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) => Container(
+                        color: Colors.black,
+                        child: const Icon(
+                          Icons.error,
+                          color: Colors.red,
+                        ),
                       ),
                     ),
                   )),
@@ -164,17 +174,20 @@ class ProductItemCard extends StatelessWidget {
               child: InkWell(
                 onTap: () {
                   productController.getOneProductDetails(product.id!);
-                  print(product.providerName);
 
-                  if (fromDetails) {
-                    Get.to(() => ProductDetails(
-                          product: product,
-                        ));
-                  } else {
-                    Get.to(() => ProductDetails(
-                          product: product,
-                        ));
-                  }
+                  press();
+                  // productController.getOneProductDetails(product.id!);
+                  // print(product.providerName);
+                  //
+                  // if (fromDetails) {
+                  //   Get.to(() => ProductDetails(
+                  //         product: product,
+                  //       ));
+                  // } else {
+                  //   Get.to(() => ProductDetails(
+                  //         product: product,
+                  //       ));
+                  // }
                 },
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

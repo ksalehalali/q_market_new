@@ -12,6 +12,7 @@ import '../../../controllers/account_controller.dart';
 import '../../../controllers/address_location_controller.dart';
 import '../../../controllers/product_controller.dart';
 import '../../../controllers/register_controller.dart';
+import '../../address/list_addresses.dart';
 import '../order/my_orders.dart';
 
 class Account extends StatelessWidget {
@@ -44,7 +45,7 @@ class Account extends StatelessWidget {
                           Text(
                             "Welcome.",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(56, 216, 218, 1.0),
                             ),
@@ -107,9 +108,9 @@ class Account extends StatelessWidget {
                             height: 8.0,
                           ),
                           Text(
-                            "Welcome.",
+                            "Welcome!",
                             style: TextStyle(
-                              fontSize: 20,
+                              fontSize: 16,
                               fontWeight: FontWeight.bold,
                               color: Color.fromRGBO(56, 216, 218, 1.0),
                             ),
@@ -118,7 +119,7 @@ class Account extends StatelessWidget {
                           Text(
                             "${accountController.username.value}",
                             style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black54),
                           ),
@@ -143,20 +144,12 @@ class Account extends StatelessWidget {
                               "My Account",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   color: Colors.black54,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
-                        InkWell(
-                            onTap: () {
-                              productController.getMyFav();
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => MyOrders()));
-                            },
-                            child: buildOptionRow(
-                                "My Orders List", Icons.shopping_cart)),
                         Container(
                           margin: EdgeInsets.symmetric(horizontal: 64.0),
                           child: Divider(
@@ -181,8 +174,10 @@ class Account extends StatelessWidget {
                         InkWell(
                             onTap: () {
                               addressController.getMyAddresses();
-                              // Navigator.of(context).push(MaterialPageRoute(
-                              //     builder: (context) => FavoriteScreen()));
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => ListAddresses(fromCart: false,)));
                             },
                             child: buildOptionRow(
                                 "Addresses List", Icons.location_on_outlined)),
@@ -200,8 +195,15 @@ class Account extends StatelessWidget {
                             thickness: 1,
                           ),
                         ),
-                        buildOptionRow(
-                            "My Orders", Icons.shopping_bag_outlined),
+                        InkWell(
+                          onTap: (){
+                            productController.getMyFav();
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => MyOrders()));
+                          },
+                          child: buildOptionRow(
+                              "My Orders", Icons.shopping_bag_outlined),
+                        ),
                       ],
                     )
                   : Container(),
@@ -217,7 +219,7 @@ class Account extends StatelessWidget {
                     "App Settings",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         color: Colors.black54,
                         fontWeight: FontWeight.bold),
                   ),
@@ -244,7 +246,7 @@ class Account extends StatelessWidget {
                     "Contact Us",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 17,
                         color: Colors.black54,
                         fontWeight: FontWeight.bold),
                   ),
@@ -316,14 +318,14 @@ class Account extends StatelessWidget {
 
   Widget buildOptionRow(String optionText, IconData optionIcon) {
     return Container(
-      height: 75,
+      height: 60,
       padding: EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Icon(
             optionIcon,
-            size: 30,
+            size: 28,
             color: Colors.black54,
           ),
           SizedBox(
@@ -332,7 +334,7 @@ class Account extends StatelessWidget {
           Text(
             optionText,
             style: TextStyle(
-                fontSize: 16,
+                fontSize: 14,
                 color: Colors.black54,
                 fontWeight: FontWeight.bold),
           ),
