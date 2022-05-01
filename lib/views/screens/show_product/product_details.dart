@@ -29,6 +29,8 @@ class ProductDetails extends StatefulWidget {
 
 int indexListImages = 0;
 double scaleOfCart=1.0;
+double scaleOfItem=1.0;
+
 int duration = 800;
 class _ProductDetailsState extends State<ProductDetails>
     with SingleTickerProviderStateMixin {
@@ -86,170 +88,216 @@ class _ProductDetailsState extends State<ProductDetails>
 
   @override
   Widget build(BuildContext context) {
-    double buttonSize = 21;
+    double buttonSize = 31;
     final screenSize = Get.size;
     return Stack(
+      key: Key('s2'),
       children: [
-        Obx(
-              () =>
+        Obx(() =>
               Container(
                 color: myHexColor,
+               
                 child: SafeArea(
                   top: true,
                   bottom: false,
                   child: Scaffold(
                     backgroundColor: Colors.white,
-                    body: SizedBox(
+                    body: Container(
                       height: screenSize.height,
                       width: screenSize.width,
-                      child: ListView(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        children: [
-                          const SizedBox(
-                            height: 4.0,
-                          ),
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Get.off(const ProductDetails());
-                                  Get.back();
+                      child: SingleChildScrollView(
 
-                                  print(
-                                      productController.latestProducts.length);
-                                },
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.only(right: 12.0, left: 10),
-                                  child: SvgPicture.asset(
-                                      'assets/icons/left arrow.svg',
-                                      alignment: Alignment.center,
-                                      //color:,
-                                      height: buttonSize,
-                                      width: buttonSize,
-                                      semanticsLabel: 'A red up arrow'),
-                                ),
-                              ),
-                              const Expanded(child: SearchAreaDesign()),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => const Cart()));
-                                },
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.symmetric(horizontal: 5),
-                                  child: Container(
-                                    height: 40,
-                                    width: 40,
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        AnimatedScale(
-                                          scale: scaleOfCart,
-                                          duration: duration.milliseconds,
-                                          alignment: Alignment.center,
-                                          curve: Curves.easeInOutBack,
-                                          child: SvgPicture.asset(
-                                              'assets/icons/cart-fill.svg',
-                                              alignment: Alignment.center,
-                                              //color:,
-                                              height: 29,
-                                              width: 29,
-                                              semanticsLabel: 'A red up arrow'),
-                                        ),
-                                        Positioned(
-                                            right: 0.0,
-                                            top: 0.0,
-                                            child: Container(
-                                                height: 14,
-                                                width: 14,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                    BorderRadius.circular(20),
-                                                    color: const Color.fromARGB(
-                                                        255, 246, 138, 24)),
-                                                child: Center(
-                                                  child: Obx(
-                                                        () =>
-                                                        Text(
-                                                          cartController
-                                                              .myPrCartProducts
-                                                              .length
-                                                              .toString(),
-                                                          textAlign: TextAlign
-                                                              .center,
-                                                          style: const TextStyle(
-                                                              fontSize: 10,
-                                                              color: Colors
-                                                                  .white),
-                                                        ),
-                                                  ),
-                                                )))
-                                      ],
-                                    ),
+                        child: Column(key: Key('l'),
+                         // padding: EdgeInsets.zero,
+                         // shrinkWrap: true,
+                          children: [
+                            const SizedBox(
+                              height: 4.0,
+                            ),
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    Get.off(const ProductDetails());
+                                    Get.back();
+
+                                    print(
+                                        productController.latestProducts.length);
+                                  },
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.only(right: 12.0, left: 10),
+                                    child: SvgPicture.asset(
+                                        'assets/icons/left arrow.svg',
+                                        alignment: Alignment.center,
+                                        //color:,
+                                        height: 22,
+                                        width: 22,
+                                        semanticsLabel: 'A red up arrow'),
                                   ),
                                 ),
-                              )
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Stack(
-                            children: [
-                              productController.getDetailsDone.value == true
-                                  ? Column(
-                                children: [
-                                  SizedBox(
-                                    height: screenSize.height * 0.4,
-                                    width: double.infinity,
-                                    child:
-                                    // InkWell(
-                                    //     onTap: (){
-                                    //       gallery();
-                                    //     },
-                                    //     child: Ink.image(image: NetworkImage("$baseURL/${productController.imagesData[0].imagesUrls[0]}",),height: 300,))
-
-                                    Obx(
-                                          () =>
-                                          Carousel(
-                                            onImageTap: (i) {
-                                              print(i);
-                                              gallery(i);
-                                            },
-                                            dotSize: 4.0,
-                                            dotSpacing: 15.0,
-                                            dotVerticalPadding: 00,
-                                            indicatorBgPadding: 14,
-                                            autoplay: true,
-                                            autoplayDuration: 7.seconds,
-                                            animationDuration: 900.milliseconds,
-                                            dotBgColor: Colors.transparent
-                                                .withOpacity(0.1),
-                                            dotColor: Colors.white,
-                                            dotIncreasedColor: Colors.red,
-                                            dotPosition: DotPosition.bottomLeft,
-                                            images: productController
-                                                .imagesWidget
-                                                .value[indexListImages],
+                                const Expanded(child: SearchAreaDesign()),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).push(MaterialPageRoute(
+                                        builder: (context) => const Cart()));
+                                  },
+                                  child: Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 5),
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          AnimatedScale(
+                                            scale: scaleOfCart,
+                                            duration: duration.milliseconds,
+                                            alignment: Alignment.center,
+                                            curve: Curves.easeInOutBack,
+                                            child: SvgPicture.asset(
+                                                'assets/icons/cart-fill.svg',
+                                                alignment: Alignment.center,
+                                                //color:,
+                                                height: 29,
+                                                width: 29,
+                                                semanticsLabel: 'A red up arrow'),
                                           ),
+                                          Positioned(
+                                              right: 0.0,
+                                              top: 0.0,
+                                              child: Container(
+                                                  height: 14,
+                                                  width: 14,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                      BorderRadius.circular(20),
+                                                      color: const Color.fromARGB(
+                                                          255, 246, 138, 24)),
+                                                  child: Center(
+                                                    child: Obx(
+                                                          () =>
+                                                          Text(
+                                                            cartController
+                                                                .myPrCartProducts
+                                                                .length
+                                                                .toString(),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: const TextStyle(
+                                                                fontSize: 10,
+                                                                color: Colors
+                                                                    .white),
+                                                          ),
+                                                    ),
+                                                  )))
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                ],
-                              )
-                                  : Center(
-                                  child: Container(
-                                      color: Colors.white,
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Stack(
+                              key:Key('s') ,
+                              children: [
+                                productController.getDetailsDone.value == true
+                                    ? Column(
+                                  children: [
+                                    SizedBox(
                                       height: screenSize.height * 0.4,
                                       width: double.infinity,
-                                      child: Image.asset(
-                                        'assets/images/animation/99353-loading-circle.gif',
-                                      ))),
-                              productController.getDetailsDone.value == true
-                                  ? Positioned(
-                                  top: 8.0,
+                                      child:
+                                      // InkWell(
+                                      //     onTap: (){
+                                      //       gallery();
+                                      //     },
+                                      //     child: Ink.image(image: NetworkImage("$baseURL/${productController.imagesData[0].imagesUrls[0]}",),height: 300,))
+
+                                      Obx(
+                                            () =>
+                                            Carousel(
+                                              onImageTap: (i) {
+                                                print(i);
+                                                gallery(i);
+                                              },
+                                              dotSize: 4.0,
+                                              dotSpacing: 15.0,
+                                              dotVerticalPadding: 00,
+                                              indicatorBgPadding: 14,
+                                              autoplay: false,
+                                              autoplayDuration: 7.seconds,
+                                              animationDuration: 900.milliseconds,
+                                              dotBgColor: Colors.transparent
+                                                  .withOpacity(0.1),
+                                              dotColor: Colors.white,
+                                              dotIncreasedColor: Colors.red,
+                                              dotPosition: DotPosition.bottomLeft,
+                                              images: productController
+                                                  .imagesWidget
+                                                  .value[indexListImages],
+                                            ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                                    : Center(
+                                    child: Container(
+                                        color: Colors.white,
+                                        height: screenSize.height * 0.4,
+                                        width: double.infinity,
+                                        child: Image.asset(
+                                          'assets/images/animation/99353-loading-circle.gif',
+                                        ))),
+                                productController.getDetailsDone.value == true
+                                    ? Positioned(
+                                    top: 8.0,
+                                    left: 10.0,
+                                    width: screenSize.width * .1 - 0,
+                                    height: screenSize.width * .1 - 0,
+                                    child: LikeButton(
+                                      size: buttonSize,
+                                      onTap: onLikeButtonTapped,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      // padding: EdgeInsets.only(
+                                      //     left: screenSize.width * .1 - 37,
+                                      //     top: 2),
+                                      circleColor: const CircleColor(
+                                          start: Color(0xff00ddff),
+                                          end: Color(0xff0099cc)),
+                                      bubblesColor: const BubblesColor(
+                                        dotPrimaryColor: Color(0xff33b5e5),
+                                        dotSecondaryColor: Color(0xff0099cc),
+                                      ),
+                                      likeBuilder: (bool isLiked) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50),
+                                            color: Colors.white,
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: SvgPicture.asset('assets/icons/heart.svg',
+                                                alignment: Alignment.center,
+                                                color: isLiked ? myHexColor3 : Colors.grey[600],
+                                                height: buttonSize,
+                                                width: buttonSize,
+                                                semanticsLabel: 'A red up arrow'),
+                                          ),
+                                        );
+                                      },
+                                    ))
+                                    : Container(),
+                                productController.getDetailsDone.value == true
+                                    ? Positioned(
+                                  top: screenSize.height * .1 - 28,
                                   left: 10.0,
                                   child: Container(
                                     padding: EdgeInsets.zero,
@@ -261,25 +309,25 @@ class _ProductDetailsState extends State<ProductDetails>
                                         BorderRadius.circular(100),
                                         color: Colors.white.withOpacity(.9)),
                                     child: LikeButton(
-                                      size: buttonSize,
-                                      onTap: onLikeButtonTapped,
+                                      size: buttonSize -10,
                                       crossAxisAlignment:
                                       CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                       MainAxisAlignment.center,
-                                      padding: EdgeInsets.only(
-                                          left: screenSize.width * .1 - 37,
-                                          top: 2),
+                                      onTap: (isLiked) async {
+                                        print('share');
+                                        return isLiked;
+                                      },
+
                                       circleColor: const CircleColor(
-                                          start: Color(0xff00ddff),
-                                          end: Color(0xff0099cc)),
+                                          start: Colors.grey, end: Colors.grey),
                                       bubblesColor: const BubblesColor(
                                         dotPrimaryColor: Color(0xff33b5e5),
                                         dotSecondaryColor: Color(0xff0099cc),
                                       ),
                                       likeBuilder: (bool isLiked) {
                                         return SvgPicture.asset(
-                                            'assets/icons/heart.svg',
+                                            'assets/icons/share3.svg',
                                             alignment: Alignment.center,
                                             color: isLiked
                                                 ? myHexColor3
@@ -289,338 +337,259 @@ class _ProductDetailsState extends State<ProductDetails>
                                             semanticsLabel: 'A red up arrow');
                                       },
                                     ),
-                                  ))
-                                  : Container(),
-                              productController.getDetailsDone.value == true
-                                  ? Positioned(
-                                top: screenSize.height * .1 - 28,
-                                left: 10.0,
-                                child: Container(
-                                  padding: EdgeInsets.zero,
-                                  margin: EdgeInsets.zero,
-                                  width: screenSize.width * .1 - 5,
-                                  height: screenSize.width * .1 - 5,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(100),
-                                      color: Colors.white.withOpacity(.9)),
-                                  child: LikeButton(
-                                    size: buttonSize,
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    onTap: (isLiked) async {
-                                      print('share');
-                                      return isLiked;
-                                    },
-                                    padding: EdgeInsets.only(
-                                        left: screenSize.width * .1 - 37,
-                                        top: 2),
-                                    circleColor: const CircleColor(
-                                        start: Colors.grey, end: Colors.grey),
-                                    bubblesColor: const BubblesColor(
-                                      dotPrimaryColor: Color(0xff33b5e5),
-                                      dotSecondaryColor: Color(0xff0099cc),
+                                  ),
+                                )
+                                    : Container()
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8.0,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 12.0,
+                                  ),
+                                  Text(
+                                    '${widget.product!.providerName}',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: myHexColor1),
+                                  ),
+                                  SizedBox(
+                                    height: screenSize.height * 0.1 - 76,
+                                  ),
+                                  Text(
+                                    widget.product!.en_name!.toUpperCase(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    height: screenSize.height * 0.1 - 76,
+                                  ),
+                                  Text(
+                                    '${widget.product!.price! -
+                                        productController.offerFromPrice
+                                            .value} QAR',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: Colors.black),
+                                  ),
+                                  SizedBox(
+                                    height: screenSize.height * 0.1 - 60,
+                                  ),
+                                  const Text(
+                                    'Size',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                        color: Colors.black),
+                                  ),
+                                  _buildSizesOptions(screenSize),
+                                  const SizedBox(
+                                    height: 22.0,
+                                  ),
+                                  const Text(
+                                    'Colors',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 14,
+                                        color: Colors.black),
+                                  ),
+                                  _buildColorsOptions(screenSize),
+                                  const SizedBox(
+                                    height: 22.0,
+                                  ),
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: Colors.grey[500]!,
+                                        )),
+                                    width: screenSize.width,
+                                    height: screenSize.height * 0.1 - 30,
+                                    child: Row(
+                                      children: [
+                                        const SizedBox(
+                                          width: 10.0,
+                                        ),
+                                        SvgPicture.asset(
+                                            'assets/icons/shipping.svg',
+                                            color: Colors.grey[600],
+                                            height: 18.00,
+                                            width: 18.0,
+                                            semanticsLabel: 'A red up arrow'),
+                                        const SizedBox(
+                                          width: 10.0,
+                                        ),
+                                        const Text('Delivery time :'),
+                                        const Spacer(),
+                                        const Text(' Jan 28 - Jan 30'),
+                                        SizedBox(
+                                          width: screenSize.width * 0.1 - 12,
+                                        )
+                                      ],
                                     ),
-                                    likeBuilder: (bool isLiked) {
-                                      return SvgPicture.asset(
-                                          'assets/icons/share3.svg',
-                                          alignment: Alignment.center,
-                                          color: isLiked
-                                              ? myHexColor3
-                                              : Colors.grey,
-                                          height: buttonSize,
-                                          width: buttonSize,
-                                          semanticsLabel: 'A red up arrow');
-                                    },
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 14.0),
+                              child: Container(
+                                margin: const EdgeInsets.symmetric(
+                                    horizontal: 0, vertical: 0),
+                                decoration: BoxDecoration(
+                                    color: Colors.grey[300],
+                                    borderRadius: BorderRadius.circular(3)),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 12),
+                                  child: Container(
+                                    color: Colors.white,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 18.0, horizontal: 12),
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                  'assets/images/svg/9593997931634472866.svg',
+                                                  // color: Colors.black,
+                                                  height: 21.00,
+                                                  width: 21.0,
+                                                  semanticsLabel: 'A red up arrow'),
+                                              const SizedBox(
+                                                width: 5.0,
+                                              ),
+                                              const Text(
+                                                'Seller',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 15),
+                                              ),
+                                              const SizedBox(
+                                                width: 8.0,
+                                              ),
+                                              Text(
+                                                'QR Market',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 16,
+                                                    color: myHexColor3),
+                                              ),
+                                              const Spacer(),
+                                              const Icon(
+                                                  Icons.keyboard_arrow_right)
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              )
-                                  : Container()
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8.0,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const SizedBox(
-                                  height: 12.0,
-                                ),
-                                Text(
-                                  '${widget.product!.providerName}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: myHexColor1),
-                                ),
-                                SizedBox(
-                                  height: screenSize.height * 0.1 - 76,
-                                ),
-                                Text(
-                                  widget.product!.en_name!.toUpperCase(),
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: screenSize.height * 0.1 - 76,
-                                ),
-                                Text(
-                                  '${widget.product!.price! -
-                                      productController.offerFromPrice
-                                          .value} QAR',
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: Colors.black),
-                                ),
-                                SizedBox(
-                                  height: screenSize.height * 0.1 - 60,
-                                ),
-                                const Text(
-                                  'Size',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14,
-                                      color: Colors.black),
-                                ),
-                                _buildSizesOptions(screenSize),
-                                const SizedBox(
-                                  height: 22.0,
-                                ),
-                                const Text(
-                                  'Colors',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 14,
-                                      color: Colors.black),
-                                ),
-                                _buildColorsOptions(screenSize),
-                                const SizedBox(
-                                  height: 22.0,
-                                ),
-                                Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(
-                                        width: 1,
-                                        color: Colors.grey[500]!,
-                                      )),
-                                  width: screenSize.width,
-                                  height: screenSize.height * 0.1 - 30,
-                                  child: Row(
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _color = myHexColor3;
+                                      _color2 = Colors.grey[700];
+                                      showOver = true;
+                                      showSpec = false;
+                                    });
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      AnimatedContainer(
+                                          duration: 11.seconds,
+                                          curve: Curves.easeIn,
+                                          child: Text('Overview',
+                                              style: TextStyle(
+                                                  color: _color,
+                                                  fontWeight: FontWeight.w500))),
                                       const SizedBox(
-                                        width: 10.0,
+                                        height: 10.0,
                                       ),
-                                      SvgPicture.asset(
-                                          'assets/icons/shipping.svg',
-                                          color: Colors.grey[600],
-                                          height: 18.00,
-                                          width: 18.0,
-                                          semanticsLabel: 'A red up arrow'),
+                                      AnimatedContainer(
+                                        curve: Curves.easeInOut,
+                                        width: screenSize.width / 2,
+                                        height: 2.5,
+                                        color: _color,
+                                        duration: 900.milliseconds,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      _color2 = myHexColor3;
+                                      _color = Colors.grey[700];
+                                      showOver = false;
+                                      showSpec = true;
+                                    });
+                                  },
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      AnimatedContainer(
+                                          curve: Curves.easeIn,
+                                          duration: 14.seconds,
+                                          child: Text(
+                                            'Specifications',
+                                            style: TextStyle(
+                                                color: _color2,
+                                                fontWeight: FontWeight.w500),
+                                          )),
                                       const SizedBox(
-                                        width: 10.0,
+                                        height: 10.0,
                                       ),
-                                      const Text('Delivery time :'),
-                                      const Spacer(),
-                                      const Text(' Jan 28 - Jan 30'),
-                                      SizedBox(
-                                        width: screenSize.width * 0.1 - 12,
+                                      AnimatedContainer(
+                                        curve: Curves.easeInOut,
+                                        width: screenSize.width / 2,
+                                        height: 2.5,
+                                        color: _color2,
+                                        duration: 900.milliseconds,
                                       )
                                     ],
                                   ),
                                 )
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 14.0),
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 0, vertical: 0),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey[300],
-                                  borderRadius: BorderRadius.circular(3)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12),
-                                child: Container(
-                                  color: Colors.white,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 18.0, horizontal: 12),
-                                        child: Row(
-                                          children: [
-                                            SvgPicture.asset(
-                                                'assets/images/svg/9593997931634472866.svg',
-                                                // color: Colors.black,
-                                                height: 21.00,
-                                                width: 21.0,
-                                                semanticsLabel: 'A red up arrow'),
-                                            const SizedBox(
-                                              width: 5.0,
-                                            ),
-                                            const Text(
-                                              'Seller',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 15),
-                                            ),
-                                            const SizedBox(
-                                              width: 8.0,
-                                            ),
-                                            Text(
-                                              'QR Market',
-                                              style: TextStyle(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 16,
-                                                  color: myHexColor3),
-                                            ),
-                                            const Spacer(),
-                                            const Icon(
-                                                Icons.keyboard_arrow_right)
-                                          ],
-                                        ),
-                                      )
-                                    ],
+                            showSpec
+                                ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      vertical: 14.0, horizontal: 12),
+                                  child: Text(
+                                    'Specifications',
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w800),
                                   ),
                                 ),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _color = myHexColor3;
-                                    _color2 = Colors.grey[700];
-                                    showOver = true;
-                                    showSpec = false;
-                                  });
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    AnimatedContainer(
-                                        duration: 11.seconds,
-                                        curve: Curves.easeIn,
-                                        child: Text('Overview',
-                                            style: TextStyle(
-                                                color: _color,
-                                                fontWeight: FontWeight.w500))),
-                                    const SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    AnimatedContainer(
-                                      curve: Curves.easeInOut,
-                                      width: screenSize.width / 2,
-                                      height: 2.5,
-                                      color: _color,
-                                      duration: 900.milliseconds,
-                                    )
-                                  ],
-                                ),
-                              ),
-                              InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    _color2 = myHexColor3;
-                                    _color = Colors.grey[700];
-                                    showOver = false;
-                                    showSpec = true;
-                                  });
-                                },
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    AnimatedContainer(
-                                        curve: Curves.easeIn,
-                                        duration: 14.seconds,
-                                        child: Text(
-                                          'Specifications',
-                                          style: TextStyle(
-                                              color: _color2,
-                                              fontWeight: FontWeight.w500),
-                                        )),
-                                    const SizedBox(
-                                      height: 10.0,
-                                    ),
-                                    AnimatedContainer(
-                                      curve: Curves.easeInOut,
-                                      width: screenSize.width / 2,
-                                      height: 2.5,
-                                      color: _color2,
-                                      duration: 900.milliseconds,
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          showSpec
-                              ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 14.0, horizontal: 12),
-                                child: Text(
-                                  'Specifications',
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w800),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 12),
-                                child: Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                        child: Text(
-                                          'Specifications',
-                                          style: TextStyle(
-                                              color: Colors.grey[900],
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                        width: screenSize.width * .5 - 30),
-                                    SizedBox(
-                                        width: screenSize.width * 0.5,
-                                        child: Text(
-                                          'Specifications Specifications Specifications Specifications Specifications',
-                                          maxLines: 3,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey[800],
-                                            fontSize: 11,
-                                          ),
-                                        )),
-                                    const Spacer()
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                color: myHexColor3.withOpacity(0.4),
-                                child: Padding(
+                                Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 12.0, horizontal: 12),
                                   child: Row(
@@ -629,7 +598,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                     children: [
                                       SizedBox(
                                           child: Text(
-                                            'Color name',
+                                            'Specifications',
                                             style: TextStyle(
                                                 color: Colors.grey[900],
                                                 fontSize: 11,
@@ -639,52 +608,53 @@ class _ProductDetailsState extends State<ProductDetails>
                                       SizedBox(
                                           width: screenSize.width * 0.5,
                                           child: Text(
-                                            productController.productDetails
-                                                .colorsData![0]['color'],
+                                            'Specifications Specifications Specifications Specifications Specifications',
                                             maxLines: 3,
                                             style: TextStyle(
-                                                color: Colors.grey[800],
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w500),
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey[800],
+                                              fontSize: 11,
+                                            ),
                                           )),
                                       const Spacer()
                                     ],
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 12),
-                                child: Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                        width: screenSize.width * .5 - 30,
-                                        child: Text(
-                                          'Department',
-                                          style: TextStyle(
-                                              color: Colors.grey[900],
-                                              fontSize: 11,
-                                              fontWeight: FontWeight.w600),
-                                        )),
-                                    Text(
-                                      productController
-                                          .productDetails.categoryNameEN!,
-                                      maxLines: 3,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey[800],
-                                        fontSize: 11,
-                                      ),
+                                Container(
+                                  color: myHexColor3.withOpacity(0.4),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 12),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                            child: Text(
+                                              'Color name',
+                                              style: TextStyle(
+                                                  color: Colors.grey[900],
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                            width: screenSize.width * .5 - 30),
+                                        SizedBox(
+                                            width: screenSize.width * 0.5,
+                                            child: Text(
+                                              productController.productDetails
+                                                  .colorsData![0]['color'],
+                                              maxLines: 3,
+                                              style: TextStyle(
+                                                  color: Colors.grey[800],
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w500),
+                                            )),
+                                        const Spacer()
+                                      ],
                                     ),
-                                    const Spacer()
-                                  ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                color: myHexColor3.withOpacity(0.4),
-                                child: Padding(
+                                Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 12.0, horizontal: 12),
                                   child: Row(
@@ -694,57 +664,58 @@ class _ProductDetailsState extends State<ProductDetails>
                                       SizedBox(
                                           width: screenSize.width * .5 - 30,
                                           child: Text(
-                                            'Offer',
+                                            'Department',
                                             style: TextStyle(
                                                 color: Colors.grey[900],
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w600),
                                           )),
                                       Text(
-                                        'Relaxed ',
+                                        productController
+                                            .productDetails.categoryNameEN!,
                                         maxLines: 3,
                                         style: TextStyle(
-                                            color: Colors.grey[800],
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[800],
+                                          fontSize: 11,
+                                        ),
                                       ),
                                       const Spacer()
                                     ],
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 12),
-                                child: Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                        width: screenSize.width * .5 - 30,
-                                        child: Text(
-                                          'Material',
+                                Container(
+                                  color: myHexColor3.withOpacity(0.4),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 12),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                            width: screenSize.width * .5 - 30,
+                                            child: Text(
+                                              'Offer',
+                                              style: TextStyle(
+                                                  color: Colors.grey[900],
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                        Text(
+                                          'Relaxed ',
+                                          maxLines: 3,
                                           style: TextStyle(
-                                              color: Colors.grey[900],
+                                              color: Colors.grey[800],
                                               fontSize: 11,
-                                              fontWeight: FontWeight.w600),
-                                        )),
-                                    Text(
-                                      'Cotton',
-                                      maxLines: 3,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey[800],
-                                        fontSize: 11,
-                                      ),
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const Spacer()
+                                      ],
                                     ),
-                                    const Spacer()
-                                  ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                color: myHexColor3.withOpacity(0.4),
-                                child: Padding(
+                                Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 12.0, horizontal: 12),
                                   child: Row(
@@ -754,145 +725,181 @@ class _ProductDetailsState extends State<ProductDetails>
                                       SizedBox(
                                           width: screenSize.width * .5 - 30,
                                           child: Text(
-                                            'Material Composition',
+                                            'Material',
                                             style: TextStyle(
                                                 color: Colors.grey[900],
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w600),
                                           )),
                                       Text(
-                                        '100% Organic Cotton ',
-                                        overflow: TextOverflow.ellipsis,
+                                        'Cotton',
                                         maxLines: 3,
                                         style: TextStyle(
-                                            color: Colors.grey[800],
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[800],
+                                          fontSize: 11,
+                                        ),
                                       ),
                                       const Spacer()
                                     ],
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 12.0, horizontal: 12),
-                                child: Row(
-                                  crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                        width: screenSize.width * .5 - 30,
-                                        child: Text(
-                                          'Model Number',
+                                Container(
+                                  color: myHexColor3.withOpacity(0.4),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 12),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                            width: screenSize.width * .5 - 30,
+                                            child: Text(
+                                              'Material Composition',
+                                              style: TextStyle(
+                                                  color: Colors.grey[900],
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                        Text(
+                                          '100% Organic Cotton ',
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 3,
                                           style: TextStyle(
-                                              color: Colors.grey[900],
+                                              color: Colors.grey[800],
                                               fontSize: 11,
-                                              fontWeight: FontWeight.w600),
-                                        )),
-                                    Text(
-                                      productController
-                                          .productDetails.modelName!,
-                                      maxLines: 3,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.grey[800],
-                                        fontSize: 11,
-                                      ),
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const Spacer()
+                                      ],
                                     ),
-                                    const Spacer()
-                                  ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                color: myHexColor3.withOpacity(0.4),
-                                child: Padding(
+                                Padding(
                                   padding: const EdgeInsets.symmetric(
                                       vertical: 12.0, horizontal: 12),
                                   child: Row(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.center,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                           width: screenSize.width * .5 - 30,
                                           child: Text(
-                                            'Season Code',
+                                            'Model Number',
                                             style: TextStyle(
                                                 color: Colors.grey[900],
                                                 fontSize: 11,
                                                 fontWeight: FontWeight.w600),
                                           )),
                                       Text(
-                                        'SS',
+                                        productController
+                                            .productDetails.modelName!,
                                         maxLines: 3,
                                         style: TextStyle(
-                                            color: Colors.grey[800],
-                                            fontSize: 11,
-                                            fontWeight: FontWeight.w500),
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.grey[800],
+                                          fontSize: 11,
+                                        ),
                                       ),
                                       const Spacer()
                                     ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                              : Container(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: const [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: 12.0,
-                                      left: 12.0,
-                                      top: 22.0,
-                                      bottom: 10),
-                                  child: Text(
-                                    'Highlights',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w800),
+                                Container(
+                                  color: myHexColor3.withOpacity(0.4),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 12.0, horizontal: 12),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                            width: screenSize.width * .5 - 30,
+                                            child: Text(
+                                              'Season Code',
+                                              style: TextStyle(
+                                                  color: Colors.grey[900],
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.w600),
+                                            )),
+                                        Text(
+                                          'SS',
+                                          maxLines: 3,
+                                          style: TextStyle(
+                                              color: Colors.grey[800],
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        const Spacer()
+                                      ],
+                                    ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 1.0, horizontal: 12),
-                                  child: Text(
-                                    'Highlights..........eee eeedsdsde fefe eeded edfed efdede efef eefde ee 6h6yh rrg tgtt trgf rf  rrrtrf rtrf.',
-                                    maxLines: 6,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w300),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                )
                               ],
+                            )
+                                : Container(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: const [
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        right: 12.0,
+                                        left: 12.0,
+                                        top: 22.0,
+                                        bottom: 10),
+                                    child: Text(
+                                      'Highlights',
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w800),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 1.0, horizontal: 12),
+                                    child: Text(
+                                      'Highlights..........eee eeedsdsde fefe eeded edfed efdede efef eefde ee 6h6yh rrg tgtt trgf rf  rrrtrf rtrf.',
+                                      maxLines: 6,
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 60,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                right: 12.0, left: 12.0, top: 22.0, bottom: 10),
-                            child: Text(
-                              'More from ${productController.product.value
-                                  .brand}',
-                              style: const TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w800),
+                            const SizedBox(
+                              height: 40,
                             ),
-                          ),
-                          buildHorizontalListOfProducts(true),
-                          const SizedBox(
-                            height: 60,
-                          ),
-                        ],
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    right: 12.0, left: 12.0, top: 22.0, bottom: 10),
+                                child: Text(
+                                  'More from ${productController.product.value
+                                      .brand}',
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w800),
+                                ),
+                              ),
+                            ),
+                            buildHorizontalListOfProducts(true),
+                            const SizedBox(
+                              height: 60,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     bottomSheet: productController.getDetailsDone.value == true
@@ -904,7 +911,9 @@ class _ProductDetailsState extends State<ProductDetails>
                 ),
               ),
         ),
+
         Container(
+          margin: EdgeInsets.only(top: screenSize.height *0.1 -54),
           width: MediaQuery
               .of(context)
               .size
@@ -912,7 +921,7 @@ class _ProductDetailsState extends State<ProductDetails>
           height: MediaQuery
               .of(context)
               .size
-              .height,
+              .height -50,
           child: flyingcart == null ? Container() : flyingcart,
         )
       ],
@@ -1051,11 +1060,18 @@ class _ProductDetailsState extends State<ProductDetails>
                   setState(() {
                     duration =800;
                     scaleOfCart=1.5;
+                    scaleOfItem =1.2;
                     flyingcart = Flyingcart();
                     //wait 2 second
                   });
 
-
+                  Future.delayed(Duration(milliseconds: 800), () {
+                    setState(() {
+                      scaleOfItem=0;
+                      duration = 500;
+                      scaleOfCart=1.0;
+                    });
+                  });
 
                   Future.delayed(Duration(seconds: 1), () {
                     setState(() {
@@ -1063,16 +1079,11 @@ class _ProductDetailsState extends State<ProductDetails>
                       //hide flycart and add number
                     });
                   });
-                  Future.delayed(Duration(milliseconds: 800), () {
-                    setState(() {
-                      duration = 500;
-                      scaleOfCart=1.0;
-                    });
-                  });
-                  // cartController.addToCart(
-                  //     productController.productData['id'],
-                  //     productController.productData['image'][0]['colorID'],
-                  //     productController.productData['size'][0]['sizeID']);
+
+                  cartController.addToCart(
+                      productController.productData['id'],
+                      productController.productData['image'][0]['colorID'],
+                      productController.productData['size'][0]['sizeID']);
                 },
                 child: Container(
                   height: 54,
@@ -1225,28 +1236,23 @@ class _FlyingcartState extends State<Flyingcart> with TickerProviderStateMixin {
                     //flying cart fly from bottom to top
                     RelativeRect.fromSize(
                         Rect.fromLTRB(
-                            biggest.width / 2 - 20,
-                            biggest.height - 20,
+                            biggest.width / 2 - 60,
+                            biggest.height - 60,
                             biggest.width / 2,
                             biggest.height),
                         biggest),
                     end: RelativeRect.fromSize(
                         Rect.fromLTRB(
-                            biggest.width - 58, 40, biggest.width, 110),
+                            biggest.width - 48, 10, biggest.width +10, 70),
                         biggest),
                   ).animate(
                       CurvedAnimation(
                           parent: _controller!, curve: Curves.ease)),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8,vertical: 10),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 0.6,color: myHexColor4)
-                      ),
-                      child:productController
-                          .imagesWidget
-                          .value[indexListImages][0],
-                    ),
+                    child: productController
+                        .imagesWidget
+                        .value[indexListImages][0],
                   ))
             ],
           );

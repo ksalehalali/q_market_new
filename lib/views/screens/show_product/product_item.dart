@@ -42,7 +42,7 @@ class ProductItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    double buttonSize = 22;
+    double buttonSize = 28;
     final screenSize = Get.size;
     return InkWell(
       onTap: () {
@@ -121,22 +121,18 @@ class ProductItemCard extends StatelessWidget {
             Positioned(
                 top: 8.0,
                 left: 10.0,
-                child: Container(
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  width: screenSize.width * .1 - 5,
-                  height: screenSize.width * .1 - 5,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      color: Colors.white.withOpacity(.9)),
+                width: screenSize.width * .1 - 5,
+                height: screenSize.width * .1 - 5,
+                child: Align(
+                  alignment: Alignment.center,
                   child: LikeButton(
                     size: buttonSize,
                     onTap: onLikeButtonTapped,
 
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
-                    padding: EdgeInsets.only(
-                        left: screenSize.width * .1 - 37, top: 2),
+                    // padding: EdgeInsets.only(
+                    //     left: screenSize.width * .1 - 37, top: 2),
                     circleColor: const CircleColor(
                         start: Color(0xff00ddff), end: Color(0xff0099cc)),
                     bubblesColor: const BubblesColor(
@@ -144,12 +140,21 @@ class ProductItemCard extends StatelessWidget {
                       dotSecondaryColor: Color(0xff0099cc),
                     ),
                     likeBuilder: (bool isLiked) {
-                      return SvgPicture.asset('assets/icons/heart.svg',
-                          alignment: Alignment.center,
-                          color: isLiked ? myHexColor3 : Colors.grey,
-                          height: buttonSize,
-                          width: buttonSize,
-                          semanticsLabel: 'A red up arrow');
+                      return Container(
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(50),
+                         color: Colors.white,
+                       ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: SvgPicture.asset('assets/icons/heart.svg',
+                              alignment: Alignment.center,
+                              color: isLiked ? myHexColor3 : Colors.grey[600],
+                              height: buttonSize,
+                              width: buttonSize,
+                              semanticsLabel: 'A red up arrow'),
+                        ),
+                      );
                     },
                     //likeCount: 665,
                     // countBuilder: (int? count, bool isLiked, String text) {

@@ -20,7 +20,7 @@ class _SearchAreaDesignState extends State<SearchAreaDesign> {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         child: Container(
-          height: 38,
+          height: 35,
           // width: 330,
           decoration: BoxDecoration(
               border: Border.all(width: 0.5,color: myHexColor),
@@ -33,7 +33,7 @@ class _SearchAreaDesignState extends State<SearchAreaDesign> {
 
                 Icon(
                   Icons.search,
-                  size: 30,
+                  size: 25,
                   color: Colors.grey,
                 ),
                 Text('What are you looking for?',

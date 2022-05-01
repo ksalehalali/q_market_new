@@ -370,7 +370,7 @@ class ProductsController extends GetxController {
             ClipRRect(
                 borderRadius: BorderRadius.circular(6),
                 child: Hero(
-                  tag: productDetails.id!,
+                  tag: "${productDetails.id!} details",
                   child: CachedNetworkImage(
                     //cacheManager: customCacheManager,
                     key: UniqueKey(),

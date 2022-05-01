@@ -26,8 +26,8 @@ class DepartmentShapeTile extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Container(
-            height: 63,
-            width: 63,
+            height: screenSize.height *0.1 -16,
+            width:  screenSize.height *0.1 -16,
             padding:  EdgeInsets.all(0.1),
             decoration:  BoxDecoration(
               color: myHexColor,
