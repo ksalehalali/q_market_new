@@ -4,7 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../Assistants/globals.dart';
 import '../../controllers/address_location_controller.dart';
-import '../screens/order/bay_options.dart';
+import '../../payment/bay_options.dart';
 import '../screens/order/Cart.dart';
 import '../screens/main_screen.dart';
 import 'add_address_screen.dart';

@@ -31,7 +31,7 @@ class _CartState extends State<Cart> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cartController.getMyCartProds();
+    cartController.getMyCartProds(false);
   }
 
   @override
@@ -44,127 +44,128 @@ class _CartState extends State<Cart> {
           //margin: const EdgeInsets.symmetric(horizontal: 0.0),
           width: MediaQuery.of(context).size.width,
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (!cartController.isCartEmpty.value)
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset("${assetsIconDir}sad cart.svg"),
-                        const SizedBox(
-                          height: 32,
-                        ),
-                        const Text(
-                          "Shopping cart is empty!",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        const Text(
-                          "Shop now & add things you love to the cart",
-                          style: TextStyle(fontSize: 16, color: Colors.black54),
-                        ),
-                      ],
-                    ),
-                  )
-                else
-                  Obx(
-                    () => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: Obx(()=>Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (!cartController.isCartEmpty.value)
+                    Container(
+                      width: MediaQuery.of(context).size.width,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          // DELIVERY ADDRESS
-                          Container(
-                            margin: const EdgeInsets.only(top: 16),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.directions_car_rounded,
-                                  color: Colors.black54,
-                                ),
-                                const SizedBox(
-                                  width: 8,
-                                ),
-                                const Text(
-                                  "Delivery address",
-                                  style: const TextStyle(color: Colors.black54),
-                                ),
-
-                                // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
-                                const Text(
-                                  "Address",
-                                  style: TextStyle(color: Colors.black54),
-                                ),
-                                const Spacer(),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MainScreen()));
-                                  },
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: const Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      color: Colors.black87,
-                                      size: 22,
-                                    ),
-                                  ),
-                                ),
-
-                              ],
+                          SvgPicture.asset("${assetsIconDir}sad cart.svg"),
+                          const SizedBox(
+                            height: 32,
+                          ),
+                          const Text(
+                            "Shopping cart is empty!",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(
-                            height: screenSize.height * 0.1 - 70,
+                          const SizedBox(
+                            height: 16,
                           ),
-                          const Divider(
-                            thickness: 1.0,
-                            color: Colors.black54,
+                          const Text(
+                            "Shop now & add things you love to the cart",
+                            style: TextStyle(fontSize: 16, color: Colors.black54),
                           ),
-                          SizedBox(
-                            height: screenSize.height * 0.1 - 70,
-                          ),
-                          cartController.gotMyCart.value == true
-                              ? cartController.buildCartItem()
-                              : Container(),
                         ],
+                      ),
+                    )
+                  else
+                    cartController.gotMyCart.value ==true? Obx(
+                      () => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Column(
+                          children: [
+                            // DELIVERY ADDRESS
+                            Container(
+                              margin: const EdgeInsets.only(top: 16),
+                              child: Row(
+                                children: [
+                                  const Icon(
+                                    Icons.directions_car_rounded,
+                                    color: Colors.black54,
+                                  ),
+                                  const SizedBox(
+                                    width: 8,
+                                  ),
+                                  const Text(
+                                    "Delivery address",
+                                    style: const TextStyle(color: Colors.black54),
+                                  ),
+
+                                  // TODO: REPLACE THE 'ADDRESS' WORD WITH THE ACTUAL VARIABLE NAME
+                                  const Text(
+                                    "Address",
+                                    style: TextStyle(color: Colors.black54),
+                                  ),
+                                  const Spacer(),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>MainScreen()));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                      child: const Icon(
+                                        Icons.arrow_forward_ios_rounded,
+                                        color: Colors.black87,
+                                        size: 22,
+                                      ),
+                                    ),
+                                  ),
+
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: screenSize.height * 0.1 - 70,
+                            ),
+                            const Divider(
+                              thickness: 1.0,
+                              color: Colors.black54,
+                            ),
+                            SizedBox(
+                              height: screenSize.height * 0.1 - 70,
+                            ),
+                            cartController.gotMyCart.value == true
+                                ? cartController.buildCartItem()
+                                : Container(),
+                          ],
+                        ),
+                      ),
+                    ):Container(),
+                  SizedBox(
+                    height: screenSize.height * 0.1 - 50,
+                  ),
+                  buildCartDetails(),
+                  SizedBox(
+                    height: screenSize.height * 0.1 - 50,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: Container(
+                      child: const Text(
+                        "Things you might like",
+                        style:
+                            TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ),
-                SizedBox(
-                  height: screenSize.height * 0.1 - 50,
-                ),
-                buildCartDetails(),
-                SizedBox(
-                  height: screenSize.height * 0.1 - 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Container(
-                    child: const Text(
-                      "Things you might like",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
+                  SizedBox(
+                    height: screenSize.height * 0.1 - 50,
                   ),
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.1 - 50,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: buildHorizontalListOfProducts(false),
-                ),
-                SizedBox(
-                  height: screenSize.height * 0.1 - 50,
-                ),
-              ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: buildHorizontalListOfProducts(false),
+                  ),
+                  SizedBox(
+                    height: screenSize.height * 0.1 - 50,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

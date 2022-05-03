@@ -7,34 +7,6 @@ import 'package:get_storage/get_storage.dart';
 import '../../Assistants/globals.dart';
 import '../../controllers/address_location_controller.dart';
 
-Future<void> showD(context) async {
-  final String mAPIKey =
-      "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL";
-
-  return await showDialog(
-      context: context,
-      builder: (context) {
-        int? value = 1;
-        double? kNetPos = 600;
-
-        return StatefulBuilder(builder: (context, setState) {
-          Timer(Duration(milliseconds: 2), () {
-            setState(() {
-              kNetPos = 290.0;
-            });
-          });
-          return Container(
-            width: screenSize.width,
-            child: AlertDialog(
-                backgroundColor: Colors.white,
-                insetPadding: EdgeInsets.only(top: 0.0),
-                contentPadding: EdgeInsets.all(5),
-                content: buildAddressesOptions()),
-          );
-        });
-      });
-}
-
 Widget buildAddressesOptions() {
   final AddressController addressController = Get.find();
 

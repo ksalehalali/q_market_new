@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:q_market_n/Assistants/globals.dart';
 
 class ProgressDialog extends StatelessWidget {
   String? message;
@@ -78,6 +80,66 @@ class ProgressDialogShowPayment extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class DialogHelper {
+  //show error dialog
+  static void showErroDialog({String title = 'Error', String? description = 'Something went wrong'}) {
+    Get.dialog(
+      Dialog(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                title,
+                style: Get.textTheme.headline4,
+              ),
+              Text(
+                description ?? '',
+                style: Get.textTheme.headline6,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  if (Get.isDialogOpen!) Get.back();
+                },
+                child: Text('Okay'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  //show toast
+  //show snack bar
+  //show loading
+  static void showLoading([String? message]) {
+    Get.dialog(
+      Dialog(
+        elevation: 1.0,
+        backgroundColor: Colors.transparent.withOpacity(0.0),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 8),
+             // Text(message ?? 'Loading...'),
+              Image.asset('assets/animations/98432-loading.gif',height: 140,width: 140,)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  //hide loading
+  static void hideLoading() {
+    if (Get.isDialogOpen!) Get.back();
   }
 }
 

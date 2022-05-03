@@ -1,14 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+// import 'package:myfatoorah_flutter/model/initpayment/MFInitiatePaymentRequest.dart';
+// import 'package:myfatoorah_flutter/model/initpayment/SDKInitiatePaymentResponse.dart';
+ import 'package:myfatoorah_flutter/myfatoorah_flutter.dart' as myFatoorah;
+import 'package:myfatoorah_flutter/utils/MFAPILanguage.dart';
+import 'package:myfatoorah_flutter/utils/MFCurrencyISO.dart';
+import 'package:myfatoorah_flutter/utils/MFResult.dart';
 import 'package:q_market_n/Assistants/globals.dart';
+import 'package:q_market_n/payment/payment_method_dialog.dart';
 import 'package:q_market_n/views/screens/order/Cart.dart';
 
-import '../../../controllers/address_location_controller.dart';
-import '../../../controllers/cart_controller.dart';
-import '../../address/list_addresses.dart';
+import '../controllers/address_location_controller.dart';
+import '../controllers/cart_controller.dart';
+
 
 class BayOptions extends StatefulWidget {
   const BayOptions({Key? key}) : super(key: key);
@@ -23,7 +29,27 @@ class _BayOptionsState extends State<BayOptions> {
   bool showAddressDetails=false;
   final AddressController addressController = Get.find();
   final CartController cartController = Get.find();
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    initS();
+  }
 
+initS()async{
+  var request = myFatoorah.MFInitiatePaymentRequest(cartController.fullPrice.value, MFCurrencyISO.KUWAIT_KWD);
+
+  myFatoorah.MFSDK.initiatePayment(request, MFAPILanguage.EN,
+          (MFResult<myFatoorah.MFInitiatePaymentResponse> result) => {
+
+        if(result.isSuccess()) {
+          print(result.response!.toJson().toString())
+        }
+        else {
+          print(result.error!.message)
+        }
+      });
+}
   @override
   Widget build(BuildContext context) {
     int indexAddress = storage.read("indexAddressSelected");
@@ -142,6 +168,8 @@ class _BayOptionsState extends State<BayOptions> {
                                 Radio(value: 1, groupValue: _value, onChanged: (int? val){
                                   setState(() {
                                     _value = val!;
+                                    print(val);
+
                                   });
                                 }),
                                 Text('Pay with card'),
@@ -169,6 +197,7 @@ class _BayOptionsState extends State<BayOptions> {
                                 Radio(value: 2, groupValue: _value, onChanged: (int? val){
                                   setState(() {
                                     _value =val!;
+                                    print(val);
                                   });
                                 }),
                                 Text('Pay with cash'),
@@ -292,8 +321,13 @@ class _BayOptionsState extends State<BayOptions> {
             Expanded(
               child: InkWell(
                   onTap: () {
-                    cartController.addNewOrder();
-                    //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,)));
+                    if(_value==1){
+                      showDialogCardsOptions(context);
+                    }else {
+                      cartController.addNewOrder('0','a',cartController.fullPrice.value.toDouble());
+                      //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,)));
+                    }
+
                   },
                   child: Container(
                     height: 44,

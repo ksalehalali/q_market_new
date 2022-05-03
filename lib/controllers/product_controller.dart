@@ -176,6 +176,8 @@ class ProductsController extends GetxController {
             providerName: data[i]['userName'],
             providerId: data[i]['userID'],
             brand: data[i]['brandName'],
+            desc_AR:data[i]['desc_AR'],
+            desc_EN:data[i]['desc_EN'],
           ));
         }
         print(' products count :: ${latestProducts.length}');
@@ -199,6 +201,8 @@ class ProductsController extends GetxController {
             providerName: data[i]['userName'],
             providerId: data[i]['userID'],
             brand: data[i]['brandName'],
+            desc_AR:data[i]['desc_AR'],
+            desc_EN:data[i]['desc_EN'],
           ));
         }
         print(' products count :: ${recommendedProducts.length}');
@@ -222,6 +226,8 @@ class ProductsController extends GetxController {
             providerName: data[i]['userName'],
             providerId: data[i]['userID'],
             brand: data[i]['brandName'],
+            desc_AR:data[i]['desc_AR'],
+            desc_EN:data[i]['desc_EN'],
           ));
         }
         print(' products count :: ${offersProducts.length}');
@@ -326,6 +332,8 @@ class ProductsController extends GetxController {
         providerId: productData['merchentID'],
         colorsData: productData['image'],
         brand: productData['brandName'],
+        desc_AR:productData['desc_AR'],
+        desc_EN:productData['desc_EN'],
       );
       productDetails = ProductModel(
         id: productData['id'],
@@ -347,6 +355,9 @@ class ProductsController extends GetxController {
         providerId: productData['merchentID'],
         colorsData: productData['image'],
         brand: productData['brandName'],
+        desc_AR:productData['desc_AR'],
+        desc_EN:productData['desc_EN'],
+
       );
       sizes = productData['size'];
       colors = productData['size'][0]['color'];

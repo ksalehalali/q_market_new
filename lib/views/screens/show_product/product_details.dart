@@ -67,6 +67,8 @@ class _ProductDetailsState extends State<ProductDetails>
   void initState() {
     // TODO: implement initState
     super.initState();
+    cartController.getMyCartProds(false);
+
   }
 
   @override
@@ -703,7 +705,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   fontWeight: FontWeight.w600),
                                             )),
                                         Text(
-                                          'Relaxed ',
+                                          '${productController.productDetails.offer.toString()} %',
                                           maxLines: 3,
                                           style: TextStyle(
                                               color: Colors.grey[800],
@@ -732,7 +734,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                 fontWeight: FontWeight.w600),
                                           )),
                                       Text(
-                                        'Cotton',
+                                        'any',
                                         maxLines: 3,
                                         style: TextStyle(
                                           fontWeight: FontWeight.w500,
@@ -763,7 +765,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                                   fontWeight: FontWeight.w600),
                                             )),
                                         Text(
-                                          '100% Organic Cotton ',
+                                          '100% any',
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 3,
                                           style: TextStyle(
@@ -818,14 +820,15 @@ class _ProductDetailsState extends State<ProductDetails>
                                         SizedBox(
                                             width: screenSize.width * .5 - 30,
                                             child: Text(
-                                              'Season Code',
+                                              'Merchant',
                                               style: TextStyle(
                                                   color: Colors.grey[900],
                                                   fontSize: 11,
                                                   fontWeight: FontWeight.w600),
                                             )),
                                         Text(
-                                          'SS',
+                                          productController
+                                              .productDetails.providerName!,
                                           maxLines: 3,
                                           style: TextStyle(
                                               color: Colors.grey[800],
@@ -839,43 +842,46 @@ class _ProductDetailsState extends State<ProductDetails>
                                 ),
                               ],
                             )
-                                : Container(
+                                : Align(
+                              alignment: Alignment.centerLeft,
+                                  child: Container(
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                        right: 12.0,
-                                        left: 12.0,
-                                        top: 22.0,
-                                        bottom: 10),
-                                    child: Text(
-                                      'Highlights',
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w800),
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children:  [
+                                    const Padding(
+                                      padding: EdgeInsets.only(
+                                          right: 12.0,
+                                          left: 12.0,
+                                          top: 22.0,
+                                          bottom: 10),
+                                      child: Text(
+                                        'Highlights',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w800),
+                                      ),
                                     ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        vertical: 1.0, horizontal: 12),
-                                    child: Text(
-                                      'Highlights..........eee eeedsdsde fefe eeded edfed efdede efef eefde ee 6h6yh rrg tgtt trgf rf  rrrtrf rtrf.',
-                                      maxLines: 6,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w300),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 1.0, horizontal: 12),
+                                      child: Text(
+                                        productController.productDetails.desc_EN.toString(),
+                                        maxLines: 6,
+                                        style: const TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w300),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    height: 50,
-                                  )
-                                ],
+                                    SizedBox(
+                                      height: 150,
+                                    )
+                                  ],
                               ),
                             ),
+                                ),
                             const SizedBox(
                               height: 40,
                             ),
@@ -1083,7 +1089,7 @@ class _ProductDetailsState extends State<ProductDetails>
                   cartController.addToCart(
                       productController.productData['id'],
                       productController.productData['image'][0]['colorID'],
-                      productController.productData['size'][0]['sizeID']);
+                      productController.productData['size'][0]['sizeID'],);
                 },
                 child: Container(
                   height: 54,

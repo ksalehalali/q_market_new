@@ -4,6 +4,8 @@ class ProductModel {
   final String? id;
   final String? en_name;
   final String? ar_name;
+  final String? desc_EN;
+  final String? desc_AR;
   final String? userName;
   final String? userId;
   final String? modelId;
@@ -29,7 +31,8 @@ class ProductModel {
         this.colorsData,
         this.general,
         this.special,
-
+        this.desc_AR,
+        this.desc_EN,
       this.ar_name,
       this.modelId,
       this.imageUrl,

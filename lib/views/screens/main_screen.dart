@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    cartController.getMyCartProds();
+
     productController.getProductsByCatHome(
         '0c348ba7-1873-425e-8e49-97e0ec8ceebe', 'recommended');
     productController.getProductsByCatHome(

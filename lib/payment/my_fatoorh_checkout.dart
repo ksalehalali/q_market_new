@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
+import 'package:q_market_n/Assistants/globals.dart';
+
+import '../controllers/cart_controller.dart';
+import '../views/screens/main_screen.dart';
 
 class MyFatoorah {
-  //final PaymentController walletController = Get.find();
+  final CartController cartController = Get.find();
   Future initiate(
       BuildContext context, double amount, int paymentMethodId) async {
     var request =
         new MFInitiatePaymentRequest(amount, MFCurrencyISO.KUWAIT_KWD);
 
-    MFSDK.initiatePayment(
+     MFSDK.initiatePayment(
         request,
         MFAPILanguage.EN,
         (MFResult<MFInitiatePaymentResponse> result) => {
@@ -21,7 +25,7 @@ class MyFatoorah {
                 {print(result.error!.message)}
             });
     setAppBar();
-    executePayment(context, amount, paymentMethodId);
+    await executePayment(context, amount, paymentMethodId);
     return request;
   }
 
@@ -45,7 +49,7 @@ class MyFatoorah {
               if (result.isSuccess())
                 {
                   res = result.response!.toJson(),
-                  //walletController.recharge(invoiceId:res['InvoiceId'],invoiceValue: res['InvoiceValue'],paymentGateway:res['InvoiceTransactions'][0]['PaymentGateway'],  ),
+               cartController.addNewOrder(res['InvoiceId'].toString(),res['InvoiceTransactions'][0]['PaymentGateway'], res['InvoiceValue'],  ),
 
                   print(result.response!.toJson().toString()),
                   // print("booody :: ${result.response!.toJson()}"),
@@ -54,7 +58,7 @@ class MyFatoorah {
                   // chargeSaved.createdDate = res['CreatedDate'],
                   // chargeSaved.paymentGateway =
                   //     res['InvoiceTransactions'][0]['PaymentGateway'],
-                  // Get.offAll(MainScreen(indexOfScreen: 1,))
+                   Get.offAll(const MainScreen())
                 }
               else
                 {
@@ -121,9 +125,9 @@ class MyFatoorah {
   //set app bar
   void setAppBar() {
     MFSDK.setUpAppBar(
-        title: "Routes",
+        title: "Q Market",
         titleColor: Colors.white, // Color(0xFFFFFFFF)
-        backgroundColor: Colors.blue.shade900, // Color(0xFF000000)
+        backgroundColor: myHexColor, // Color(0xFF000000)
         isShowAppBar: true); // For Android platform o
   }
 }

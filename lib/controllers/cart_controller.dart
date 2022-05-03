@@ -3,12 +3,13 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:q_market_n/controllers/base_controller.dart';
 
 import '../Assistants/globals.dart';
 import '../Data/current_data.dart';
 import '../models/product_model.dart';
 
-class CartController extends GetxController {
+class CartController extends GetxController with BaseController {
   var isCartEmpty = true.obs;
   var gotMyCart = false.obs;
   var itemsInserted = false.obs;
@@ -169,6 +170,7 @@ class CartController extends GetxController {
                         InkWell(
                           onTap: () {
                             countFromItem++;
+                            editProdCountCart(myPrCartProducts[i]['id'], countFromItem.value);
                           },
                           child: Container(
                             child: const Icon(Icons.add),
@@ -341,13 +343,15 @@ class CartController extends GetxController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
-      getMyCartProds();
+      getMyCartProds(true);
     } else {
       print(response.reasonPhrase);
     }
   }
 
   Future deleteProdFromCart(String prodId) async {
+    showLoading('loading');
+
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -361,13 +365,24 @@ class CartController extends GetxController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
-      getMyCartProds();
+      getMyCartProds(false);
+      hideLoading();
+
     } else {
+      hideLoading();
       print(response.reasonPhrase);
     }
   }
 
-  Future getMyCartProds() async {
+  Future getMyCartProds(bool fromAdd) async {
+    if(fromAdd){
+
+    }else{
+      Future.delayed(5.milliseconds,(){
+        showLoading('loading');
+      });
+    }
+
     gotMyCart.value = false;
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
@@ -388,13 +403,29 @@ class CartController extends GetxController {
       print(json);
       if (json['status'] == true) {
         myPrCartProducts.value = json['description'];
-
+        cartProducts = json['description'];
         gotMyCart.value = true;
         print('cart items = ${myPrCartProducts.length}');
         calculateFulPriceProducts(0);
+       if(fromAdd){
+
+       }else{
+         hideLoading();
+        }
         update();
+      }else{
+        if(fromAdd){
+
+        }else{
+          hideLoading();
+        }
       }
     } else {
+      if(fromAdd){
+      }else{
+        hideLoading();
+      }
+
       print('error in get cart items');
       print(response.reasonPhrase);
     }
@@ -409,9 +440,33 @@ class CartController extends GetxController {
           num.parse(myPrCartProducts[i]['price']) * offer / 100;
     }
   }
+
+  Future editProdCountCart(String id ,int count)async{
+    var headers = {
+      'Authorization': 'Bearer ${user.accessToken}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/EditCart'));
+    request.body = json.encode({
+      "id": id,
+      "Number": count
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
+  }
+
   final storage = GetStorage();
 
-  Future addNewOrder()async{
+  Future addNewOrder(String invoiceId,String paymentGateway,double invoiceValue)async{
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -420,9 +475,9 @@ class CartController extends GetxController {
     request.body = json.encode({
       "api_key": "u#XW|27@vl*8>n,sCr]qq)K@c^tpC}",
       "api_secret": "/IIOpP`[(9]e`#S1&Yx{zm_w(mkbMO",
-      "invoiceValue": fullPrice.toDouble(),
-      "invoiceId": "11212",
-      "paymentGateway": "test",
+      "invoiceValue": invoiceValue,
+      "invoiceId": invoiceId,
+      "paymentGateway": paymentGateway,
       "AddressID": storage.read("idAddressSelected"),
       "Payment": 0
     });

@@ -2,16 +2,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
+import 'package:q_market_n/Assistants/globals.dart';
 import '../../../Data/current_data.dart';
+import '../controllers/cart_controller.dart';
 import '../controllers/lang_controller.dart';
 import 'check_out.dart';
 import 'my_fatoorh_checkout.dart';
 
-Future<void> showD(context) async {
+Future<void> showDialogCardsOptions(context) async {
   final LangController lang = Get.find();
   final screenSize = MediaQuery.of(context).size;
   CheckOut checkOut = CheckOut();
   MyFatoorah myFatoorh = MyFatoorah();
+  final CartController cartController = Get.find();
 
   final String mAPIKey = "rLtt6JWvbUHDDhsZnfpAhpYk4dxYDQkbcPTyGaKp2TYqQgG7FGZ5Th_WD53Oq8Ebz6A53njUoo1w3pjU1D4vs_ZMqFiz_j0urb_BH9Oq9VZoKFoJEDAbRZepGcQanImyYrry7Kt6MnMdgfG5jn4HngWoRdKduNNyP4kzcp3mRv7x00ahkm9LAK7ZRieg7k1PDAnBIOG3EyVSJ5kK4WLMvYr7sCwHbHcu4A5WwelxYK0GMJy37bNAarSJDFQsJ2ZvJjvMDmfWwDVFEVe_5tOomfVNt6bOg9mexbGjMrnHBnKnZR1vQbBtQieDlQepzTZMuQrSuKn-t5XZM7V6fCW7oP-uXGX-sMOajeX65JOf6XVpk29DP6ro8WTAflCDANC193yof8-f5_EYY-3hXhJj7RBXmizDpneEQDSaSz5sFk0sV5qPcARJ9zGG73vuGFyenjPPmtDtXtpx35A-BVcOSBYVIWe9kndG3nclfefjKEuZ3m4jL9Gg1h2JBvmXSMYiZtp9MR5I6pvbvylU_PP5xJFSjVTIz7IQSjcVGO41npnwIxRXNRxFOdIUHn0tjQ-7LwvEcTXyPsHXcMD8WtgBh-wxR8aKX7WPSsT1O8d8reb2aR7K3rkV3K82K_0OgawImEpwSvp9MNKynEAJQS6ZHe_J_l77652xwPNxMRTMASk1ZsJL";
 
@@ -47,7 +50,7 @@ Future<void> showD(context) async {
                               Navigator.of(context).pop();
                             },
                             icon: Icon(Icons.cancel_outlined),
-                            color: Colors.blue.shade900,
+                            color: myHexColor,
                           )),
                       Positioned(
                         top: 190,
@@ -75,7 +78,7 @@ Future<void> showD(context) async {
                                     fontSize: 22, color: Colors.grey.shade900),
                                 children: [
                                   TextSpan(
-                                      text: fullPrice.toString(),
+                                      text: cartController.fullPrice.toString(),
                                       style: TextStyle(
                                           fontSize: 24,
                                           color: Colors.black,
@@ -105,7 +108,7 @@ Future<void> showD(context) async {
                                         value = 1;
                                         print(value);
 
-                                        myFatoorh.initiate(context, 0.0,1);
+                                        myFatoorh.initiate(context, cartController.fullPrice.value,1);
 
                                       });
                                     },
@@ -138,7 +141,7 @@ Future<void> showD(context) async {
                                       color: Colors.grey.shade300),
                                   child: InkWell(
                                     onTap: () {
-                                      myFatoorh.initiate(context, fullPrice,2);
+                                      myFatoorh.initiate(context,cartController.fullPrice.value ,2);
 
                                       // Navigator.of(context).push(
                                       //     MaterialPageRoute(
@@ -174,7 +177,7 @@ Future<void> showD(context) async {
                                     onTap: () {
                                         value = 1;
                                         print(value);
-                                        myFatoorh.initiate(context, fullPrice,2);
+                                        myFatoorh.initiate(context, cartController.fullPrice.value,2);
 
                                     },
                                     child: Padding(
