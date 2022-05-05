@@ -9,11 +9,12 @@ import 'package:myfatoorah_flutter/utils/MFAPILanguage.dart';
 import 'package:myfatoorah_flutter/utils/MFCurrencyISO.dart';
 import 'package:myfatoorah_flutter/utils/MFResult.dart';
 import 'package:q_market_n/Assistants/globals.dart';
+import 'package:q_market_n/Data/current_data.dart';
 import 'package:q_market_n/payment/payment_method_dialog.dart';
 import 'package:q_market_n/views/screens/order/Cart.dart';
 
-import '../controllers/address_location_controller.dart';
-import '../controllers/cart_controller.dart';
+import '../../../controllers/address_location_controller.dart';
+import '../../../controllers/cart_controller.dart';
 
 
 class BayOptions extends StatefulWidget {
@@ -169,7 +170,7 @@ initS()async{
                                   setState(() {
                                     _value = val!;
                                     print(val);
-
+                                    lastOrder.payment = 1;
                                   });
                                 }),
                                 Text('Pay with card'),
@@ -198,6 +199,8 @@ initS()async{
                                   setState(() {
                                     _value =val!;
                                     print(val);
+                                    lastOrder.payment = 0;
+
                                   });
                                 }),
                                 Text('Pay with cash'),

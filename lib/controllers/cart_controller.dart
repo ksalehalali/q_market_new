@@ -13,21 +13,20 @@ class CartController extends GetxController with BaseController {
   var isCartEmpty = true.obs;
   var gotMyCart = false.obs;
   var itemsInserted = false.obs;
-  var gotMyOrders =false.obs;
+  var gotMyOrders = false.obs;
   var cartItems = <Widget>[].obs;
   var orderItems = <Widget>[].obs;
 
   var myPrCartProducts = [].obs;
   var myOrders = [].obs;
   var myOrdersDetails = [].obs;
-  var ordersProdsWidget =[];
-  var listOfListOrdersWidget =[[],[]];
+  var ordersProdsWidget = [];
+  var listOfListOrdersWidget = [[], []];
 
   var oneOrderDetails = {}.obs;
   var cartProducts = [];
   var fullPrice = 0.0.obs;
   var countFromItem = 1.obs;
-
 
   Column buildCartItem() {
     cartItems.value = [];
@@ -170,7 +169,8 @@ class CartController extends GetxController with BaseController {
                         InkWell(
                           onTap: () {
                             countFromItem++;
-                            editProdCountCart(myPrCartProducts[i]['id'], countFromItem.value);
+                            editProdCountCart(
+                                myPrCartProducts[i]['id'], countFromItem.value);
                           },
                           child: Container(
                             child: const Icon(Icons.add),
@@ -220,10 +220,9 @@ class CartController extends GetxController with BaseController {
     );
   }
 
-
   //orders
   Row buildOrderItem(int index) {
-    orderItems.value =[];
+    orderItems.value = [];
 
     for (int i = 0; i < myOrders[index]['result']['prduct'].length; i++) {
       var price = myOrders[index]['result']['prduct'][i]["price"] *
@@ -242,7 +241,6 @@ class CartController extends GetxController with BaseController {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
                 ///to do
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
@@ -266,7 +264,6 @@ class CartController extends GetxController with BaseController {
                           fontWeight: FontWeight.bold,
                           fontSize: 16),
                     ),
-
                     const SizedBox(
                       height: 8,
                     ),
@@ -275,7 +272,8 @@ class CartController extends GetxController with BaseController {
                       child: Row(
                         children: [
                           Text(
-                            "${myOrders[index]['result']['prduct'][i]["price"]} QAR".toUpperCase(),
+                            "${myOrders[index]['result']['prduct'][i]["price"]} QAR"
+                                .toUpperCase(),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             textAlign: TextAlign.left,
@@ -303,21 +301,17 @@ class CartController extends GetxController with BaseController {
                     ),
                   ],
                 ),
-
               ],
             ),
             Text(
               "${myOrders[index]['result']['prduct'][i]["price"] - price} QAR",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(
               height: 12,
             ),
-
-
-              ],
-            ),
+          ],
+        ),
       );
       itemsInserted.value = true;
 
@@ -328,6 +322,7 @@ class CartController extends GetxController with BaseController {
       children: [...orderItems],
     );
   }
+
   Future addToCart(String prodId, colorId, sizeId) async {
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
@@ -367,7 +362,6 @@ class CartController extends GetxController with BaseController {
       print(await response.stream.bytesToString());
       getMyCartProds(false);
       hideLoading();
-
     } else {
       hideLoading();
       print(response.reasonPhrase);
@@ -375,10 +369,9 @@ class CartController extends GetxController with BaseController {
   }
 
   Future getMyCartProds(bool fromAdd) async {
-    if(fromAdd){
-
-    }else{
-      Future.delayed(5.milliseconds,(){
+    if (fromAdd) {
+    } else {
+      Future.delayed(5.milliseconds, () {
         showLoading('loading');
       });
     }
@@ -407,22 +400,20 @@ class CartController extends GetxController with BaseController {
         gotMyCart.value = true;
         print('cart items = ${myPrCartProducts.length}');
         calculateFulPriceProducts(0);
-       if(fromAdd){
-
-       }else{
-         hideLoading();
+        if (fromAdd) {
+        } else {
+          hideLoading();
         }
         update();
-      }else{
-        if(fromAdd){
-
-        }else{
+      } else {
+        if (fromAdd) {
+        } else {
           hideLoading();
         }
       }
     } else {
-      if(fromAdd){
-      }else{
+      if (fromAdd) {
+      } else {
         hideLoading();
       }
 
@@ -441,37 +432,35 @@ class CartController extends GetxController with BaseController {
     }
   }
 
-  Future editProdCountCart(String id ,int count)async{
+  Future editProdCountCart(String id, int count) async {
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/EditCart'));
-    request.body = json.encode({
-      "id": id,
-      "Number": count
-    });
+    var request = http.Request(
+        'POST', Uri.parse('https://dashcommerce.click68.com/api/EditCart'));
+    request.body = json.encode({"id": id, "Number": count});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
-    }
-    else {
+    } else {
       print(response.reasonPhrase);
     }
-
   }
 
   final storage = GetStorage();
 
-  Future addNewOrder(String invoiceId,String paymentGateway,double invoiceValue)async{
+  Future addNewOrder(
+      String invoiceId, String paymentGateway, double invoiceValue) async {
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/AddOrder'));
+    var request = http.Request(
+        'POST', Uri.parse('https://dashcommerce.click68.com/api/AddOrder'));
     request.body = json.encode({
       "api_key": "u#XW|27@vl*8>n,sCr]qq)K@c^tpC}",
       "api_secret": "/IIOpP`[(9]e`#S1&Yx{zm_w(mkbMO",
@@ -486,26 +475,30 @@ class CartController extends GetxController with BaseController {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      print(await response.stream.bytesToString());
-    }
-    else {
+      var json = jsonDecode(await response.stream.bytesToString());
+      var data = json['description'];
+      lastOrder.addressID = storage.read("idAddressSelected");
+      lastOrder.id = data['message'];
+      lastOrder.invoiceValue = invoiceValue;
+      lastOrder.invoiceId = invoiceId;
+      lastOrder.payment = 0;
+      getOneOrder(data['message']);
+      print(" order done .--- ${data}");
+    } else {
       print(response.reasonPhrase);
     }
-
   }
 
-  Future getMyOrders()async{
+  Future getMyOrders() async {
     gotMyOrders.value = false;
     myOrdersDetails.value = [];
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/ListOrderByUser'));
-    request.body = json.encode({
-      "PageNumber": "0",
-      "SizeNumber": "22"
-    });
+    var request = http.Request('POST',
+        Uri.parse('https://dashcommerce.click68.com/api/ListOrderByUser'));
+    request.body = json.encode({"PageNumber": "0", "SizeNumber": "22"});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -513,30 +506,26 @@ class CartController extends GetxController with BaseController {
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
-      myOrders.value =data;
+      myOrders.value = data;
       // for(int i =0; i<myOrders.length; i++){
       //   await getOneOrder(myOrders[i]['id']);
       //   print(myOrdersDetails[i]['listProduct'][0]['product']);
       // }
       print(myOrdersDetails.length);
       gotMyOrders.value = true;
-
-    }
-    else {
+    } else {
       print(response.reasonPhrase);
     }
-
   }
 
-  Future getOneOrder(String id)async{
+  Future getOneOrder(String id) async {
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
     };
-    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/GetOrder'));
-    request.body = json.encode({
-      "id": id
-    });
+    var request = http.Request(
+        'POST', Uri.parse('https://dashcommerce.click68.com/api/GetOrder'));
+    request.body = json.encode({"id": id});
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
@@ -545,16 +534,13 @@ class CartController extends GetxController with BaseController {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
       oneOrderDetails.value = data;
-      myOrdersDetails.add(data);
 
       print(oneOrderDetails);
-
-    }
-    else {
+    } else {
       print(response.reasonPhrase);
     }
-
   }
+
   @override
   void onInit() {
     // TODO: implement onInit

@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../Assistants/globals.dart';
 import '../../../controllers/cart_controller.dart';
+import 'order_done_screen.dart';
+import 'order_summary.dart';
 
 class MyOrders extends StatefulWidget {
   const MyOrders({Key? key}) : super(key: key);
@@ -40,7 +42,6 @@ class _MyOrdersState extends State<MyOrders> {
                   height: screenSize.height -100,
 
                   child: buildOrdersList()):Container(),
-
            
             ],
           ),
@@ -65,7 +66,7 @@ class _MyOrdersState extends State<MyOrders> {
 
                 return InkWell(
                   onTap: () {
-
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> OrderSummary()));
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(5.0),

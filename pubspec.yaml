@@ -54,7 +54,8 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   intl_phone_number_input: ^0.7.0+2
   myfatoorah_flutter: ^2.1.5
-
+  cupertino_stepper: ^0.2.1
+  timelines: ^0.1.0
 
 dependency_overrides:
   photo_view:
@@ -96,6 +97,7 @@ flutter:
     - assets/icons/
     - assets/images/svg/
     - assets/images/animation/
+    - assets/images/process_timeline/
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
