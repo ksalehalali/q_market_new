@@ -12,7 +12,8 @@ import 'address_on_map.dart';
 
 class ListAddresses extends StatefulWidget {
   bool fromCart ;
-   ListAddresses({Key? key,required this.fromCart}) : super(key: key);
+  bool fromAccount;
+   ListAddresses({Key? key,required this.fromCart,required this.fromAccount}) : super(key: key);
 
   @override
   State<ListAddresses> createState() => _ListAddressesState();
@@ -60,13 +61,15 @@ class _ListAddressesState extends State<ListAddresses> {
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (context) => const Cart()));
+                            }else if(widget.fromAccount ==true){
+                              Navigator.of(context).pop();
                             }else{
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
                                       builder: (context) => const MainScreen()));
                             }
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.cancel_outlined,
                             size: 28,
                             color: Colors.grey,
@@ -144,6 +147,7 @@ class _ListAddressesState extends State<ListAddresses> {
                         }
                       }
                     });
+                    if(widget.fromAccount ==true)return;
                     if(widget.fromCart ==false){
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(

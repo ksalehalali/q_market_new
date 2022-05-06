@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(
                               builder: (context) => ListAddresses(
                                     fromCart: false,
+                                fromAccount: false,
                                   )));
                     },
                     child: Padding(

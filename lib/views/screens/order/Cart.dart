@@ -297,7 +297,7 @@ class _CartState extends State<Cart> {
           Expanded(
             child: InkWell(
                 onTap: () {
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,)));
+                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,fromAccount: false,)));
                 },
                 child: Container(
                   height: 54,

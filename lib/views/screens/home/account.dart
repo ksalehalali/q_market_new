@@ -174,10 +174,10 @@ class Account extends StatelessWidget {
                         InkWell(
                             onTap: () {
                               addressController.getMyAddresses();
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => ListAddresses(fromCart: false,)));
+                                      builder: (context) => ListAddresses(fromCart: false,fromAccount: true,)));
                             },
                             child: buildOptionRow(
                                 "Addresses List", Icons.location_on_outlined)),

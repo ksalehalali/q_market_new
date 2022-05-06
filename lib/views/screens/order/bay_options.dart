@@ -323,12 +323,11 @@ initS()async{
           children: [
             Expanded(
               child: InkWell(
-                  onTap: () {
+                  onTap: () async{
                     if(_value==1){
                       showDialogCardsOptions(context);
                     }else {
-                      cartController.addNewOrder('0','a',cartController.fullPrice.value.toDouble());
-                      //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> ListAddresses(fromCart: true,)));
+                      cartController.addNewOrder('0','Cash',cartController.fullPrice.value.toDouble());
                     }
 
                   },

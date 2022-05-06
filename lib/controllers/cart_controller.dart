@@ -8,6 +8,7 @@ import 'package:q_market_n/controllers/base_controller.dart';
 import '../Assistants/globals.dart';
 import '../Data/current_data.dart';
 import '../models/product_model.dart';
+import '../views/screens/order/order_summary.dart';
 
 class CartController extends GetxController with BaseController {
   var isCartEmpty = true.obs;
@@ -25,6 +26,7 @@ class CartController extends GetxController with BaseController {
 
   var oneOrderDetails = {}.obs;
   var cartProducts = [];
+  var cartProductsCounts =[].obs;
   var fullPrice = 0.0.obs;
   var countFromItem = 1.obs;
 
@@ -36,7 +38,8 @@ class CartController extends GetxController with BaseController {
       var price = num.parse(myPrCartProducts[i]["price"]) *
           num.parse(myPrCartProducts[i]["offer"]) /
           100;
-
+      countFromItem.value =myPrCartProducts[i]['number'];
+      cartProductsCounts.add(myPrCartProducts[i]['number']);
       update();
 
       cartItems.add(
@@ -162,15 +165,18 @@ class CartController extends GetxController with BaseController {
                         const SizedBox(
                           width: 8,
                         ),
-                        Text("$countFromItem"),
+                        Obx(()=> Text("${cartProductsCounts.value[i]}")),
                         const SizedBox(
                           width: 8,
                         ),
                         InkWell(
                           onTap: () {
-                            countFromItem++;
+                            countFromItem.value++;
+                            cartProductsCounts[i]++;
+                            print(cartProductsCounts[i]);
                             editProdCountCart(
-                                myPrCartProducts[i]['id'], countFromItem.value);
+                                myPrCartProducts[i]['id'], cartProductsCounts.value[i]);
+                            update();
                           },
                           child: Container(
                             child: const Icon(Icons.add),
@@ -482,8 +488,10 @@ class CartController extends GetxController with BaseController {
       lastOrder.invoiceValue = invoiceValue;
       lastOrder.invoiceId = invoiceId;
       lastOrder.payment = 0;
-      getOneOrder(data['message']);
+      await getOneOrder(data['message']);
+      Get.offAll(OrderSummary(fromOrdersList: false,));
       print(" order done .--- ${data}");
+
     } else {
       print(response.reasonPhrase);
     }

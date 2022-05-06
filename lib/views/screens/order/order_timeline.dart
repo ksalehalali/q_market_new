@@ -13,6 +13,9 @@ const inProgressColor = Color(0xff5ec792);
 const todoColor = Color(0xffd1d2d7);
 
 class OrderTimeLine extends StatefulWidget {
+  final status;
+
+  const OrderTimeLine({Key? key,this.status}) : super(key: key);
   @override
   _OrderTimeLineState createState() => _OrderTimeLineState();
 }
@@ -29,7 +32,12 @@ class _OrderTimeLineState extends State<OrderTimeLine> {
       return todoColor;
     }
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _processIndex = widget.status;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

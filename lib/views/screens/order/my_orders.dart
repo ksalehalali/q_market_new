@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../../Assistants/globals.dart';
 import '../../../controllers/cart_controller.dart';
-import 'order_done_screen.dart';
 import 'order_summary.dart';
 
 class MyOrders extends StatefulWidget {
@@ -64,51 +63,52 @@ class _MyOrdersState extends State<MyOrders> {
             delegate: SliverChildBuilderDelegate(
                   (context, indexA) {
 
-                return InkWell(
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> OrderSummary()));
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(
-                          width: 0.7,
-                          color: myHexColor,
-                        ),
+                return Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      border: Border.all(
+                        width: 0.7,
+                        color: myHexColor,
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(7.0),
-                        child: Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width:screenSize.width *0.8-46,
-                                      child: Text(
-                                        'Order ${cartController.myOrders[indexA]['result']['id']}',maxLines: 1,
-                                        style: TextStyle(
-                                            fontSize: 12,
-                                            color: Colors.grey[900],fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                    SizedBox(height: 2,),
-                                    Text(
-                                      'Placed On  ${DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(cartController.myOrders[indexA]['result']['orderDate']))}',
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(7.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    width:screenSize.width *0.8-46,
+                                    child: Text(
+                                      'Order ${cartController.myOrders[indexA]['result']['id']}',maxLines: 1,
                                       style: TextStyle(
-                                          fontSize: 11,
-                                          color: Colors.grey[700]),
+                                          fontSize: 12,
+                                          color: Colors.grey[900],fontWeight: FontWeight.bold),
                                     ),
-                                  ],
-                                ),
-                                Spacer(),
-                                Padding(
+                                  ),
+                                  SizedBox(height: 2,),
+                                  Text(
+                                    'Placed On  ${DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(cartController.myOrders[indexA]['result']['orderDate']))}',
+                                    style: TextStyle(
+                                        fontSize: 11,
+                                        color: Colors.grey[700]),
+                                  ),
+                                ],
+                              ),
+                              Spacer(),
+                              InkWell(
+                                onTap: () async{
+                                  await cartController.getOneOrder(cartController.myOrders[indexA]['result']['id']);
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> OrderSummary(fromOrdersList: true,)));
+                                },
+                                child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 6.0, vertical: 2),
                                   child: Row(
@@ -122,20 +122,20 @@ class _MyOrdersState extends State<MyOrders> {
                                     ],
                                   ),
                                 ),
+                              ),
 
-                              ],
-                            ),
-                            Divider(
-                              thickness: 0.7,
-                              height: 10,
-                            ),
-                            
-                            SizedBox(
-                                height: screenSize.height *0.2,
-                                width: screenSize.width,
-                                child: _buildOrderProductsList(indexA))
-                        ]),
-                      ),
+                            ],
+                          ),
+                          Divider(
+                            thickness: 0.7,
+                            height: 10,
+                          ),
+
+                          SizedBox(
+                              height: screenSize.height *0.2,
+                              width: screenSize.width,
+                              child: _buildOrderProductsList(indexA))
+                      ]),
                     ),
                   ),
                 );
@@ -281,6 +281,8 @@ class _MyOrdersState extends State<MyOrders> {
       height: 100,
       child: CustomScrollView(
         scrollDirection: Axis.horizontal,
+        physics: ScrollPhysics(),
+
         slivers: [
           Obx(
                 () => SliverList(

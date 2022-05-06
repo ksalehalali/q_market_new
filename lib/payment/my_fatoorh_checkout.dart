@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:myfatoorah_flutter/myfatoorah_flutter.dart';
 import 'package:q_market_n/Assistants/globals.dart';
 
+import '../controllers/base_controller.dart';
 import '../controllers/cart_controller.dart';
-import '../views/screens/main_screen.dart';
+import '../services/app_exceptions.dart';
+import '../views/widgets/progressDialog.dart';
 
-class MyFatoorah {
+class MyFatoorah with BaseController {
   final CartController cartController = Get.find();
   Future initiate(
       BuildContext context, double amount, int paymentMethodId) async {
@@ -58,11 +60,12 @@ class MyFatoorah {
                   // chargeSaved.createdDate = res['CreatedDate'],
                   // chargeSaved.paymentGateway =
                   //     res['InvoiceTransactions'][0]['PaymentGateway'],
-                   Get.offAll(const MainScreen())
+                 //  Get.offAll(const MainScreen())
                 }
               else
                 {
-                  print('wrong recharge'),
+        DialogHelper.showErroDialog(description: 'Something went wrong!\n\n${result.error!.message}'),
+                  print('wrong card'),
                   print(result.error!.message),
                 print(result.error!.code)
 

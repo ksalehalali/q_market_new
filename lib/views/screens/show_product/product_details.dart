@@ -93,7 +93,7 @@ class _ProductDetailsState extends State<ProductDetails>
     double buttonSize = 31;
     final screenSize = Get.size;
     return Stack(
-      key: Key('s2'),
+      key: const Key('s2'),
       children: [
         Obx(() =>
               Container(
@@ -109,7 +109,7 @@ class _ProductDetailsState extends State<ProductDetails>
                       width: screenSize.width,
                       child: SingleChildScrollView(
 
-                        child: Column(key: Key('l'),
+                        child: Column(key: const Key('l'),
                          // padding: EdgeInsets.zero,
                          // shrinkWrap: true,
                           children: [
@@ -205,7 +205,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               height: 4,
                             ),
                             Stack(
-                              key:Key('s') ,
+                              key:const Key('s') ,
                               children: [
                                 productController.getDetailsDone.value == true
                                     ? Column(
@@ -875,7 +875,7 @@ class _ProductDetailsState extends State<ProductDetails>
                                             fontWeight: FontWeight.w300),
                                       ),
                                     ),
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 150,
                                     )
                                   ],
@@ -1067,11 +1067,11 @@ class _ProductDetailsState extends State<ProductDetails>
                     duration =800;
                     scaleOfCart=1.5;
                     scaleOfItem =1.2;
-                    flyingcart = Flyingcart();
+                    flyingcart = const Flyingcart();
                     //wait 2 second
                   });
 
-                  Future.delayed(Duration(milliseconds: 800), () {
+                  Future.delayed(const Duration(milliseconds: 800), () {
                     setState(() {
                       scaleOfItem=0;
                       duration = 500;
@@ -1079,17 +1079,152 @@ class _ProductDetailsState extends State<ProductDetails>
                     });
                   });
 
-                  Future.delayed(Duration(seconds: 1), () {
+                  Future.delayed(const Duration(seconds: 1), () {
                     setState(() {
                       flyingcart = null;
                       //hide flycart and add number
                     });
                   });
 
+
                   cartController.addToCart(
                       productController.productData['id'],
                       productController.productData['image'][0]['colorID'],
-                      productController.productData['size'][0]['sizeID'],);
+                      productController.productData['size'][0]['sizeID'],).then((value) =>
+                      showGeneralDialog(
+                          context: context,
+                          barrierDismissible: true,
+                          transitionDuration: 500.milliseconds,
+                          barrierLabel: MaterialLocalizations.of(context).dialogLabel,
+                          barrierColor: Colors.black.withOpacity(0.5),
+                          pageBuilder: (context,_,__){
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: screenSize.width,
+                                  color: Colors.white,
+                                  child: Card(
+                                    child:Column(
+                                      children: [
+                                        const SizedBox(height: 55,),
+                                        Container(
+                                          margin: const EdgeInsets.only(left: 10,right: 10),
+                                          child: Row(
+                                            children: [
+                                              SvgPicture.asset('assets/icons/done.svg',width: 34,height: 34,color: myHexColor,),
+
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 4.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                          children:  [
+                                                            SizedBox(
+                                                              width: screenSize.width *0.4,
+                                                              child: const Text('iphone 12 232323 32323 32323 2323 23233 32',maxLines: 1,overflow:TextOverflow.ellipsis,style:  TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w700,
+                                                                color: Colors.black87
+                                                              ),),
+                                                            ),
+                                                            Text('Added to cart ',style:  TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w700,
+                                                                color: Colors.black87
+                                                            ),),
+                                                          ],
+                                                        ),
+                                                      ),
+
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 80.0),
+                                                        child: Column(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children:  [
+                                                            const Text('Cart Total',style:  TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight: FontWeight.w700,
+                                                                color: Colors.black87
+                                                            ),),
+                                                            Obx(()=> Text(cartController.fullPrice.value.toStringAsFixed(2),style:  const TextStyle(
+                                                                  fontSize: 14,
+                                                                  fontWeight: FontWeight.w700,
+                                                                  color: Colors.black87
+                                                              ),),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+
+                                                ],
+                                              ),
+
+                                            ],
+                                          ),
+                                        ),
+                                        SizedBox(height: 12,),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  maximumSize: Size(200,220),
+                                                  minimumSize: Size(18, 34),
+                                                  primary: Colors.green[800],
+                                                  onPrimary: Colors.green[900],
+                                                  alignment: Alignment.center),
+                                              child: Text('CONTINUE SHOPPING',maxLines:1,style: const TextStyle(fontWeight: FontWeight.w700,color: Colors.white),),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const Cart()));
+                                              },
+                                              style: ElevatedButton.styleFrom(
+                                                  maximumSize: Size(200,220),
+                                                  minimumSize: Size(180, 34),
+                                                  primary: myHexColor,
+                                                  onPrimary: Colors.white,
+                                                  alignment: Alignment.center),
+                                              child: const Text('CHECKOUT',style: TextStyle(fontWeight: FontWeight.w700,color: Colors.white),),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ) ,
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                          transitionBuilder: (context,animation,secondaryAnimation,child){
+                            return SlideTransition(position: CurvedAnimation(
+                              parent: animation,
+                              curve: Curves.easeInOutCubic,
+                            ).drive(Tween<Offset>(
+                                begin: const Offset(0,-1.0),
+                                end:Offset.zero
+                            ),),
+                              child: child,);
+                          }
+
+                      ),
+                  );
                 },
                 child: Container(
                   height: 54,
@@ -1217,7 +1352,7 @@ class _FlyingcartState extends State<Flyingcart> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller =
-    AnimationController(duration: Duration(seconds: 1), vsync: this)
+    AnimationController(duration: const Duration(seconds: 1), vsync: this)
       ..forward();
   }
 
@@ -1255,7 +1390,7 @@ class _FlyingcartState extends State<Flyingcart> with TickerProviderStateMixin {
                       CurvedAnimation(
                           parent: _controller!, curve: Curves.ease)),
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8,vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 10),
                     child: productController
                         .imagesWidget
                         .value[indexListImages][0],

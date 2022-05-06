@@ -105,6 +105,12 @@ class DialogHelper {
                 onPressed: () {
                   if (Get.isDialogOpen!) Get.back();
                 },
+                style: ElevatedButton.styleFrom(
+                    maximumSize: Size(120, 140),
+                    minimumSize: Size(120, 30),
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                    alignment: Alignment.center),
                 child: Text('Okay'),
               ),
             ],

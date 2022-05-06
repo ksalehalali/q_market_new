@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:q_market_n/Data/current_data.dart';
+import 'package:q_market_n/views/screens/main_screen.dart';
 
 import '../../../Assistants/globals.dart';
 import '../../../controllers/address_location_controller.dart';
@@ -10,7 +11,8 @@ import '../../../controllers/cart_controller.dart';
 import 'order_timeline.dart';
 
 class OrderSummary extends StatelessWidget {
-   OrderSummary({Key? key}) : super(key: key);
+  final bool fromOrdersList;
+   OrderSummary({Key? key,required this.fromOrdersList}) : super(key: key);
   final AddressController addressController = Get.find();
    final storage = GetStorage();
    final CartController cartController = Get.find();
@@ -28,21 +30,175 @@ class OrderSummary extends StatelessWidget {
           ,
           leading: InkWell(
               onTap: (){
-                Navigator.of(context).pop();
+               if(fromOrdersList ==true) {
+                 Navigator.of(context).pop();
+
+               }else{
+                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const MainScreen()));
+               }
               },
-              child: Icon(Icons.cancel_outlined,color: Colors.grey[500],size: 28,)),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0,left: 8,bottom: 1,top: 1),
+                child: Icon(Icons.cancel_outlined,color: Colors.grey[500],size: 28,),
+              )),
+          actions:  [
+            Align(
+              alignment: Alignment.center,
+              child: InkWell(
+                onTap: (){
+                  showGeneralDialog(
+                      context: context,
+                      barrierDismissible: true,
+                      transitionDuration: 500.milliseconds,
+                      barrierLabel: MaterialLocalizations.of(context).dialogLabel,
+                      barrierColor: Colors.black.withOpacity(0.5),
+                      pageBuilder: (context,_,__){
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: screenSize.width,
+                              color: Colors.white,
+                              child: Card(
+                                child:Column(
+                                  children: [
+                                    const SizedBox(height: 55,),
+                                    Container(
+                                      margin: const EdgeInsets.only(left: 10,right: 10),
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset('assets/icons/done.svg',width: 34,height: 34,color: myHexColor,),
+
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 4.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+
+                                                      children:  [
+                                                        SizedBox(
+                                                          width: screenSize.width *0.4,
+                                                          child: const Text('iphone 12 232323 32323 32323 2323 23233 32',maxLines: 1,overflow:TextOverflow.ellipsis,style:  TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight.w700,
+                                                              color: Colors.black87
+                                                          ),),
+                                                        ),
+                                                        Text('Added to cart ',style:  TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w700,
+                                                            color: Colors.black87
+                                                        ),),
+                                                      ],
+                                                    ),
+                                                  ),
+
+                                                  Padding(
+                                                    padding: const EdgeInsets.only(left: 80.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children:  [
+                                                        const Text('Cart Total',style:  TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w700,
+                                                            color: Colors.black87
+                                                        ),),
+                                                        Obx(()=> Text(cartController.fullPrice.value.toStringAsFixed(2),style:  const TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight.w700,
+                                                            color: Colors.black87
+                                                        ),),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
+                                            ],
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 12,),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              maximumSize: Size(200,220),
+                                              minimumSize: Size(18, 34),
+                                              primary: Colors.green[800],
+                                              onPrimary: Colors.green[900],
+                                              alignment: Alignment.center),
+                                          child: Text('CONTINUE SHOPPING',maxLines:1,style: const TextStyle(fontWeight: FontWeight.w700,color: Colors.white),),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                              maximumSize: Size(200,220),
+                                              minimumSize: Size(180, 34),
+                                              primary: myHexColor,
+                                              onPrimary: Colors.white,
+                                              alignment: Alignment.center),
+                                          child: const Text('CHECKOUT',style: TextStyle(fontWeight: FontWeight.w700,color: Colors.white),),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ) ,
+                              ),
+                            )
+                          ],
+                        );
+                      },
+                      transitionBuilder: (context,animation,secondaryAnimation,child){
+                        return SlideTransition(position: CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeInOutCubic,
+                        ).drive(Tween<Offset>(
+                            begin: const Offset(0,-1.0),
+                            end:Offset.zero
+                        ),),
+                          child: child,);
+                      }
+
+
+                  );
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 8.0,left: 8,bottom: 1,top: 1),
+                  child: Text('CANCEL',textAlign: TextAlign.end,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: Colors.red),),
+                ),
+              ),
+            )
+          ],
+
         ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               const SizedBox(
                 height: 10,
               ),
               SizedBox(
-                  width: double.infinity, height: 120, child: OrderTimeLine()),
+                  width: double.infinity, height: 120, child: OrderTimeLine(status:cartController.oneOrderDetails['status'] ,)),
               const SizedBox(
                 height: 10,
               ),
@@ -53,16 +209,23 @@ class OrderSummary extends StatelessWidget {
                     Text('Order : ',style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
-                      color: Colors.grey[700]
+                      color: Colors.grey[800]
                     ),),
-                     SelectableText(
-                      'a23231333',style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.grey[900]
+                     SizedBox(
+                       width: screenSize.width -110,
+                       child: SelectableText(
+                         cartController.oneOrderDetails['id'],
+                         maxLines: 1,
+                         scrollPhysics: ScrollPhysics(),
+                         style: TextStyle(
+                          fontSize: 15,
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.grey[900]
 
                     ),
                     ),
+                     ),
                   ],
                 ),
               ),
@@ -187,7 +350,7 @@ class OrderSummary extends StatelessWidget {
                               fontWeight: FontWeight.w700
                           ),),
                         Spacer(),
-                        Text('QAR ${lastOrder.invoiceValue}',textAlign: TextAlign.start,
+                        Text('QAR ${cartController.oneOrderDetails['total']}',textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey[700],
@@ -230,7 +393,7 @@ class OrderSummary extends StatelessWidget {
                               fontWeight: FontWeight.w700
                           ),),
                         Spacer(),
-                        Text('QAR ${lastOrder.invoiceValue}',textAlign: TextAlign.start,
+                        Text('QAR ${cartController.oneOrderDetails['total']}',textAlign: TextAlign.start,
                           style: TextStyle(
                               fontSize: 13,
                               color: Colors.grey[900],
@@ -253,7 +416,7 @@ class OrderSummary extends StatelessWidget {
               ),
               SizedBox(
                   height: 200,
-                  child: _buildOrderProductsList(1))
+                  child: _buildOrderProductsList())
 
             ],
           ),
@@ -261,11 +424,13 @@ class OrderSummary extends StatelessWidget {
       ),
     );
   }
-   Widget _buildOrderProductsList(int indexA) {
+   Widget _buildOrderProductsList() {
      return CustomScrollView(
        key: const Key('b'),
 
        scrollDirection: Axis.horizontal,
+       physics: ScrollPhysics(),
+
        slivers: [
          Obx(
                () => SliverList(
@@ -278,98 +443,108 @@ class OrderSummary extends StatelessWidget {
                    onTap: () {
 
                    },
-                   child:  Column(
+                   child:  Row(
                      crossAxisAlignment: CrossAxisAlignment.start,
                      children: [
-                       SizedBox(
-                         height: 3,
-                       ),
-                       Row(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      Container(
+                        height: 100,
+                        width: 2,
+                        color: Colors.blueGrey,
+                      ),
+                       Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
-
-                           ///to do
-                           ClipRRect(
-                             borderRadius: BorderRadius.circular(10),
-                             child: Container(
-                               width: 80,
-                               child: Image.network(
-                                 "$baseURL/${cartController.oneOrderDetails['listProduct'][index]['image']}",
-                                 height: 122,
-                                 fit: BoxFit.fill,
-                               ),
-                             ),
+                           SizedBox(
+                             height: 3,
                            ),
-                           Padding(
-                             padding: const EdgeInsets.only(left: 8.0),
-                             child: Container(
-                               height: screenSize.height *0.1+30,
+                           Row(
+                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             children: [
 
-                               child: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                 children: [
-                                   Text(
-                                     "${cartController.oneOrderDetails['listProduct'][index]['product']}",
-                                     style: const TextStyle(
-                                         color: Colors.black54,
-                                         fontWeight: FontWeight.bold,
-                                         fontSize: 14),
-                                   ),
+                               ///to do
+                               // ClipRRect(
+                               //   borderRadius: BorderRadius.circular(10),
+                               //   child: Container(
+                               //     width: 80,
+                               //     child: Image.network(
+                               //       "$baseURL/${cartController.oneOrderDetails['listProduct'][index]['image']}",
+                               //       height: 122,
+                               //       fit: BoxFit.fill,
+                               //     ),
+                               //   ),
+                               // ),
+                               Padding(
+                                 padding: const EdgeInsets.only(left: 8.0),
+                                 child: Container(
+                                   height: screenSize.height *0.1+30,
 
-                                   const SizedBox(
-                                     height: 8,
-                                   ),
-                                   SizedBox(
-                                     width: screenSize.width * 0.4 + 10,
-                                     child: Row(
-                                       children: [
-                                         Text(
-                                           "${cartController.oneOrderDetails['listProduct'][index]["price"]} QAR".toUpperCase(),
-                                           overflow: TextOverflow.ellipsis,
-                                           maxLines: 1,
-                                           textAlign: TextAlign.left,
-                                           style: const TextStyle(
-                                               decoration: TextDecoration.lineThrough,
-                                               fontFamily: 'Montserrat-Arabic Regular',
-                                               color: Colors.grey,
-                                               fontSize: 13),
-                                         ),
-                                         const SizedBox(
-                                           width: 7.0,
-                                         ),
-                                         Text(
-                                           "Discount ${cartController.oneOrderDetails['listProduct'][index]["offer"]}%",
-                                           overflow: TextOverflow.ellipsis,
-                                           maxLines: 1,
-                                           textAlign: TextAlign.left,
-                                           style: TextStyle(
-                                               fontFamily: 'Montserrat-Arabic Regular',
-                                               color: myHexColor3,
-                                               fontSize: 13),
-                                         ),
-                                       ],
-                                     ),
-                                   ),
-                                   Text(
-                                     "${cartController.oneOrderDetails['listProduct'][index]["price"] - price} QAR",
-                                     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                   ),
+                                   child: Column(
+                                     crossAxisAlignment: CrossAxisAlignment.start,
+                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                     children: [
+                                       Text(
+                                         "${cartController.oneOrderDetails['listProduct'][index]['product']}",
+                                         style: const TextStyle(
+                                             color: Colors.black54,
+                                             fontWeight: FontWeight.bold,
+                                             fontSize: 14),
+                                       ),
 
-                                   const SizedBox(
-                                     height: 12,
+                                       const SizedBox(
+                                         height: 8,
+                                       ),
+                                       SizedBox(
+                                         width: screenSize.width * 0.4 + 10,
+                                         child: Row(
+                                           children: [
+                                             Text(
+                                               "${cartController.oneOrderDetails['listProduct'][index]["price"]} QAR".toUpperCase(),
+                                               overflow: TextOverflow.ellipsis,
+                                               maxLines: 1,
+                                               textAlign: TextAlign.left,
+                                               style: const TextStyle(
+                                                   decoration: TextDecoration.lineThrough,
+                                                   fontFamily: 'Montserrat-Arabic Regular',
+                                                   color: Colors.grey,
+                                                   fontSize: 13),
+                                             ),
+                                             const SizedBox(
+                                               width: 7.0,
+                                             ),
+                                             Text(
+                                               "Discount ${cartController.oneOrderDetails['listProduct'][index]["offer"]}%",
+                                               overflow: TextOverflow.ellipsis,
+                                               maxLines: 1,
+                                               textAlign: TextAlign.left,
+                                               style: TextStyle(
+                                                   fontFamily: 'Montserrat-Arabic Regular',
+                                                   color: myHexColor3,
+                                                   fontSize: 13),
+                                             ),
+                                           ],
+                                         ),
+                                       ),
+                                       Text(
+                                         "${cartController.oneOrderDetails['listProduct'][index]["price"] - price} QAR",
+                                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                       ),
+
+                                       const SizedBox(
+                                         height: 12,
+                                       ),
+                                     ],
                                    ),
-                                 ],
+                                 ),
                                ),
-                             ),
+
+                             ],
                            ),
+
+
 
                          ],
                        ),
-
-
-
                      ],
                    ),
                  );

@@ -238,7 +238,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  ListAddresses(fromCart: false,)));
+                              builder: (context) =>  ListAddresses(fromCart: false,fromAccount: false,)));
                     },
                     child: const Text(
                       'SAVE ADDRESS',
