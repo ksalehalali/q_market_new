@@ -336,9 +336,7 @@ class _RegisterState extends State<Register> {
                                 ): Container(
                                   width: 75,
                                   height: 75,
-                                  child: Image.asset(
-                                      "${assetsDir}animation/99353-loading-circle.gif"
-                                  ),
+                                  child: CircularProgressIndicator.adaptive()
                                 ),
                                 ),
                               ),

@@ -405,7 +405,7 @@ class CartController extends GetxController with BaseController {
         cartProducts = json['description'];
         gotMyCart.value = true;
         print('cart items = ${myPrCartProducts.length}');
-        calculateFulPriceProducts(0);
+        if(cartProducts.length >0)calculateFulPriceProducts(0);
         if (fromAdd) {
         } else {
           hideLoading();
@@ -514,13 +514,16 @@ class CartController extends GetxController with BaseController {
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
-      myOrders.value = data;
+      if(data.length >0){
+        myOrders.value = data;
+        print(myOrdersDetails.length);
+        gotMyOrders.value = true;
+      }
       // for(int i =0; i<myOrders.length; i++){
       //   await getOneOrder(myOrders[i]['id']);
       //   print(myOrdersDetails[i]['listProduct'][0]['product']);
       // }
-      print(myOrdersDetails.length);
-      gotMyOrders.value = true;
+
     } else {
       print(response.reasonPhrase);
     }

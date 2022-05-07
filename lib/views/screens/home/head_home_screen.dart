@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:q_market_n/controllers/account_controller.dart';
 
 import '../../../Assistants/globals.dart';
 
 Widget headHomeScreen(MediaQueryData screenSize) {
+  final AccountController accountController = Get.find();
+
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 12.0),
     child: Container(
@@ -25,7 +29,7 @@ Widget headHomeScreen(MediaQueryData screenSize) {
             SizedBox(
               height: 4,
             ),
-            Text('Khaled Ali',
+            Text("${accountController.username.value}",
                 style: TextStyle(
                     fontSize: 15,
                     color: Colors.grey[900],

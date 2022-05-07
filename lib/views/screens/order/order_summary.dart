@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:q_market_n/Data/current_data.dart';
 import 'package:q_market_n/views/screens/main_screen.dart';
-
 import '../../../Assistants/globals.dart';
 import '../../../controllers/address_location_controller.dart';
 import '../../../controllers/cart_controller.dart';
@@ -463,17 +462,17 @@ class OrderSummary extends StatelessWidget {
                              children: [
 
                                ///to do
-                               // ClipRRect(
-                               //   borderRadius: BorderRadius.circular(10),
-                               //   child: Container(
-                               //     width: 80,
-                               //     child: Image.network(
-                               //       "$baseURL/${cartController.oneOrderDetails['listProduct'][index]['image']}",
-                               //       height: 122,
-                               //       fit: BoxFit.fill,
-                               //     ),
-                               //   ),
-                               // ),
+                               ClipRRect(
+                                 borderRadius: BorderRadius.circular(10),
+                                 child: Container(
+                                   width: 80,
+                                   child: Image.network(
+                                     "$baseURL/${cartController.oneOrderDetails['listProduct'][index]['image']}",
+                                     height: 122,
+                                     fit: BoxFit.fill,
+                                   ),
+                                 ),
+                               ),
                                Padding(
                                  padding: const EdgeInsets.only(left: 8.0),
                                  child: Container(

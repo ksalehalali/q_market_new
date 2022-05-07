@@ -21,7 +21,12 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
     imageCache!.clear();
     imageCache!.clearLiveImages();
   }
-
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    productController.getMyFav();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,8 +52,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                               top: 16.0, right: 12, left: 12, bottom: 12),
                           child: SvgPicture.asset('assets/icons/left arrow.svg',
                               color: Colors.grey[800],
-                              height: 27.00,
-                              width: 27.0,
+                              height: 22.00,
+                              width: 22.0,
                               semanticsLabel: 'A red up arrow'),
                         ),
                       ),
@@ -59,8 +64,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 top: 16.0, right: 12, left: 12, bottom: 12),
                             child: SvgPicture.asset('assets/icons/menu.svg',
                                 color: Colors.grey[800],
-                                height: 26.00,
-                                width: 26.0,
+                                height: 20.00,
+                                width: 20.0,
                                 semanticsLabel: 'A red up arrow')),
                       ),
                     ],
