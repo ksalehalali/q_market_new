@@ -19,28 +19,40 @@ class AccountController extends GetxController {
 
   var isLoggedIn = false.obs;
   var username = "".obs;
+  var token = "".obs;
 
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+    print("uhmmm AccountController");
     fetchUserLoginPreference();
   }
 
 
   void signOut() {
     final storage = GetStorage();
-
+    username.value = "";
+    token.value = "";
+    isLoggedIn.value = false;
     storage.erase();
   }
 
   Future<void> fetchUserLoginPreference() async {
     final storage = GetStorage();
+    print("Fetching storage data...");
 
 
-    storage.read('token');
+    token.value = storage.read('token');
     username.value = storage.read('username');
+
     print("ssssssssss ${username.value}");
+    print("tokenssss ${token.value}");
+
+    if(token.value != null) {
+      print("logggged");
+      isLoggedIn.value = true;
+    }
 
   }
 
