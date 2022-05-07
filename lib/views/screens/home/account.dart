@@ -1,6 +1,7 @@
 
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -27,7 +28,7 @@ class Account extends StatelessWidget {
               // WELCOME
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: accountController.username.value == "" ?
+                child: accountController.isLoggedIn.value == false ?
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -53,34 +54,38 @@ class Account extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 16.0,),
-                    GestureDetector(
-                      onTap: () {
-                        // nav to login
-                      },
-                      child: Center(
-                        child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(17.5),
-                              decoration: BoxDecoration(
-                                  color: myHexColor2,
-                                  shape: BoxShape.circle
+                    Center(
+                      child: InkWell(
+                        onTap: () {
+                          // nav to login
+                          Get.to(() => Register());
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+                          child: Column(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.all(17.5),
+                                decoration: BoxDecoration(
+                                    color: myHexColor2,
+                                    shape: BoxShape.circle
+                                ),
+                                child: SvgPicture.asset(
+                                  "${assetsIconDir}user.svg",
+                                  width: 30,
+                                ),
                               ),
-                              child: SvgPicture.asset(
-                                "${assetsIconDir}user.svg",
-                                width: 30,
+                              SizedBox(height: 8.0,),
+                              Text(
+                                "Login",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87
+                                ),
                               ),
-                            ),
-                            SizedBox(height: 8.0,),
-                            Text(
-                              "Login",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black87
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -114,7 +119,7 @@ class Account extends StatelessWidget {
                   ],
                 ),
               ),
-              accountController.username.value != "" ?
+              accountController.isLoggedIn.value != false ?
               Column(
                 children: [
                   // MY ACCOUNT
@@ -212,7 +217,7 @@ class Account extends StatelessWidget {
                 ),
               ),
               buildOptionRow("Contact Us", Icons.call),
-              accountController.username.value != "" ?
+              accountController.isLoggedIn.value != false ?
               // LOGOUT
               Container(
                 height: 75,

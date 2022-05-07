@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:q_market_n/views/screens/home/account.dart';
 
 import '../../../Assistants/globals.dart';
 import '../../../controllers/register_controller.dart';
@@ -20,8 +21,6 @@ class _RegisterState extends State<Register> {
 
   final registerController = Get.put(RegisterController());
 
-  final loginEmailController = TextEditingController();
-  final loginPasswordController = TextEditingController();
   final signUpUsernameController = TextEditingController();
   final signUpEmailController = TextEditingController();
   final signUpPasswordController = TextEditingController();
@@ -30,14 +29,13 @@ class _RegisterState extends State<Register> {
 
   RxBool showSignUp = false.obs;
   bool moveWidgets = false;
-  bool instantlyTransitionedWidgets = false;
+  RxBool instantlyTransitionedWidgets = false.obs;
   bool disabilitySwitch = false; // When false, login text fields are not disabled, sign up text fields are.
   double stackHeight = Get.size.height * 0.8;
 
   double opacity = 1.0;
 
   List<Widget> stackItems = [];
-
 
 
   @override
@@ -293,7 +291,8 @@ class _RegisterState extends State<Register> {
                     child: IconButton(
                       icon: const Icon(Icons.close),
                       onPressed: () {
-                        Get.back();
+                        registerController.accountController.signOut();
+                        Get.off(Account());
                       },
                     ),
                   ),
@@ -319,16 +318,28 @@ class _RegisterState extends State<Register> {
                                     backgroundColor: MaterialStateProperty.all(myHexColor2),
                                   ),
                                   onPressed: () async{
-                                    if(!instantlyTransitionedWidgets){
-                                      print("ssss");
+                                    if(!instantlyTransitionedWidgets.value){
+                                      registerController.isRegisterLoading.value = true;
                                       await registerController.makeLoginRequest();
+                                      registerController.isRegisterLoading.value = false;
+                                    } else {
+                                      registerController.isRegisterLoading.value = true;
+                                      await registerController.makeRegisterRequest();
+                                      registerController.isRegisterLoading.value = false;
                                     }
                                   },
-                                  child: Text(
-                                    !instantlyTransitionedWidgets ? "Login": "Create A New Account",
+                                  child: Obx(() =>  !registerController.isRegisterLoading.value ? Text(
+                                    !instantlyTransitionedWidgets.value ? "Login": "Create A New Account",
                                     style: const TextStyle(
                                       fontSize: 18,
                                     ),
+                                  ): Container(
+                                    width: 75,
+                                    height: 75,
+                                    child: Image.asset(
+                                      "${assetsDir}animation/99353-loading-circle.gif"
+                                    ),
+                                  ),
                                   ),
                                 ),
                               ),
@@ -380,8 +391,8 @@ class _RegisterState extends State<Register> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
-                                    "New User?  ",
+                                  Text(
+                                    !instantlyTransitionedWidgets.value ? "New User ?  ": "Already have an account ? ",
                                     style: TextStyle(
 
                                     ),
@@ -400,7 +411,7 @@ class _RegisterState extends State<Register> {
                                         stackItems[0] = stackItems[1];
                                         stackItems[1] = temp;
 
-                                        instantlyTransitionedWidgets = !instantlyTransitionedWidgets;
+                                        instantlyTransitionedWidgets.value = !instantlyTransitionedWidgets.value;
                                         if(!moveWidgets){
                                           opacity = 1.0;
                                           stackHeight = Get.size.height * 1.0;
@@ -430,7 +441,7 @@ class _RegisterState extends State<Register> {
                                       });
                                     },
                                     child: Text(
-                                      "Create a new account",
+                                      !instantlyTransitionedWidgets.value ? "Create A New Account": "Login",
                                       style: TextStyle(
                                         color: myHexColor2,
                                       ),

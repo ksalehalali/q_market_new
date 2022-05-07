@@ -1,4 +1,6 @@
 
+// ignore_for_file: avoid_print
+
 import 'dart:async';
 import 'dart:convert';
 
@@ -14,8 +16,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Assistants/globals.dart';
 import '../views/screens/main_screen.dart';
+import 'account_controller.dart';
 
 class RegisterController extends GetxController {
+  final accountController = Get.put(AccountController());
+
   final loginEmailController = TextEditingController();
   final loginPasswordController = TextEditingController();
   final signUpUsernameController = TextEditingController();
@@ -23,22 +28,14 @@ class RegisterController extends GetxController {
   final signUpPasswordController = TextEditingController();
   final signUpConfirmPasswordController = TextEditingController();
 
+  var isRegisterLoading = false.obs;
 
   Future<void> makeLoginRequest () async{
-    var head = {
-      "Accept": "application/json",
-      "content-type":"application/json"
-    };
 
-    var response = await http.post(Uri.parse(baseURL + "/api/Login"), body: jsonEncode(
-      {
-        "UserName": loginEmailController.text,
-        "Password": loginPasswordController.text
-      },
-    ), headers: head
-    ).timeout(const Duration(seconds: 20), onTimeout:(){
+    if(loginEmailController.text == "" || loginPasswordController.text == "") {
+      // Fill the required information
       Fluttertoast.showToast(
-          msg: "The connection has timed out, Please try again!",
+          msg: "Please fill the required information",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 1,
@@ -46,27 +43,35 @@ class RegisterController extends GetxController {
           textColor: Colors.black,
           fontSize: 16.0
       );
-      throw TimeoutException('The connection has timed out, Please try again!');
-    });
+    } else {
 
-    if(response.statusCode == 500) {
-      Fluttertoast.showToast(
-          msg: "Error 500",
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          backgroundColor: Colors.white70,
-          textColor: Colors.black,
-          fontSize: 16.0);
-    }
-    else if (response.statusCode == 200){
-      var jsonResponse = json.decode(response.body);
-      if(jsonResponse["status"]){
-        storeUserLoginPreference(jsonResponse["description"]["token"], jsonResponse["description"]["userName"], loginPasswordController.text, jsonResponse["description"]["id"]);
-        Get.to(MainScreen());
-      } else {
+      var head = {
+        "Accept": "application/json",
+        "content-type":"application/json"
+      };
+
+      var response = await http.post(Uri.parse(baseURL + "/api/Login"), body: jsonEncode(
+        {
+          "UserName": loginEmailController.text,
+          "Password": loginPasswordController.text
+        },
+      ), headers: head
+      ).timeout(const Duration(seconds: 20), onTimeout:(){
         Fluttertoast.showToast(
-            msg: "Username and password do not match!",
+            msg: "The connection has timed out, Please try again!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white70,
+            textColor: Colors.black,
+            fontSize: 16.0
+        );
+        throw TimeoutException('The connection has timed out, Please try again!');
+      });
+
+      if(response.statusCode == 500) {
+        Fluttertoast.showToast(
+            msg: "Error 500",
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1,
@@ -74,13 +79,30 @@ class RegisterController extends GetxController {
             textColor: Colors.black,
             fontSize: 16.0);
       }
-    }
+      else if (response.statusCode == 200){
+        var jsonResponse = json.decode(response.body);
+        if(jsonResponse["status"]){
+          storeUserLoginPreference(jsonResponse["description"]["token"], jsonResponse["description"]["userName"], loginPasswordController.text, jsonResponse["description"]["id"]);
+          accountController.fetchUserLoginPreference();
+          Get.to(MainScreen());
+        } else {
+          Fluttertoast.showToast(
+              msg: "Username and password do not match!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.white70,
+              textColor: Colors.black,
+              fontSize: 16.0);
+        }
+      }
 
+    }
 
   }
 
   Future<void> makeAutoLoginRequest (username, password) async{
-
+    print("CALLING makeAutoLoginRequest");
     var head = {
       "Accept": "application/json",
       "content-type":"application/json"
@@ -123,9 +145,11 @@ class RegisterController extends GetxController {
       if(jsonResponse["status"]){
         print("auttto login ${jsonResponse["description"]}");
 
+        token = jsonResponse["description"]["token"];
         storeUserLoginPreference(jsonResponse["description"]["token"], jsonResponse["description"]["userName"], password, jsonResponse["description"]["id"]);
         print(jsonResponse["description"]["token"]);
 //        Get.offAll(MainScreen(indexOfScreen: 0,));
+        accountController.fetchUserLoginPreference();
         Get.to(MainScreen());
 
       } else {
@@ -146,15 +170,15 @@ class RegisterController extends GetxController {
   }
 
   Future<void> storeUserLoginPreference(token, username, password, id) async {
-//    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //    SharedPreferences prefs = await SharedPreferences.getInstance();
 //
 //    await prefs.setString('token', token);
 //    await prefs.setString('username', username);
 //    await prefs.setString('password', password);
 //    await prefs.setString('id', id);
 
-    final storage = GetStorage();
 
+    final storage = GetStorage();
 
     storage.write('token', token);
     storage.write('username', username);
@@ -163,5 +187,80 @@ class RegisterController extends GetxController {
 
   }
 
+  Future <void> makeRegisterRequest () async {
+    print("CALLING makeRegisterRequest");
+
+    if(signUpUsernameController.text == "" || signUpEmailController.text == "" || signUpPasswordController.text == "" || signUpConfirmPasswordController.text == "" ) {
+      // Fill the required information
+      Fluttertoast.showToast(
+          msg: "Please fill the required information",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white70,
+          textColor: Colors.black,
+          fontSize: 16.0
+      );
+    } else if (signUpPasswordController.text != signUpConfirmPasswordController.text){
+      // passwords do not match
+      Fluttertoast.showToast(
+          msg: "Passwords do not match",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white70,
+          textColor: Colors.black,
+          fontSize: 16.0
+      );
+    } else {
+      print("Conditions met, sending request");
+
+      var head = {
+        "Accept": "application/json",
+        "content-type":"application/json"
+      };
+
+      var response = await http.post(Uri.parse(baseURL + "/api/Register"), body: jsonEncode(
+        {
+          "UserName": signUpUsernameController.text,
+          "Password": signUpPasswordController.text
+        },
+      ), headers: head
+      ).timeout(const Duration(seconds: 20), onTimeout:(){
+        Fluttertoast.showToast(
+            msg: "The connection has timed out, Please try again!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.white70,
+            textColor: Colors.black,
+            fontSize: 16.0
+        );
+        throw TimeoutException('The connection has timed out, Please try again!');
+      });
+
+      print("reqqq: ${response.body}");
+
+      if(response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        if(jsonResponse["status"]){
+          // Sign up successful
+          await makeAutoLoginRequest(signUpUsernameController.text, signUpPasswordController.text);
+        } else {
+          Fluttertoast.showToast(
+              msg: "This Username is already used",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 1,
+              backgroundColor: Colors.white70,
+              textColor: Colors.black,
+              fontSize: 16.0);
+        }
+      } else {
+        // error
+      }
+
+    }
+  }
 
 }
