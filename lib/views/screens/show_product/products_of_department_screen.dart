@@ -343,7 +343,9 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
                         categoriesController.departments[index]['id']);
                   },
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 5),
+
+                    margin: EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.zero,
                     decoration: BoxDecoration(
                       border: Border.all(
                         width: 0.4,
@@ -351,27 +353,31 @@ class _ProductsOfDepartmentScreenState extends State<ProductsOfDepartmentScreen>
                       ),
                       borderRadius: BorderRadius.circular(22),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: screenSize.height * 0.1 - 84,
-                          horizontal: 18),
-                      child: Center(
-                        child: Text(
-                          categoriesController.departments[index]['name_EN'],
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                            color:
-                                colors[index].withOpacity(opacityColor[index]),
+                    child: Align(
+                      alignment: Alignment.center,
+
+                      child: Row(
+                        children: [
+                          SizedBox(width: 10,),
+                          Text(
+                            categoriesController.departments[index]['name_EN'],
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color:
+                                  colors[index].withOpacity(opacityColor[index]),
+                            ),
                           ),
-                        ),
+                          SizedBox(width: 10,),
+
+                        ],
                       ),
                     ),
                   ),
                 );
               },
               childCount: categoriesController.departments.length,
-              semanticIndexOffset: 2,
+              semanticIndexOffset: 1,
             ),
           ),
         )

@@ -47,7 +47,20 @@ class CartController extends GetxController with BaseController {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 3,
+              height: 2,
+            ),
+            SizedBox(
+              width: screenSize.width -30,
+              child: Text(
+                "${myPrCartProducts[i]['product']}",overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+              ),
+            ),
+            SizedBox(
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,13 +70,7 @@ class CartController extends GetxController with BaseController {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
-                      "${myPrCartProducts[i]['product']}",
-                      style: const TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16),
-                    ),
+
                     const SizedBox(
                       height: 8,
                     ),
@@ -112,6 +119,18 @@ class CartController extends GetxController with BaseController {
                         ],
                       ),
                     ),
+                    SizedBox(height: 14,),
+                    Text(
+                      "${num.parse(myPrCartProducts[i]["price"]) - price} QAR",
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      "seller ${myPrCartProducts[i]['userName']}",
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ],
                 ),
                 ClipRRect(
@@ -127,17 +146,7 @@ class CartController extends GetxController with BaseController {
                 ),
               ],
             ),
-            Text(
-              "${num.parse(myPrCartProducts[i]["price"]) - price} QAR",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text(
-              "seller ${myPrCartProducts[i]['userName']}",
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
+
             const SizedBox(
               height: 12,
             ),
@@ -192,14 +201,18 @@ class CartController extends GetxController with BaseController {
                 InkWell(
                   onTap: (() => deleteProdFromCart(myPrCartProducts[i]['id'])),
                   child: Row(
-                    children: const [
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children:  [
                       Icon(
                         Icons.delete_outline,
-                        color: Colors.red,
+                        color: Colors.red[700],
                       ),
-                      Text(
-                        "Remove",
-                        style: TextStyle(color: Colors.red),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Text(
+                          "Remove",textAlign: TextAlign.end,
+                          style: TextStyle(color: Colors.red[700]),
+                        ),
                       )
                     ],
                   ),
@@ -207,10 +220,11 @@ class CartController extends GetxController with BaseController {
               ],
             ),
             const SizedBox(
-              height: 16,
+              height: 12,
             ),
-            const Divider(
-              thickness: 2,
+             Divider(
+              thickness: 1.5,
+              color: myHexColor5.withOpacity(0.7),
             )
           ],
         ),

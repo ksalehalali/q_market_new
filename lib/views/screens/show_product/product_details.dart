@@ -120,8 +120,7 @@ class _ProductDetailsState extends State<ProductDetails>
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Get.off(const ProductDetails());
-                                    Get.back();
+                                    Navigator.of(context).pop();
 
                                     print(
                                         productController.latestProducts.length);
@@ -350,99 +349,100 @@ class _ProductDetailsState extends State<ProductDetails>
                             Padding(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 12.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 12.0,
-                                  ),
-                                  Text(
-                                    '${widget.product!.providerName}',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16,
-                                        color: myHexColor1),
-                                  ),
-                                  SizedBox(
-                                    height: screenSize.height * 0.1 - 76,
-                                  ),
-                                  Text(
-                                    widget.product!.en_name!.toUpperCase(),
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16,
-                                        color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    height: screenSize.height * 0.1 - 76,
-                                  ),
-                                  Text(
-                                    '${widget.product!.price! -
-                                        productController.offerFromPrice
-                                            .value} QAR',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16,
-                                        color: Colors.black),
-                                  ),
-                                  SizedBox(
-                                    height: screenSize.height * 0.1 - 60,
-                                  ),
-                                  const Text(
-                                    'Size',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14,
-                                        color: Colors.black),
-                                  ),
-                                  _buildSizesOptions(screenSize),
-                                  const SizedBox(
-                                    height: 22.0,
-                                  ),
-                                  const Text(
-                                    'Colors',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 14,
-                                        color: Colors.black),
-                                  ),
-                                  _buildColorsOptions(screenSize),
-                                  const SizedBox(
-                                    height: 22.0,
-                                  ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(
-                                          width: 1,
-                                          color: Colors.grey[500]!,
-                                        )),
-                                    width: screenSize.width,
-                                    height: screenSize.height * 0.1 - 30,
-                                    child: Row(
-                                      children: [
-                                        const SizedBox(
-                                          width: 10.0,
-                                        ),
-                                        SvgPicture.asset(
-                                            'assets/icons/shipping.svg',
-                                            color: Colors.grey[600],
-                                            height: 18.00,
-                                            width: 18.0,
-                                            semanticsLabel: 'A red up arrow'),
-                                        const SizedBox(
-                                          width: 10.0,
-                                        ),
-                                        const Text('Delivery time :'),
-                                        const Spacer(),
-                                        const Text(' Jan 28 - Jan 30'),
-                                        SizedBox(
-                                          width: screenSize.width * 0.1 - 12,
-                                        )
-                                      ],
+                              child: Obx(()=>Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 12.0,
                                     ),
-                                  )
-                                ],
+                                    Text(
+                                      '${productController.productDetails.providerName}',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 16,
+                                          color: myHexColor1),
+                                    ),
+                                    SizedBox(
+                                      height: screenSize.height * 0.1 - 76,
+                                    ),
+                                    Text(
+                                      productController.productDetails.en_name!.toUpperCase(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: screenSize.height * 0.1 - 76,
+                                    ),
+                                    Text(
+                                      '${productController.productDetails.price! -
+                                          productController.offerFromPrice
+                                              .value} QAR',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: Colors.black),
+                                    ),
+                                    SizedBox(
+                                      height: screenSize.height * 0.1 - 60,
+                                    ),
+                                    const Text(
+                                      'Size',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                          color: Colors.black),
+                                    ),
+                                    _buildSizesOptions(screenSize),
+                                    const SizedBox(
+                                      height: 22.0,
+                                    ),
+                                    const Text(
+                                      'Colors',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 14,
+                                          color: Colors.black),
+                                    ),
+                                    _buildColorsOptions(screenSize),
+                                    const SizedBox(
+                                      height: 22.0,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(6),
+                                          border: Border.all(
+                                            width: 1,
+                                            color: Colors.grey[500]!,
+                                          )),
+                                      width: screenSize.width,
+                                      height: screenSize.height * 0.1 - 30,
+                                      child: Row(
+                                        children: [
+                                          const SizedBox(
+                                            width: 10.0,
+                                          ),
+                                          SvgPicture.asset(
+                                              'assets/icons/shipping.svg',
+                                              color: Colors.grey[600],
+                                              height: 18.00,
+                                              width: 18.0,
+                                              semanticsLabel: 'A red up arrow'),
+                                          const SizedBox(
+                                            width: 10.0,
+                                          ),
+                                          const Text('Delivery time :'),
+                                          const Spacer(),
+                                          const Text(' Jan 28 - Jan 30'),
+                                          SizedBox(
+                                            width: screenSize.width * 0.1 - 12,
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                             Padding(

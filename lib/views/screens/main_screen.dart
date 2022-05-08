@@ -129,7 +129,7 @@ class _MainScreenState extends State<MainScreen> {
                     label: 'Clearance',
                     selectedIcon: SvgPicture.asset(
                         'assets/icons/offers-fill.svg',
-                        color: Colors.red,
+                        color: myHexColor3,
                         height: 22.00,
                         width: 22.0,
                         semanticsLabel: 'A red up arrow'),
@@ -149,7 +149,7 @@ class _MainScreenState extends State<MainScreen> {
                     selectedIcon: SvgPicture.asset('assets/icons/cart-fill.svg',
                         height: 22.00,
                         width: 22.0,
-                        color: Colors.red,
+                        color: myHexColor3,
                         semanticsLabel: 'A red up arrow'),
                   )),
               NavigationBarTheme(
@@ -168,7 +168,7 @@ class _MainScreenState extends State<MainScreen> {
                         'assets/icons/account-fill.svg',
                         height: 22.00,
                         width: 22.0,
-                        color: Colors.red,
+                        color: myHexColor3,
                         semanticsLabel: 'A red up arrow'),
                   )),
             ]));

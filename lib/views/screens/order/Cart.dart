@@ -123,9 +123,9 @@ class _CartState extends State<Cart> {
                             SizedBox(
                               height: screenSize.height * 0.1 - 70,
                             ),
-                            const Divider(
+                             Divider(
                               thickness: 1.0,
-                              color: Colors.black54,
+                              color: myHexColor5,
                             ),
                             SizedBox(
                               height: screenSize.height * 0.1 - 70,

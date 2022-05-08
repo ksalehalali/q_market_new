@@ -210,7 +210,7 @@ class ProductItemCard extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(vertical: 8.0),
                               child: SizedBox(
-                                width: size.width * 0.3,
+                                width: size.width * 0.3+40,
                                 child: Text("${product.en_name}".toUpperCase(),
                                     textDirection: TextDirection.rtl,
                                     textAlign: TextAlign.left,
