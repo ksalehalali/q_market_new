@@ -9,6 +9,7 @@ import '../Assistants/globals.dart';
 import '../Data/current_data.dart';
 import '../models/product_model.dart';
 import '../views/screens/order/order_summary.dart';
+import '../views/widgets/flash_messages_screen.dart';
 
 class CartController extends GetxController with BaseController {
   var isCartEmpty = true.obs;
@@ -29,7 +30,7 @@ class CartController extends GetxController with BaseController {
   var cartProductsCounts =[].obs;
   var fullPrice = 0.0.obs;
   var countFromItem = 1.obs;
-
+  var optionReasonSelected =0.obs;
   Column buildCartItem() {
     cartItems.value = [];
     print("length ${myPrCartProducts.length}");
@@ -168,8 +169,18 @@ class CartController extends GetxController with BaseController {
                         const SizedBox(
                           width: 8,
                         ),
-                        Container(
-                          child: const Icon(Icons.remove),
+                        InkWell(
+                          onTap: (){
+                            countFromItem.value--;
+                            cartProductsCounts[i]--;
+                            print(cartProductsCounts[i]);
+                            editProdCountCart(
+                                myPrCartProducts[i]['id'], cartProductsCounts.value[i]);
+                            update();
+                          },
+                          child: Container(
+                            child: const Icon(Icons.remove),
+                          ),
                         ),
                         const SizedBox(
                           width: 8,
@@ -390,6 +401,7 @@ class CartController extends GetxController with BaseController {
 
   Future getMyCartProds(bool fromAdd) async {
     if (fromAdd) {
+
     } else {
       Future.delayed(5.milliseconds, () {
         showLoading('loading');
@@ -419,7 +431,7 @@ class CartController extends GetxController with BaseController {
         cartProducts = json['description'];
         gotMyCart.value = true;
         print('cart items = ${myPrCartProducts.length}');
-        if(cartProducts.length >0)calculateFulPriceProducts(0);
+        if(cartProducts.length >0){calculateFulPriceProducts(0);}else{fullPrice.value =0.0;}
         if (fromAdd) {
         } else {
           hideLoading();
@@ -496,7 +508,9 @@ class CartController extends GetxController with BaseController {
 
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
+      print(json);
       var data = json['description'];
+
       lastOrder.addressID = storage.read("idAddressSelected");
       lastOrder.id = data['message'];
       lastOrder.invoiceValue = invoiceValue;
@@ -507,6 +521,7 @@ class CartController extends GetxController with BaseController {
       print(" order done .--- ${data}");
 
     } else {
+      print('error add order');
       print(response.reasonPhrase);
     }
   }
@@ -514,6 +529,7 @@ class CartController extends GetxController with BaseController {
   Future getMyOrders() async {
     gotMyOrders.value = false;
     myOrdersDetails.value = [];
+    myOrders.value =[];
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -528,6 +544,7 @@ class CartController extends GetxController with BaseController {
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
+      print('my list orders == $json');
       if(data.length >0){
         myOrders.value = data;
         print(myOrdersDetails.length);
@@ -558,12 +575,42 @@ class CartController extends GetxController with BaseController {
     if (response.statusCode == 200) {
       var json = jsonDecode(await response.stream.bytesToString());
       var data = json['description'];
+      print("order == $data");
       oneOrderDetails.value = data;
 
       print(oneOrderDetails);
     } else {
       print(response.reasonPhrase);
     }
+  }
+
+  Future deleteOrder(String id,BuildContext context)async{
+    var headers = {
+      'Authorization': 'Bearer ${user.accessToken}',
+      'Content-Type': 'application/json'
+    };
+    var request = http.Request('POST', Uri.parse('https://dashcommerce.click68.com/api/DeleteOrder'));
+    request.body = json.encode({
+      "id": id
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      print(await response.stream.bytesToString());
+      getMyOrders();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: customCanceledOrderSnackBarContent(context),
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ));
+    }
+    else {
+      print(response.reasonPhrase);
+    }
+
   }
 
   @override

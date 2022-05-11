@@ -40,7 +40,8 @@ class _MyOrdersState extends State<MyOrders> {
              cartController.gotMyOrders.value ==true ? SizedBox(
                   height: screenSize.height -100,
 
-                  child: buildOrdersList()):Container(),
+                  child: buildOrdersList()):Container(child: Center(child: Text('No orders',style: TextStyle(fontSize: 22,color: Colors.grey[700]),)
+               ,),),
            
             ],
           ),

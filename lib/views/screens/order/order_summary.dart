@@ -9,12 +9,22 @@ import '../../../controllers/address_location_controller.dart';
 import '../../../controllers/cart_controller.dart';
 import 'order_timeline.dart';
 
-class OrderSummary extends StatelessWidget {
+class OrderSummary extends StatefulWidget {
   final bool fromOrdersList;
    OrderSummary({Key? key,required this.fromOrdersList}) : super(key: key);
+
+  @override
+  State<OrderSummary> createState() => _OrderSummaryState();
+}
+
+class _OrderSummaryState extends State<OrderSummary> {
   final AddressController addressController = Get.find();
+
    final storage = GetStorage();
+
    final CartController cartController = Get.find();
+
+  int _value =1;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +39,7 @@ class OrderSummary extends StatelessWidget {
           ,
           leading: InkWell(
               onTap: (){
-               if(fromOrdersList ==true) {
+               if(widget.fromOrdersList ==true) {
                  Navigator.of(context).pop();
 
                }else{
@@ -41,7 +51,7 @@ class OrderSummary extends StatelessWidget {
                 child: Icon(Icons.cancel_outlined,color: Colors.grey[500],size: 28,),
               )),
           actions:  [
-            Align(
+           widget.fromOrdersList ==true? Align(
               alignment: Alignment.center,
               child: InkWell(
                 onTap: (){
@@ -60,106 +70,125 @@ class OrderSummary extends StatelessWidget {
                               width: screenSize.width,
                               color: Colors.white,
                               child: Card(
-                                child:Column(
-                                  children: [
-                                    const SizedBox(height: 55,),
-                                    Container(
-                                      margin: const EdgeInsets.only(left: 10,right: 10),
-                                      child: Row(
-                                        children: [
-                                          SvgPicture.asset('assets/icons/done.svg',width: 34,height: 34,color: myHexColor,),
-
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                child:Obx(()=>Column(
+                                    children: [
+                                      const SizedBox(height: 55,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 18.0,left: 18,bottom: 28),
+                                        child: Container(
+                                          color: Colors.white,
+                                          child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 4.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
 
-                                                      children:  [
-                                                        SizedBox(
-                                                          width: screenSize.width *0.4,
-                                                          child: const Text('iphone 12 232323 32323 32323 2323 23233 32',maxLines: 1,overflow:TextOverflow.ellipsis,style:  TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight: FontWeight.w700,
-                                                              color: Colors.black87
-                                                          ),),
-                                                        ),
-                                                        Text('Added to cart ',style:  TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w700,
-                                                            color: Colors.black87
-                                                        ),),
-                                                      ],
-                                                    ),
-                                                  ),
+                                              Radio(value: 1, groupValue: cartController.optionReasonSelected.value, onChanged: (int? val){
+                                                setState(() {
+                                                  cartController.optionReasonSelected.value =val!;
+                                                  print(val);
 
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(left: 80.0),
-                                                    child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children:  [
-                                                        const Text('Cart Total',style:  TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w700,
-                                                            color: Colors.black87
-                                                        ),),
-                                                        Obx(()=> Text(cartController.fullPrice.value.toStringAsFixed(2),style:  const TextStyle(
-                                                            fontSize: 14,
-                                                            fontWeight: FontWeight.w700,
-                                                            color: Colors.black87
-                                                        ),),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-
+                                                });
+                                              }),
+                                              Text('I changed my mind'),
+                                              Spacer(),
+                                              // Padding(
+                                              //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                              //   child: SvgPicture.asset('assets/icons/cash2.svg',
+                                              //       //color: Colors.grey[600],
+                                              //       height: 22.00,
+                                              //       width: 22.0,
+                                              //       semanticsLabel: 'A red up arrow'),
+                                              // ),
                                             ],
                                           ),
-
-                                        ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(height: 12,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
 
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              maximumSize: Size(200,220),
-                                              minimumSize: Size(18, 34),
-                                              primary: Colors.green[800],
-                                              onPrimary: Colors.green[900],
-                                              alignment: Alignment.center),
-                                          child: Text('CONTINUE SHOPPING',maxLines:1,style: const TextStyle(fontWeight: FontWeight.w700,color: Colors.white),),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () {
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 18.0,left: 18,bottom: 28),
+                                        child: Container(
+                                          color: Colors.white,
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
 
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                              maximumSize: Size(200,220),
-                                              minimumSize: Size(180, 34),
-                                              primary: myHexColor,
-                                              onPrimary: Colors.white,
-                                              alignment: Alignment.center),
-                                          child: const Text('CHECKOUT',style: TextStyle(fontWeight: FontWeight.w700,color: Colors.white),),
+                                              Radio(value: 2, groupValue: cartController.optionReasonSelected.value, onChanged: (int? val){
+                                                setState(() {
+                                                  cartController.optionReasonSelected.value =val!;
+                                                  print(val);
+
+                                                });
+                                              }),
+                                              Text('I forgot to use my coupon '),
+                                              Spacer(),
+                                              // Padding(
+                                              //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                              //   child: SvgPicture.asset('assets/icons/cash2.svg',
+                                              //       //color: Colors.grey[600],
+                                              //       height: 22.00,
+                                              //       width: 22.0,
+                                              //       semanticsLabel: 'A red up arrow'),
+                                              // ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    )
-                                  ],
+                                      ),
+
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 18.0,left: 18,bottom: 28),
+                                        child: Container(
+                                          color: Colors.white,
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+
+                                              Radio(value: 3, groupValue: cartController.optionReasonSelected.value, onChanged: (int? val){
+                                                setState(() {
+                                                  cartController.optionReasonSelected.value =val!;
+                                                  print(val);
+
+                                                });
+                                              }),
+                                              Text('No reason'),
+                                              Spacer(),
+                                              // Padding(
+                                              //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                                              //   child: SvgPicture.asset('assets/icons/cash2.svg',
+                                              //       //color: Colors.grey[600],
+                                              //       height: 22.00,
+                                              //       width: 22.0,
+                                              //       semanticsLabel: 'A red up arrow'),
+                                              // ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+
+                                      const SizedBox(height: 12,),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+
+                                          ElevatedButton(
+                                            onPressed: ()async {
+                                              if(cartController.optionReasonSelected.value >0){
+                                                await cartController.deleteOrder(cartController.oneOrderDetails['id'],context);
+                                                Navigator.pop(context);
+                                                Navigator.pop(context);
+
+                                              }
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                                maximumSize: Size(200,220),
+                                                minimumSize: Size(180, 34),
+                                                primary:cartController.optionReasonSelected.value >0? Colors.redAccent:Colors.grey,
+                                                onPrimary: Colors.white,
+                                                alignment: Alignment.center),
+                                            child: const Text('Confirm',style: TextStyle(fontWeight: FontWeight.w700,color: Colors.white),),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ) ,
                               ),
                             )
@@ -185,7 +214,7 @@ class OrderSummary extends StatelessWidget {
                   child: Text('CANCEL',textAlign: TextAlign.end,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: Colors.red),),
                 ),
               ),
-            )
+            ):Container()
           ],
 
         ),
@@ -423,6 +452,7 @@ class OrderSummary extends StatelessWidget {
       ),
     );
   }
+
    Widget _buildOrderProductsList() {
      return CustomScrollView(
        key: const Key('b'),

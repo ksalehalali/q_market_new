@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:q_market_n/views/address/add_address_screen.dart';
 import 'package:q_market_n/views/screens/home/search_area_des.dart';
@@ -12,6 +13,7 @@ import '../../address/address_on_map.dart';
 import '../../address/list_addresses.dart';
 import '../../address/search_address_screen.dart';
 import '../../widgets/departments_shpe.dart';
+import '../../widgets/flash_messages_screen.dart';
 import '../../widgets/horizontal_listOfProducts.dart';
 import '../show_product/product_details.dart';
 import '../show_product/product_item.dart';
@@ -68,7 +70,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SafeArea(
             child: Scaffold(
                 body: Stack(children: [
-          Positioned(top: 10, child: headHomeScreen(MediaQuery.of(context))),
+          Positioned(
+              top: 10,
+              child: InkWell(
+                  onTap: () {
+
+                  },
+                  child: headHomeScreen(MediaQuery.of(context)))),
           Positioned(
               top: 50, width: screenSize.width, child: SearchAreaDesign()),
           Positioned(
@@ -84,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           MaterialPageRoute(
                               builder: (context) => ListAddresses(
                                     fromCart: false,
-                                fromAccount: false,
+                                    fromAccount: false,
                                   )));
                     },
                     child: Padding(

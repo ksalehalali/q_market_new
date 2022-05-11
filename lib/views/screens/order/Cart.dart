@@ -301,15 +301,15 @@ class _CartState extends State<Cart> {
                 },
                 child: Container(
                   height: 54,
-                  color: myHexColor2,
+                  color:myHexColor2,
                   child: Center(
                       child: Obx(
-                    () => Text(
+                    () =>cartController.myPrCartProducts.length >0? Text(
                       cartController.myPrCartProducts.length > 1
                           ? 'BUY ${cartController.myPrCartProducts.length} ITEMS FOR ${cartController.fullPrice.value.toStringAsFixed(2)}  QAR'
                           : 'BUY ${cartController.myPrCartProducts.length} ITEM FOR ${cartController.fullPrice.value.toStringAsFixed(2)}  QAR',
                       style: const TextStyle(color: Colors.white),
-                    ),
+                    ):const Text('Cart is empty',style: const TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.w600),),
                   )),
                 )),
           ),

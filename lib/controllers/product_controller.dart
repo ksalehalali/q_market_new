@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
+import 'package:q_market_n/controllers/base_controller.dart';
 import '../Assistants/globals.dart';
 import '../Assistants/request-assistant.dart';
 import '../models/placePredictions.dart';
@@ -14,7 +15,7 @@ import '../models/product_colors_data.dart';
 import '../views/address/config-maps.dart';
 import 'address_location_controller.dart';
 
-class ProductsController extends GetxController {
+class ProductsController extends GetxController with BaseController{
   var latestProducts = <ProductModel>[].obs;
   var recommendedProducts = <ProductModel>[].obs;
   var offersProducts = <ProductModel>[].obs;
@@ -363,6 +364,7 @@ class ProductsController extends GetxController {
       colors = productData['size'][0]['color'];
       print('colors productData ${productDetails.colorsData}');
       await addImagesData();
+      hideLoading();
       createImages(2);
       print(product);
 

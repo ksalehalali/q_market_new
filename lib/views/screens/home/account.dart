@@ -284,33 +284,30 @@ class Account extends StatelessWidget {
     );
   }
 
-  GestureDetector buildOptionRow(String optionText, IconData optionIcon) {
-    return GestureDetector(
-      onTap: (){},
-      child: Container(
-        height: 50,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Icon(
-              optionIcon,
-              size: 26,
-              color: Colors.black54,
+  Container buildOptionRow(String optionText, IconData optionIcon) {
+    return Container(
+      height: 50,
+      padding: EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
+            optionIcon,
+            size: 26,
+            color: Colors.black54,
+          ),
+          SizedBox(width: 16,),
+          Text(
+            optionText,
+            style: TextStyle(
+                fontSize: 15,
+                color: Colors.black54,
+                fontWeight: FontWeight.bold
             ),
-            SizedBox(width: 16,),
-            Text(
-              optionText,
-              style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black54,
-                  fontWeight: FontWeight.bold
-              ),
-            ),
-            Spacer(),
-            Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Colors.black54,),
-          ],
-        ),
+          ),
+          Spacer(),
+          Icon(Icons.arrow_forward_ios_rounded, size: 14, color: Colors.black54,),
+        ],
       ),
     );
   }
