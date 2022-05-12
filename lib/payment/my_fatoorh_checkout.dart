@@ -51,7 +51,7 @@ class MyFatoorah with BaseController {
               if (result.isSuccess())
                 {
                   res = result.response!.toJson(),
-               cartController.addNewOrder(res['InvoiceId'].toString(),res['InvoiceTransactions'][0]['PaymentGateway'], res['InvoiceValue'],  ),
+               cartController.addNewOrder(res['InvoiceId'].toString(),res['InvoiceTransactions'][0]['PaymentGateway'], res['InvoiceValue'],1 ),
 
                   print(result.response!.toJson().toString()),
                   // print("booody :: ${result.response!.toJson()}"),

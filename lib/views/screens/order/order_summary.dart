@@ -47,7 +47,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                }
               },
               child: Padding(
-                padding: const EdgeInsets.only(right: 8.0,left: 8,bottom: 1,top: 1),
+                padding: const EdgeInsets.only(right: 12.0,left: 8,bottom: 12,top: 1),
                 child: Icon(Icons.cancel_outlined,color: Colors.grey[500],size: 28,),
               )),
           actions:  [
@@ -74,7 +74,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                                     children: [
                                       const SizedBox(height: 55,),
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 18.0,left: 18,bottom: 28),
+                                        padding: const EdgeInsets.only(right: 18.0,left: 12,bottom: 28),
                                         child: Container(
                                           color: Colors.white,
                                           child: Row(
@@ -104,7 +104,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                                       ),
 
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 18.0,left: 18,bottom: 28),
+                                        padding: const EdgeInsets.only(right: 18.0,left: 12,bottom: 28),
                                         child: Container(
                                           color: Colors.white,
                                           child: Row(
@@ -134,7 +134,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                                       ),
 
                                       Padding(
-                                        padding: const EdgeInsets.only(right: 18.0,left: 18,bottom: 28),
+                                        padding: const EdgeInsets.only(right: 18.0,left: 12,bottom: 28),
                                         child: Container(
                                           color: Colors.white,
                                           child: Row(
@@ -171,8 +171,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                                           ElevatedButton(
                                             onPressed: ()async {
                                               if(cartController.optionReasonSelected.value >0){
-                                                await cartController.deleteOrder(cartController.oneOrderDetails['id'],context);
-                                                Navigator.pop(context);
+                                                await cartController.deleteOrder(cartController.oneOrderDetails['id'],context).then((value) => Navigator.pop(context) );
                                                 Navigator.pop(context);
 
                                               }
@@ -211,7 +210,7 @@ class _OrderSummaryState extends State<OrderSummary> {
                 },
                 child: const Padding(
                   padding: EdgeInsets.only(right: 8.0,left: 8,bottom: 1,top: 1),
-                  child: Text('CANCEL',textAlign: TextAlign.end,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 16,color: Colors.red),),
+                  child: Text('CANCEL',textAlign: TextAlign.end,style: TextStyle(fontWeight: FontWeight.w700,fontSize: 15,color: Colors.red),),
                 ),
               ),
             ):Container()
@@ -223,15 +222,15 @@ class _OrderSummaryState extends State<OrderSummary> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 10,
+                height: 1,
               ),
               SizedBox(
                   width: double.infinity, height: 120, child: OrderTimeLine(status:cartController.oneOrderDetails['status'] ,)),
               const SizedBox(
-                height: 10,
+                height: 30,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Row(
                   children:  [
                     Text('Order : ',style: TextStyle(
@@ -259,10 +258,10 @@ class _OrderSummaryState extends State<OrderSummary> {
               ),
 
               const SizedBox(
-                height: 50,
+                height: 32,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
@@ -303,7 +302,7 @@ class _OrderSummaryState extends State<OrderSummary> {
               ),
               Divider(height: 42,),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
@@ -356,7 +355,7 @@ class _OrderSummaryState extends State<OrderSummary> {
               ),
               Divider(height: 42,),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
@@ -436,7 +435,7 @@ class _OrderSummaryState extends State<OrderSummary> {
               ),
               SizedBox(height: 18,),
               const Padding(
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.all(12.0),
                 child: Text('PRODUCTS ORDER',style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w800
@@ -492,14 +491,17 @@ class _OrderSummaryState extends State<OrderSummary> {
                              children: [
 
                                ///to do
-                               ClipRRect(
-                                 borderRadius: BorderRadius.circular(10),
-                                 child: Container(
-                                   width: 80,
-                                   child: Image.network(
-                                     "$baseURL/${cartController.oneOrderDetails['listProduct'][index]['image']}",
-                                     height: 122,
-                                     fit: BoxFit.fill,
+                               Padding(
+                                 padding: const EdgeInsets.only(left: 4.0),
+                                 child: ClipRRect(
+                                   borderRadius: BorderRadius.circular(10),
+                                   child: Container(
+                                     width: 80,
+                                     child: Image.network(
+                                       "$baseURL/${cartController.oneOrderDetails['listProduct'][index]['image']}",
+                                       height: 122,
+                                       fit: BoxFit.fill,
+                                     ),
                                    ),
                                  ),
                                ),

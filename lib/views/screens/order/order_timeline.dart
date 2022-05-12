@@ -21,7 +21,7 @@ class OrderTimeLine extends StatefulWidget {
 }
 
 class _OrderTimeLineState extends State<OrderTimeLine> {
-  int _processIndex = 1;
+  int _processIndex = 0;
 
   Color getColor(int index) {
     if (index == _processIndex) {
@@ -36,7 +36,7 @@ class _OrderTimeLineState extends State<OrderTimeLine> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _processIndex = widget.status;
+    _processIndex = widget.status ;
   }
   @override
   Widget build(BuildContext context) {

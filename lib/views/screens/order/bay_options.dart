@@ -327,19 +327,23 @@ initS()async{
                     if(_value==1){
                       showDialogCardsOptions(context);
                     }else {
-                      cartController.addNewOrder('0','Cash',cartController.fullPrice.value.toDouble());
+                      cartController.addNewOrder('0','Cash',cartController.fullPrice.value.toDouble(),0);
                     }
 
                   },
                   child: Container(
                     height: 44,
                     color: myHexColor2,
-                    child: Center(
-                        child:  Text(
-                              'Confirm Order'.toUpperCase(),
-                            style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                    child: Obx(()=>Center(
+                          child:cartController.processing.value == true ?const SizedBox(
+                              height: 25,
+                              width: 25,
+                              child: CircularProgressIndicator.adaptive(strokeWidth: 2.5,)) : Text(
+                                'Confirm Order'.toUpperCase(),
+                              style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        )
+                    )
                   )),
             ),
           ],

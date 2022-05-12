@@ -75,33 +75,36 @@ class _MyOrdersState extends State<MyOrders> {
                       ),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(7.0),
+                      padding: const EdgeInsets.all(0.0),
                       child: Column(
                         children: [
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    width:screenSize.width *0.8-46,
-                                    child: Text(
-                                      'Order ${cartController.myOrders[indexA]['result']['id']}',maxLines: 1,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: Colors.grey[900],fontWeight: FontWeight.bold),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 6.0, vertical: 12),                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width:screenSize.width *0.8-46,
+                                      child: Text(
+                                        'Order ${cartController.myOrders[indexA]['result']['id']}',maxLines: 1,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey[900],fontWeight: FontWeight.bold),
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(height: 2,),
-                                  Text(
-                                    'Placed On  ${DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(cartController.myOrders[indexA]['result']['orderDate']))}',
-                                    style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.grey[700]),
-                                  ),
-                                ],
+                                    SizedBox(height: 3,),
+                                    Text(
+                                      'Placed On  ${DateFormat('yyyy-MM-dd  HH:mm :ss').format(DateTime.parse(cartController.myOrders[indexA]['result']['orderDate']))}',
+                                      style: TextStyle(
+                                          fontSize: 11,
+                                          color: Colors.grey[700]),
+                                    ),
+                                  ],
+                                ),
                               ),
                               Spacer(),
                               InkWell(
@@ -111,7 +114,7 @@ class _MyOrdersState extends State<MyOrders> {
                                 },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 6.0, vertical: 2),
+                                      horizontal: 6.0, vertical: 12),
                                   child: Row(
                                     children: [
                                       Text(
@@ -181,14 +184,17 @@ class _MyOrdersState extends State<MyOrders> {
                         children: [
 
                           ///to do
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: Container(
-                              width: 80,
-                              child: Image.network(
-                                "$baseURL/${cartController.myOrders[indexA]['result']['prduct'][index]['image']}",
-                                height: 122,
-                                fit: BoxFit.fill,
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: Container(
+                                width: 80,
+                                child: Image.network(
+                                  "$baseURL/${cartController.myOrders[indexA]['result']['prduct'][index]['image']}",
+                                  height: 122,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
                             ),
                           ),

@@ -31,8 +31,10 @@ class CartController extends GetxController with BaseController {
   var fullPrice = 0.0.obs;
   var countFromItem = 1.obs;
   var optionReasonSelected =0.obs;
+  var processing =false.obs;
   Column buildCartItem() {
     cartItems.value = [];
+
     print("length ${myPrCartProducts.length}");
     // this list will be filled form the API
     for (int i = 0; i < myPrCartProducts.length; i++) {
@@ -171,12 +173,14 @@ class CartController extends GetxController with BaseController {
                         ),
                         InkWell(
                           onTap: (){
-                            countFromItem.value--;
-                            cartProductsCounts[i]--;
-                            print(cartProductsCounts[i]);
-                            editProdCountCart(
-                                myPrCartProducts[i]['id'], cartProductsCounts.value[i]);
-                            update();
+                        if(cartProductsCounts[i]>1){
+                          countFromItem.value--;
+                          cartProductsCounts[i]--;
+                          print(cartProductsCounts[i]);
+                          editProdCountCart(
+                              myPrCartProducts[i]['id'], cartProductsCounts.value[i]);
+                          update();
+                        }
                           },
                           child: Container(
                             child: const Icon(Icons.remove),
@@ -486,7 +490,8 @@ class CartController extends GetxController with BaseController {
   final storage = GetStorage();
 
   Future addNewOrder(
-      String invoiceId, String paymentGateway, double invoiceValue) async {
+      String invoiceId, String paymentGateway, double invoiceValue,int payType) async {
+    processing.value =true;
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -500,7 +505,7 @@ class CartController extends GetxController with BaseController {
       "invoiceId": invoiceId,
       "paymentGateway": paymentGateway,
       "AddressID": storage.read("idAddressSelected"),
-      "Payment": 0
+      "Payment": payType
     });
     request.headers.addAll(headers);
 
@@ -519,7 +524,7 @@ class CartController extends GetxController with BaseController {
       await getOneOrder(data['message']);
       Get.offAll(OrderSummary(fromOrdersList: false,));
       print(" order done .--- ${data}");
-
+      processing.value =false;
     } else {
       print('error add order');
       print(response.reasonPhrase);
