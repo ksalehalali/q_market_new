@@ -32,228 +32,7 @@ class CartController extends GetxController with BaseController {
   var countFromItem = 1.obs;
   var optionReasonSelected =0.obs;
   var processing =false.obs;
-  Column buildCartItem() {
-    cartItems.value = [];
 
-    print("length ${myPrCartProducts.length}");
-    // this list will be filled form the API
-    for (int i = 0; i < myPrCartProducts.length; i++) {
-      var price = num.parse(myPrCartProducts[i]["price"]) *
-          num.parse(myPrCartProducts[i]["offer"]) /
-          100;
-      countFromItem.value =myPrCartProducts[i]['number'];
-      cartProductsCounts.add(myPrCartProducts[i]['number']);
-      update();
-
-      cartItems.add(
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 2,
-            ),
-            SizedBox(
-              width: screenSize.width -30,
-              child: Text(
-                "${myPrCartProducts[i]['product']}",overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    color: Colors.black54,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "${myPrCartProducts[i]["color"]}",
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "${myPrCartProducts[i]["size"]}",
-                      style: TextStyle(fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    SizedBox(
-                      width: screenSize.width * 0.4 + 10,
-                      child: Row(
-                        children: [
-                          Text(
-                            "${myPrCartProducts[i]["price"]} QAR".toUpperCase(),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            textAlign: TextAlign.left,
-                            style: const TextStyle(
-                                decoration: TextDecoration.lineThrough,
-                                fontFamily: 'Montserrat-Arabic Regular',
-                                color: Colors.grey,
-                                fontSize: 13),
-                          ),
-                          const SizedBox(
-                            width: 7.0,
-                          ),
-                          Text(
-                            "Discount ${myPrCartProducts[i]["offer"]}%",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontFamily: 'Montserrat-Arabic Regular',
-                                color: myHexColor3,
-                                fontSize: 13),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 14,),
-                    Text(
-                      "${num.parse(myPrCartProducts[i]["price"]) - price} QAR",
-                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
-                    Text(
-                      "seller ${myPrCartProducts[i]['userName']}",
-                      style: const TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    width: 100,
-                    child: Image.network(
-                      "$baseURL/${myPrCartProducts[i]['image']}",
-                      height: 150,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(
-              height: 12,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    decoration: BoxDecoration(
-                      color: const Color.fromRGBO(245, 246, 248, 1),
-                      border: Border.all(),
-                      borderRadius:
-                          const BorderRadius.all(const Radius.circular(10)),
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        InkWell(
-                          onTap: (){
-                        if(cartProductsCounts[i]>1){
-                          countFromItem.value--;
-                          cartProductsCounts[i]--;
-                          print(cartProductsCounts[i]);
-                          editProdCountCart(
-                              myPrCartProducts[i]['id'], cartProductsCounts.value[i]);
-                          update();
-                        }
-                          },
-                          child: Container(
-                            child: const Icon(Icons.remove),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        Obx(()=> Text("${cartProductsCounts.value[i]}")),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            countFromItem.value++;
-                            cartProductsCounts[i]++;
-                            print(cartProductsCounts[i]);
-                            editProdCountCart(
-                                myPrCartProducts[i]['id'], cartProductsCounts.value[i]);
-                            update();
-                          },
-                          child: Container(
-                            child: const Icon(Icons.add),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: (() => deleteProdFromCart(myPrCartProducts[i]['id'])),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children:  [
-                      Icon(
-                        Icons.delete_outline,
-                        color: Colors.red[700],
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Remove",textAlign: TextAlign.end,
-                          style: TextStyle(color: Colors.red[700]),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-             Divider(
-              thickness: 1.5,
-              color: myHexColor5.withOpacity(0.7),
-            )
-          ],
-        ),
-      );
-      itemsInserted.value = true;
-
-      update();
-    }
-    update();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [...cartItems],
-    );
-  }
 
   //orders
   Row buildOrderItem(int index) {
@@ -468,7 +247,7 @@ class CartController extends GetxController with BaseController {
     }
   }
 
-  Future editProdCountCart(String id, int count) async {
+  Future editProdCountCart(String id, int count,double price,bool isIncrease) async {
     var headers = {
       'Authorization': 'Bearer ${user.accessToken}',
       'Content-Type': 'application/json'
@@ -482,6 +261,12 @@ class CartController extends GetxController with BaseController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      if(isIncrease){
+        fullPrice.value = fullPrice.value + price;
+      }else{
+        fullPrice.value = fullPrice.value - price;
+      }
+      update();
     } else {
       print(response.reasonPhrase);
     }

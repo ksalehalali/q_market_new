@@ -9,7 +9,8 @@ import 'address_on_map.dart';
 import 'list_addresses.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({Key? key}) : super(key: key);
+  final bool fromCart;
+  const AddAddressScreen({Key? key,required this.fromCart}) : super(key: key);
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();
@@ -114,7 +115,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   InkWell(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const AddressOnMap()));
+                          builder: (context) =>  AddressOnMap(fromCart: widget.fromCart,)));
                     },
                     child: Container(
                         height: 72,
@@ -183,8 +184,13 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         onInputValidated: (bool value) {
                           print(value);
                         },
-                        selectorConfig: SelectorConfig(
-                          selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                        selectorConfig: const SelectorConfig(
+                          selectorType: PhoneInputSelectorType.DIALOG,
+                          showFlags: true,
+                          useEmoji: false,
+                          setSelectorButtonAsPrefixIcon: true,
+                          leadingPadding: 0.0,
+                          trailingSpace: true
                         ),
                         maxLength: 8,
                         ignoreBlank: false,
@@ -193,7 +199,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             TextStyle(color: Colors.grey[600], fontSize: 22),
                         textStyle: TextStyle(
                             color: Colors.black,
-                            fontSize: 22,
+                            fontSize: 17,
                             fontWeight: FontWeight.bold),
                         inputDecoration: InputDecoration(),
                         initialValue: number,
@@ -238,7 +244,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                       Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>  ListAddresses(fromCart: false,fromAccount: false,)));
+                              builder: (context) =>  ListAddresses(fromCart: true,fromAccount: false,)));
                     },
                     child: const Text(
                       'SAVE ADDRESS',

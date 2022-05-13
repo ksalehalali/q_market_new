@@ -29,8 +29,8 @@ Widget addressHomeScreen(MediaQueryData screenSize) {
             height: 16,
             child: RichText(
                 text: TextSpan(children: [
-              TextSpan(
-                  text: 'Delivery Addressaa ',
+              const TextSpan(
+                  text: 'Delivery Address ',
                   style: TextStyle(fontSize: 12, color: Colors.black)),
               TextSpan(
                   text: box.read('address') ?? 'Qatar Doha - arrian',

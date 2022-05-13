@@ -256,12 +256,15 @@ class _RegisterState extends State<Register> {
             ),
             const SizedBox(height: 20,),
             // FORGOT PASSWORD?
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                alignment: Alignment.topRight,
-                child: const Text(
-                  "Forgot Password ?",
+            Align(
+              alignment: Alignment.centerLeft,
+              child: GestureDetector(
+                onTap: () {},
+                child: Container(
+                  alignment: Alignment.topRight,
+                  child: const Text(
+                    "Forgot Password ?",
+                  ),
                 ),
               ),
             ),

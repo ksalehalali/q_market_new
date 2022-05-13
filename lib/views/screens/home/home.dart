@@ -132,6 +132,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       dotIncreasedColor: Colors.red,
                       dotPosition: DotPosition.bottomLeft,
                       images: [
+                        Image.asset('assets/images/pexels-markus-spiske-3806753.jpg',
+                            fit: BoxFit.fill),
                         Image.asset('assets/images/productsample.jpg',
                             fit: BoxFit.fill),
                         Image.asset(

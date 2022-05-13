@@ -27,7 +27,7 @@ class AddressController extends GetxController {
   var s = 50.obs;
   var gotMyAddress = false.obs;
   var addresses = [].obs;
-
+  var addingAddressForOrder = false.obs;
   var pinAddress = ''.obs;
   List placePredictionList = [].obs;
 
@@ -126,6 +126,7 @@ class AddressController extends GetxController {
 
     if (response.statusCode == 200) {
       print(await response.stream.bytesToString());
+      getMyAddresses();
     } else {
       print(response.reasonPhrase);
     }

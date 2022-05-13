@@ -77,16 +77,22 @@ class _ListAddressesState extends State<ListAddresses> {
                     ],
                   ),
                 ),
-                SizedBox(
-                    height: screenSize.height - 220,
-                    width: screenSize.width,
-                    child: buildAddressesOptions()),
+                Obx(()=>SizedBox(
+                      height: screenSize.height - 220,
+                      width: screenSize.width,
+                      child:addressController.myAddressData.value.length>0? buildAddressesOptions():Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 18.0),
+                        child: Container(
+                          child: const Center(child: Text('No Addresses'),),
+                        ),
+                      )),
+                ),
                 ElevatedButton.icon(
                   onPressed: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const AddressOnMap()));
+                            builder: (context) =>  AddressOnMap(fromCart: widget.fromCart,)));
                   },
                   label: const Text(
                     'Add a new address',
@@ -148,6 +154,12 @@ class _ListAddressesState extends State<ListAddresses> {
                       }
                     });
                     if(widget.fromAccount ==true)return;
+                    if(addressController.addingAddressForOrder.value =true) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => const BayOptions()));
+                    }
+
                     if(widget.fromCart ==false){
                       Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
@@ -205,8 +217,8 @@ class _ListAddressesState extends State<ListAddresses> {
                                         addressController.myAddressData[index]
                                             ['id']);
                                   },
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
+                                  child: const Padding(
+                                    padding: EdgeInsets.only(
                                         left: 2, right: 2.0),
                                     child: Icon(
                                       Icons.delete_forever,

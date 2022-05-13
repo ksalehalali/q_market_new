@@ -16,7 +16,8 @@ import '../widgets/search_area_des.dart';
 import 'add_address_screen.dart';
 
 class AddressOnMap extends StatefulWidget {
-  const AddressOnMap({Key? key}) : super(key: key);
+  final bool fromCart;
+  const AddressOnMap({Key? key,required this.fromCart}) : super(key: key);
 
   @override
   State<AddressOnMap> createState() => AddressOnMapState();
@@ -98,7 +99,7 @@ class AddressOnMapState extends State<AddressOnMap> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => AddAddressScreen()));
+                      MaterialPageRoute(builder: (context) => AddAddressScreen(fromCart: false,)));
                 },
                 child: Text(
                   'CONFIRM LOCATION',

@@ -117,7 +117,7 @@ class PredictionTile extends StatelessWidget {
 
             Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(builder: (context) => const AddressOnMap()),
+                MaterialPageRoute(builder: (context) =>  const AddressOnMap(fromCart:false ,)),
                     (route) => false);
       },
       child: Container(
